@@ -1,8 +1,8 @@
 // api url
-const api_url = 
-      "example.json?user=Hà Quốc Anh";
+const api_url =
+    "example.json?user=Hà Quốc Anh";
 
-      
+
 // Defining async function
 async function getapi(url) {
     // Storing response
@@ -17,28 +17,28 @@ async function getapi(url) {
 }
 // Calling that async function
 getapi(api_url);
-  
+
 // Function to hide the loader
 function hideloader() {
 }
 // Function to define innerHTML for HTML table
 function show(data) {
-    let tab = 
+    let tab =
         `<tr>
           <th>name</th>
           <th>office</th>
           <th>position</th>
           <th>salary</th>
          </tr>`;
-    
+
     // Loop to access all rows 
     for (let r of data.list) {
         tab += `<tr> 
-    <td>${r.name} </td>
-    <td>${r.office}</td>
-    <td>${r.position}</td> 
-    <td>${r.salary}</td>          
-</tr>`;
+        <td>${r.name} </td>
+        <td>${r.office}</td>
+        <td>${r.position}</td> 
+        <td>${r.salary}</td>          
+        </tr>`;
     }
     // Setting innerHTML as tab variable
     document.getElementById("123").innerHTML = tab;
