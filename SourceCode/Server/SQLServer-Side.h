@@ -43,7 +43,7 @@ public:
     }
     bool Connect();
     void Flush(); // clear the query result, ready for next query;
-    std::stringstream SelectQuery(const wchar_t *query,SQLLEN *rowscount); // return in json format
+    std::stringstream SelectQuery(const wchar_t *query,SQLLEN &rowscount); // return in json format
     SQLLEN DataQuery(const wchar_t *query); // return the number of edit rows
 
     ~SQL_SERVER()

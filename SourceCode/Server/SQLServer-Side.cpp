@@ -1,6 +1,5 @@
 #include "SQLServer-Side.h"
 #include <iostream>
-#include <Windows.h>
 #include <map>
 #define SQL_RESULT_LEN 240
 #define SQL_RETURN_CODE_LEN 1000
@@ -62,14 +61,16 @@ bool SQL_SERVER::Connect()
     }
 
     std::cout << "Attempting connection to SQL Server...\n";
+    //ODBC Driver 17 for SQL Server
     std::wstring connectString = L"DRIVER={ODBC Driver 17 for SQL Server};SERVER=";
     connectString += serverHost;
-    connectString += L",1433;DATABASE=";
+    connectString += L" ;DATABASE=";
     connectString += serverName;
     connectString += L" ;UID=";
     connectString += ID;
     connectString += L";PWD=";
     connectString += password;
+
     switch (SQLDriverConnectW(sqlCon,
                               NULL,
                               (SQLWCHAR *)connectString.c_str(),
@@ -110,11 +111,11 @@ bool SQL_SERVER::Connect()
     return true;
 }
 
-std::stringstream SQL_SERVER::SelectQuery(const wchar_t *query,SQLLEN *rowscount)
+std::stringstream SQL_SERVER::SelectQuery(const wchar_t *query,SQLLEN &rowscount)
 {
     SQLHANDLE sqlStml_;
     SQLAllocHandle(SQL_HANDLE_STMT, sqlCon, &sqlStml_);
-    (rowscount!=NULL) && (rowscount = 0);
+    rowscount = 0;
     std::wstring_convert<std::codecvt_utf8<wchar_t>> utf8_conv;
     std::stringstream os;
     if (SQL_SUCCESS != SQLExecDirectW(sqlStml_, (SQLWCHAR *)query, SQL_NTS))
@@ -138,9 +139,10 @@ std::stringstream SQL_SERVER::SelectQuery(const wchar_t *query,SQLLEN *rowscount
     {
         colname[k - 1] = utf8_conv.to_bytes(ColumnName,&ColumnName[NameLengthPtr]);
     }
+    SQLLEN temp = 0;
     while (SQLFetch(sqlStml_) == SQL_SUCCESS)
     {
-
+        temp+=1;
         int i = 1;
         os << "{";
         while (SQL_SUCCESS == SQLGetData(sqlStml_, i++, SQL_WCHAR, sqlResult, SQL_RESULT_LEN, &ptrSqlResult))
@@ -151,7 +153,10 @@ std::stringstream SQL_SERVER::SelectQuery(const wchar_t *query,SQLLEN *rowscount
         }
         os.seekp(-1, std::ios_base::cur);
         os << "},";
-        (rowscount!=NULL) && (*rowscount=i-1);
+    }
+    rowscount=temp;
+    if (rowscount == 0){
+        os << "[";
     }
     os.seekp(-1, std::ios_base::cur);
     os << "]}";

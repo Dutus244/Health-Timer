@@ -1,6 +1,5 @@
 #ifndef _HttpHeader__
 #define _HttpHeader__
-
 #include <iostream>
 #include <map>
 std::string HexConv(std::string str);
@@ -12,6 +11,8 @@ public:
     std::string method;
     std::string exfile;
     std::map<std::string, std::string> values;
+    std::map<std::string, std::string> arg;
+    std::map<std::string, std::string> cookie;
 };
 
 #endif
