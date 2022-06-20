@@ -42,7 +42,6 @@ public:
         password = wcsdup(_password);
     }
     bool Connect();
-    void Flush(); // clear the query result, ready for next query;
     std::stringstream SelectQuery(const wchar_t *query,SQLLEN &rowscount); // return in json format
     SQLLEN DataQuery(const wchar_t *query); // return the number of edit rows
 
@@ -65,7 +64,6 @@ public:
 private:
     void freeHandle();
     SQLHANDLE sqlCon;
-    SQLHANDLE sqlStml;
     SQLHANDLE sqlEvent;
     const wchar_t *serverHost;
     const wchar_t *serverName;

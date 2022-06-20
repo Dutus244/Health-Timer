@@ -8,22 +8,6 @@
 
 #define WEBFLD "WEB/"
 
-std::map<std::string, std::string> contentType = {
-	{"pdf", "application/pdf"},
-	{"txt", "text/plain"},
-	{"html", "text/html; charset=UTF-8"},
-	{"json", "application/json"},
-	{"exe", "application/octet-stream"},
-	{"zip", "application/zip"},
-	{"doc", "application/msword"},
-	{"xls", "application/vnd.ms-excel"},
-	{"ppt", "application/vnd.ms-powerpoint"},
-	{"gif", "image/gif"},
-	{"png", "image/png"},
-	{"jpeg", "image/jpg"},
-	{"jpg", "image/jpg"},
-	{"php", "text/plain"},
-	{"css", "text/css"}};
 
 char asciitolower(char in)
 {
@@ -36,7 +20,7 @@ void WebResponse::GETcommand(int client, HttpRequestHeader &rq)
 {
 	if (int(GETAPI[rq.exfile]) != 0)
 	{
-		GETAPI[rq.exfile](rq);
+		GETAPI[rq.exfile](rq,client);
 	}
 	else
 	{
@@ -83,7 +67,7 @@ void WebResponse::POSTcommand(int client, HttpRequestHeader &rq)
 {
 	if (int(POSTAPI[rq.exfile]) != 0)
 	{
-		POSTAPI[rq.exfile](rq);
+		POSTAPI[rq.exfile](rq,client);
 	}
 	else
 	{
@@ -99,7 +83,7 @@ void WebResponse::PUTcommand(int client, HttpRequestHeader &rq)
 {
 	if (int(PUTAPI[rq.exfile]) != 0)
 	{
-		PUTAPI[rq.exfile](rq);
+		PUTAPI[rq.exfile](rq,client);
 	}
 	else
 	{
@@ -161,12 +145,12 @@ int WebResponse::run()
 	return 0;
 }
 
-void WebResponse::AddGetAPI(std::string path,void(*Func)(HttpRequestHeader&)){
+void WebResponse::AddGetAPI(std::string path,void(*Func)(HttpRequestHeader&,int)){
 	this->GETAPI[path] = Func;
 }
-void WebResponse::AddPostAPI(std::string path,void(*Func)(HttpRequestHeader&)){
+void WebResponse::AddPostAPI(std::string path,void(*Func)(HttpRequestHeader&,int)){
 	this->POSTAPI[path] = Func;
 }
-void WebResponse::AddPutAPI(std::string path,void(*Func)(HttpRequestHeader&)){
+void WebResponse::AddPutAPI(std::string path,void(*Func)(HttpRequestHeader&,int)){
 	this->PUTAPI[path] = Func;
 }

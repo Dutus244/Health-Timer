@@ -35,7 +35,6 @@ void extract_error(
 
 void SQL_SERVER::freeHandle()
 {
-    SQLFreeHandle(SQL_HANDLE_STMT, sqlStml);
     SQLDisconnect(sqlCon);
     SQLFreeHandle(SQL_HANDLE_DBC, sqlCon);
     SQLFreeHandle(SQL_HANDLE_ENV, sqlEvent);
@@ -103,11 +102,6 @@ bool SQL_SERVER::Connect()
     default:
         break;
     }
-    if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, sqlCon, &sqlStml))
-    {
-        freeHandle();
-        return false;
-    }
     return true;
 }
 
@@ -166,6 +160,8 @@ std::stringstream SQL_SERVER::SelectQuery(const wchar_t *query,SQLLEN &rowscount
 
 SQLLEN SQL_SERVER::DataQuery(const wchar_t* query){
     semaphore.Down();
+    SQLHANDLE sqlStml;
+    SQLAllocHandle(SQL_HANDLE_STMT, sqlCon, &sqlStml);
     if (SQL_SUCCESS != SQLExecDirectW(sqlStml, (SQLWCHAR *)query, SQL_NTS)){
         std::wstring_convert<std::codecvt_utf8<wchar_t>> utf8_conv;
         SQLLEN numRecs = 0;
@@ -183,14 +179,12 @@ SQLLEN SQL_SERVER::DataQuery(const wchar_t* query){
             std::cout<< utf8_conv.to_bytes(std::wstring(SqlState))<<'\n';
             i++;
         }
+        SQLFreeHandle(SQL_HANDLE_STMT,sqlStml);
         return -1;
     }
     SQLLEN count;
     SQLRowCount(sqlStml,&count);
-    return count;
-}
-
-void SQL_SERVER::Flush(){
-    SQLCloseCursor(sqlStml);
+    SQLFreeHandle(SQL_HANDLE_STMT,sqlStml);
     semaphore.Up();
+    return count;
 }

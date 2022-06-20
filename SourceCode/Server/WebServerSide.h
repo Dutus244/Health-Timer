@@ -6,14 +6,14 @@
 class WebResponse : public TCPListener {
 public: 
     WebResponse(const char*ipAddress,int port):TCPListener(ipAddress,port){};
-    void AddGetAPI(std::string path,void(*)(HttpRequestHeader&));
-    void AddPostAPI(std::string path,void(*)(HttpRequestHeader&));
-    void AddPutAPI(std::string path,void(*)(HttpRequestHeader&));
+    void AddGetAPI(std::string path,void(*)(HttpRequestHeader&,int));
+    void AddPostAPI(std::string path,void(*)(HttpRequestHeader&,int));
+    void AddPutAPI(std::string path,void(*)(HttpRequestHeader&,int));
     int run();
 private:
-    std::map<std::string,void(*)(HttpRequestHeader&)> GETAPI;
-    std::map<std::string,void(*)(HttpRequestHeader&)> POSTAPI;
-    std::map<std::string,void(*)(HttpRequestHeader&)> PUTAPI;
+    std::map<std::string,void(*)(HttpRequestHeader&,int)> GETAPI;
+    std::map<std::string,void(*)(HttpRequestHeader&,int)> POSTAPI;
+    std::map<std::string,void(*)(HttpRequestHeader&,int)> PUTAPI;
     int ClientResponse(int client);
     void GETcommand(int client,HttpRequestHeader& rq);
     void POSTcommand(int client,HttpRequestHeader& rq);
