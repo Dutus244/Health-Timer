@@ -62,10 +62,9 @@ namespace API{
     }
     void CreateSubAccount(HttpRequestHeader&hd,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
-        std::cout<<hd.arg["account"]<<"  "<<hd.arg["password"]<<"\n";
-        std::wstring query = L"exec CreateSubAccount @owner='";
+         std::wstring query = L"exec CreateSubAccount @owner='";
         
-        query += utf8_conv.from_bytes(hd.arg["id"]) + L"', @relationship='";
+        query += utf8_conv.from_bytes(authKey[hd.cookie["auth"]]) + L"', @relationship='";
         query += utf8_conv.from_bytes(hd.arg["relationship"]) + L"'";
 
         int result = dataServer->DataQuery(query.c_str());
@@ -94,14 +93,17 @@ namespace API{
         query += utf8_conv.from_bytes(hd.cookie["hosID"]) + L"' COLLATE Latin1_General_CS_AS";
 
         SQLLEN result;
-
+        dataServer->SelectQuery(query.c_str(),result);
         std::stringstream oss;
         oss << "HTTP/1.1 204 No Content\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             char auth[16];
             TokenGenerator.GetNextToken(auth);
-            oss <<"set-cookie: "<<auth<<"\r\n";
+            hostAuth[auth] = hd.cookie["hosID"] +std::string(".") + hd.arg["id"];
+
+            std::cout<<hostAuth[auth]<<"\n";
+            oss <<"set-cookie: auth = "<<auth<<"\r\n";
             
             std::string a = "{\"code\":\"success\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
@@ -122,7 +124,7 @@ namespace API{
         query += utf8_conv.from_bytes(hd.arg["password"]) + L"' COLLATE Latin1_General_CS_AS";
 
         SQLLEN result;
-
+        dataServer->SelectQuery(query.c_str(),result);
         std::stringstream oss;
         oss << "HTTP/1.1 204 No Content\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
@@ -151,12 +153,66 @@ namespace API{
             send(client,oss.str().c_str(),oss.str().size(),0);
         }
     }
+    void BookAppointment(HttpRequestHeader&hd,int client){
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"exec BookA @guessID=N'";
+        query += utf8_conv.from_bytes(authKey["auth"]) + L"', @hospitalID=N'";
+        query += utf8_conv.from_bytes(hd.cookie["hosID"]) + L"', @service=";
+        query += utf8_conv.from_bytes(hd.arg["serviceID"]) + L"', @date =";
+        query += utf8_conv.from_bytes(hd.cookie["date"]) + L"', @time =";
+        query += utf8_conv.from_bytes(hd.cookie["time"]) + L"'";
 
-    void BookAppointment(HttpRequestHeader&,int){}
 
-    void GetScheduler_doc(HttpRequestHeader&,int){}
+        int result = dataServer->DataQuery(query.c_str());
+
+        std::stringstream oss;
+        oss << "HTTP/1.1 204 No Content\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>0){
+            query = L"select ID from Scheduler where GuessID = '";
+            query += utf8_conv.from_bytes(authKey["auth"]) + L"'and [date] =";
+            query += utf8_conv.from_bytes(hd.cookie["date"]) + L"'and [time] =";
+            query += utf8_conv.from_bytes(hd.cookie["time"]) + L"'";
+            SQLLEN temp;
+            std::stringstream ID; 
+            ID<< dataServer->SelectQuery(query.c_str(),temp).rdbuf();
+
+            std::string a = "{\"code\":\"success\",\"data\":";
+            a+=ID.str()+ "}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"fail\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
+    void GetScheduler_doc(HttpRequestHeader& hd,int client){
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"Select * from DocScheduler ('";
+        query+= utf8_conv.from_bytes(hd.cookie["auth"]) + L"')";
+
+        SQLLEN result;
+        std::string a = dataServer->SelectQuery(query.c_str(),result).str();
+        std::stringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>0){
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"fail\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
     void GetScheduler_pai(HttpRequestHeader&,int){}   
     void GetPrescriptions(HttpRequestHeader&,int){}
-
     void GivePrescriptions(HttpRequestHeader&,int){};
 }
