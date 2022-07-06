@@ -1,13 +1,8 @@
 #ifndef _SQL_SERVER_SIDE_
 #define _SQL_SERVER_SIDE_
-#include <Windows.h>
-#include <sql.h>
-#include <sqltypes.h>
-#include <sqlext.h>
 
 #include <codecvt>
 #include <locale>
-
 #include <sstream>
 
 #define UNICODE
@@ -30,6 +25,14 @@ public:
 		_cur--;
 	}
 };
+
+
+#ifdef _WIN32
+
+#include <Windows.h>
+#include <sql.h>
+#include <sqltypes.h>
+#include <sqlext.h>
 
 
 class SQL_SERVER
@@ -73,4 +76,8 @@ private:
 };
 
 extern SQL_SERVER* dataServer;
+
+#elif __linux__
+
+#endif
 #endif

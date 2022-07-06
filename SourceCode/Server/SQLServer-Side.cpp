@@ -61,7 +61,7 @@ bool SQL_SERVER::Connect()
 
     std::cout << "Attempting connection to SQL Server...\n";
     //ODBC Driver 17 for SQL Server
-    std::wstring connectString = L"DRIVER={ODBC Driver 17 for SQL Server};SERVER=";
+    std::wstring connectString = L"DRIVER={ODBC Driver 18 for SQL Server};SERVER=";
     connectString += serverHost;
     connectString += L" ;DATABASE=";
     connectString += serverName;
@@ -162,7 +162,7 @@ SQLLEN SQL_SERVER::DataQuery(const wchar_t* query){
     semaphore.Down();
     SQLHANDLE sqlStml;
     SQLAllocHandle(SQL_HANDLE_STMT, sqlCon, &sqlStml);
-    if (SQL_SUCCESS != SQLExecDirectW(sqlStml, (SQLWCHAR *)query, SQL_NTS)){
+    if (SQL_SUCCESS != SQLExecDirectW(sqlStml, (SQLWCHAR *)query, SQL_NTSL)){
         std::wstring_convert<std::codecvt_utf8<wchar_t>> utf8_conv;
         SQLLEN numRecs = 0;
         SQLGetDiagField(SQL_HANDLE_STMT, sqlStml, 0, SQL_DIAG_NUMBER, &numRecs, 0, 0);
@@ -180,9 +180,10 @@ SQLLEN SQL_SERVER::DataQuery(const wchar_t* query){
             i++;
         }
         SQLFreeHandle(SQL_HANDLE_STMT,sqlStml);
+        semaphore.Up();
         return -1;
     }
-    SQLLEN count;
+    SQLLEN count = 0; 
     SQLRowCount(sqlStml,&count);
     SQLFreeHandle(SQL_HANDLE_STMT,sqlStml);
     semaphore.Up();

@@ -14,18 +14,34 @@ int main()
   dataServer->Connect();
   WebResponse mweb("", 80);
 
-  mweb.AddGetAPI("Doc/Scheduler", API::GetScheduler_doc);
-  mweb.AddGetAPI("Patient/Scheduler", API::GetScheduler_pai);
-  mweb.AddPostAPI("Paitent/account/log", API::LoginPai);
+  mweb.AddPostAPI("Doc/scheduler", API::GetScheduler_doc);
+  mweb.AddPostAPI("Doc/scheduler/Paitent", API::GetScheduler_doc_pai);
   mweb.AddPostAPI("Doc/account/log", API::LoginDoc);
+  mweb.AddPostAPI("Doc/scheduler/getp", API::GetPrescriptions);
+  mweb.AddPostAPI("Doc/scheduler/givep", API::GivePrescriptions);
+  mweb.AddPostAPI("Doc/scheduler/removep", API::RemovePrescriptions);
+  mweb.AddPostAPI("Doc/scheduler/detailadd", API::AddSchedulerDetail); 
+  mweb.AddPostAPI("Doc/scheduler/detailget", API::GetSchedulerDetail); 
+  mweb.AddPostAPI("Doc/scheduler/detailremove", API::RemoveSchedulerDetail); 
 
-  mweb.AddGetAPI("GetP", API::GetPrescriptions);
-  mweb.AddPostAPI("GiveP", API::GivePrescriptions);
 
-  mweb.AddPostAPI("Paitent/Appoinment", API::BookAppointment);
-
+  mweb.AddPostAPI("Paitent/scheduler", API::GetScheduler_pai);
+  mweb.AddPostAPI("Paitent/account/log", API::LoginPai);
+  mweb.AddPostAPI("Paitent/appoinment", API::BookAppointment);
   mweb.AddPostAPI("Paitent/account/create", API::CreateUserAccount);
-  mweb.AddPostAPI("Doc/account/create", API::CreateDoctorAccount);
+  mweb.AddPostAPI("Paitent/scheduler/getp", API::GetPrescriptions);
+  mweb.AddPostAPI("Paitent/scheduler/detailget", API::GetSchedulerDetail); 
+
+
+  mweb.AddPostAPI("Hos/account/log", API::LoginHos);
+  mweb.AddPostAPI("Hos/doc/add",API::CreateDoctorAccount);
+  mweb.AddPostAPI("Hos/service/add",API::ServiceAdd);
+  mweb.AddPostAPI("Hos/service/remove",API::ServiceRemove);
+  mweb.AddPostAPI("Hos/doc/serviceadd",API::DocServiceAdd);
+  mweb.AddPostAPI("Hos/doc/serviceremove",API::DocServiceRemove);
+  
+
+
 
   mweb.init();
   mweb.run();

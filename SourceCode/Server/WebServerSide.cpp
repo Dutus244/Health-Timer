@@ -18,7 +18,7 @@ char asciitolower(char in)
 
 void WebResponse::GETcommand(int client, HttpRequestHeader &rq)
 {
-	if (int(GETAPI[rq.exfile]) != 0)
+	if (int(GETAPI[rq.exfile]) != NULL)
 	{
 		GETAPI[rq.exfile](rq,client);
 	}
@@ -65,7 +65,7 @@ void WebResponse::GETcommand(int client, HttpRequestHeader &rq)
 
 void WebResponse::POSTcommand(int client, HttpRequestHeader &rq)
 {
-	if (int(POSTAPI[rq.exfile]) != 0)
+	if (int(POSTAPI[rq.exfile]) != NULL)
 	{
 		POSTAPI[rq.exfile](rq,client);
 	}
@@ -81,7 +81,7 @@ void WebResponse::POSTcommand(int client, HttpRequestHeader &rq)
 
 void WebResponse::PUTcommand(int client, HttpRequestHeader &rq)
 {
-	if (int(PUTAPI[rq.exfile]) != 0)
+	if (int(PUTAPI[rq.exfile]) != NULL)
 	{
 		PUTAPI[rq.exfile](rq,client);
 	}
@@ -99,7 +99,6 @@ int WebResponse::ClientResponse(int client)
 {
 	char buff[65536];
 	ZeroMemory(buff, 65536);
-#ifdef _WIN32
 	while (recv(client, buff, 65536, 0) > 0)
 	{
 		HttpRequestHeader rq(buff);
@@ -125,35 +124,6 @@ int WebResponse::ClientResponse(int client)
 		send(client, oss.str().c_str(), oss.str().size() + 1, 0);
 		}
 	}
-#elif __linux__
-	while (read(client, buff, 65536, 0) > 0)
-	{
-		HttpRequestHeader rq(buff);
-		std::cout << rq.method << '\t' << rq.exfile << '\n';
-		std::cout << buff << "\n\n";
-		if (rq.method == "GET")
-		{
-			GETcommand(client, rq);
-		}
-		else if (rq.method == "POST")
-		{
-			POSTcommand(client, rq);
-		}
-		else if (rq.method == "PUT")
-		{
-			PUTcommand(client, rq);
-		}
-		else
-		{
-			std::stringstream oss;
-			oss << "HTTP/1.1 204 No Content\r\n";
-			oss << "content-type: text/html; charset=UTF-8\r\n";
-			oss << "content-length: 0\r\n\r\n";
-			send(client, oss.str().c_str(), oss.str().size() + 1, 0);
-		}
-	}
-#endif
-
 	return 0;
 }
 
