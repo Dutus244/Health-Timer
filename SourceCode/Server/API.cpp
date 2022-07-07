@@ -15,10 +15,10 @@ namespace API{
             query += utf8_conv.from_bytes(hd.arg["password"]) + L"'";
 
             result = dataServer->DataQuery(query.c_str());
-            std::cout<< result;
         }
         std::stringstream oss;
-        oss << "HTTP/1.1 204 No Content\r\n";
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             std::string a = "{\"code\":\"success\"";
@@ -39,7 +39,7 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec CreateDoc '";
         
-        query += utf8_conv.from_bytes(keyAuth[hd.cookie["auth"]]) + L"', '";
+        query += utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"', '";
         query += utf8_conv.from_bytes(hd.arg["docID"]) + L"',  N'";
         query += utf8_conv.from_bytes(hd.arg["citizenID"]) + L"', N'";
         query += utf8_conv.from_bytes(hd.arg["name"]) + L"','";
@@ -52,7 +52,8 @@ namespace API{
             result = dataServer->DataQuery(query.c_str());
         }
         std::stringstream oss;
-        oss << "HTTP/1.1 204 No Content\r\n";
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             std::string a = "{\"code\":\"success\"}";
@@ -71,13 +72,14 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
          std::wstring query = L"exec CreateSubAccount @owner='";
         
-        query += utf8_conv.from_bytes(authKey[hd.cookie["auth"]]) + L"', @relationship='";
+        query += utf8_conv.from_bytes(authKey[hd.arg["auth"]]) + L"', @relationship='";
         query += utf8_conv.from_bytes(hd.arg["relationship"]) + L"'";
 
         int result = dataServer->DataQuery(query.c_str());
 
         std::stringstream oss;
-        oss << "HTTP/1.1 204 No Content\r\n";
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             std::string a = "{\"code\":\"success\"}";
@@ -103,9 +105,10 @@ namespace API{
         std::getline(dataServer->SelectQuery(query.c_str(),result),rs,'}');
         rs = rs.substr(rs.find("\":\"")+3);
         rs.resize(rs.size()-1);
-        std::cout<<rs<<'\n';
+        
         std::stringstream oss;
-        oss << "HTTP/1.1 204 No Content\r\n";
+        oss << "HTTP/1.1 303 See Other\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             char auth[16];
@@ -117,12 +120,10 @@ namespace API{
             }
             keyAuth[auth] = rs;
             authKey[rs] = auth;
-            std::cout<<keyAuth[auth]<<"\n";
-            oss <<"set-cookie: auth = "<<auth<<";Path =/Doc\r\n";
-            
-            std::string a = "{\"code\":\"success\"}";
+
+            std::string a = "{\"code\":\"success\",\"auth\":\""+std::string(auth)+"\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
-            oss<<a;
+            oss << a;
             send(client,oss.str().c_str(),oss.str().size(),0);
         }
         else{
@@ -143,9 +144,9 @@ namespace API{
         std::getline(dataServer->SelectQuery(query.c_str(),result),rs,'}');
         rs = rs.substr(rs.find("\":\"")+3);
         rs.resize(rs.size()-1);
-        std::cout<<rs<<'\n';
         std::stringstream oss;
-        oss << "HTTP/1.1 204 No Content\r\n";
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             char auth[16];
@@ -157,10 +158,8 @@ namespace API{
             }
             keyAuth[auth] = rs;
             authKey[rs] = auth;
-            std::cout<<keyAuth[auth]<<"\n";
-            oss <<"set-cookie: auth = "<<auth<<"; Path=/Paitent;\r\n";
             
-            std::string a = "{\"code\":\"success\"}";
+            std::string a = "{\"code\":\"success\",\"auth\":\""+std::string(auth)+"\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
             oss<<a;
             send(client,oss.str().c_str(),oss.str().size(),0);
@@ -183,9 +182,10 @@ namespace API{
         std::getline(dataServer->SelectQuery(query.c_str(),result),rs,'}');
         rs = rs.substr(rs.find("\":\"")+3);
         rs.resize(rs.size()-1);
-        std::cout<<rs<<'\n';
+
         std::stringstream oss;
-        oss << "HTTP/1.1 204 No Content\r\n";
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             char auth[16];
@@ -197,10 +197,8 @@ namespace API{
             }
             keyAuth[auth] = rs;
             authKey[rs] = auth;
-            std::cout<<keyAuth[auth]<<"\n";
-            oss <<"set-cookie: auth = "<<auth<<"; Path=/Hos \r\n";
-            
-            std::string a = "{\"code\":\"success\"}";
+
+            std::string a = "{\"code\":\"success\",\"auth\":\""+std::string(auth)+"\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
             oss<<a;
             send(client,oss.str().c_str(),oss.str().size(),0);
@@ -216,23 +214,22 @@ namespace API{
     void BookAppointment(HttpRequestHeader&hd,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec CreateScheduler '";
-        query += utf8_conv.from_bytes(keyAuth[hd.cookie["auth"]]) + L"', '";
+        query += utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"', '";
         query += utf8_conv.from_bytes(hd.arg["time"]) + L"', N'";
         query += utf8_conv.from_bytes(hd.arg["serviceID"]) + L"','";
         query += utf8_conv.from_bytes(hd.arg["hosID"]) + L"'";
-
-        std::cout<<keyAuth[hd.cookie["auth"]]<<'/n';
 
         int result =-1;
         if (hd.arg["time"]!="") 
             result = dataServer->DataQuery(query.c_str());
 
         std::stringstream oss;
-        oss << "HTTP/1.1 204 No Content\r\n";
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             query = L"select orderID from Scheduler where usID = '";
-            query += utf8_conv.from_bytes(keyAuth[hd.cookie["auth"]]) + L"'and a_Time ='";
+            query += utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"'and a_Time ='";
             query += utf8_conv.from_bytes(hd.arg["time"]) + L"'";
             SQLLEN temp;
             std::stringstream ID; 
@@ -254,12 +251,13 @@ namespace API{
     void GetScheduler_doc(HttpRequestHeader& hd,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"Select * from DocScheduler ('";
-        query+= utf8_conv.from_bytes(keyAuth[hd.cookie["auth"]]) + L"') order by isDone desc, a_Time desc";
+        query+= utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"') order by isDone desc, a_Time desc";
 
         SQLLEN result;
         std::string rs = dataServer->SelectQuery(query.c_str(),result).str();
         std::stringstream oss;
         oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             std::string a = "{\"code\":\"success\",\"data\":";
@@ -278,12 +276,13 @@ namespace API{
     void GetScheduler_pai(HttpRequestHeader&hd ,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"Select * from PaitentScheduler ('";
-        query+= utf8_conv.from_bytes(keyAuth[hd.cookie["auth"]]) + L"') order by isDone desc, a_Time desc";
+        query+= utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"') order by isDone desc, a_Time desc";
 
         SQLLEN result;
         std::string a = dataServer->SelectQuery(query.c_str(),result).str();
         std::stringstream oss;
         oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             a = "{\"code\":\"success\",\"data\":"+a+ "}";
@@ -308,6 +307,7 @@ namespace API{
         std::string a = dataServer->SelectQuery(query.c_str(),result).str();
         std::stringstream oss;
         oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             a = "{\"code\":\"success\",\"data\":"+a+ "}";
@@ -331,6 +331,7 @@ namespace API{
         std::string a = dataServer->SelectQuery(query.c_str(),result).str();
         std::stringstream oss;
         oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             a = "{\"code\":\"success\",\"data\":" + a +"}";
@@ -349,7 +350,7 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec AddPrescription '";
         SQLLEN result = -1;
-        query += utf8_conv.from_bytes( keyAuth[hd.cookie["auth"]]) + L"', '";
+        query += utf8_conv.from_bytes( keyAuth[hd.arg["auth"]]) + L"', '";
         query += utf8_conv.from_bytes(hd.arg["orderID"]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["name"]) + L"' ,'";
         query += utf8_conv.from_bytes(hd.arg["amount"]) + L"'";
@@ -358,7 +359,8 @@ namespace API{
         if (hd.arg["name"]!="" && hd.arg["amount"]!="")
             result = dataServer->DataQuery(query.c_str());
         std::stringstream oss;
-        oss << "HTTP/1.1 204 No Content\r\n";
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             std::string a = "{\"code\":\"success\"}";
@@ -378,13 +380,14 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec RemovePrescription '";
         SQLLEN result = -1;
-        query += utf8_conv.from_bytes( keyAuth[hd.cookie["auth"]]) + L"', '";
+        query += utf8_conv.from_bytes( keyAuth[hd.arg["auth"]]) + L"', '";
         query += utf8_conv.from_bytes(hd.arg["orderID"]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["name"]) + L"' ";
 
         result = dataServer->DataQuery(query.c_str());
         std::stringstream oss;
-        oss << "HTTP/1.1 204 No Content\r\n";
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             std::string a = "{\"code\":\"success\"}";
@@ -404,7 +407,7 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec AddSchedulerDetail '";
         SQLLEN result = -1;
-        query += utf8_conv.from_bytes( keyAuth[hd.cookie["auth"]]) + L"', '";
+        query += utf8_conv.from_bytes( keyAuth[hd.arg["auth"]]) + L"', '";
         query += utf8_conv.from_bytes(hd.arg["orderID"]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["name"]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["value"]) + L"'";
@@ -413,7 +416,8 @@ namespace API{
         if (hd.arg["name"]!="" && hd.arg["value"]!="")
             result = dataServer->DataQuery(query.c_str());
         std::stringstream oss;
-        oss << "HTTP/1.1 204 No Content\r\n";
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             std::string a = "{\"code\":\"success\"}";
@@ -433,13 +437,14 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec RemoveSchedulerDetail '";
         SQLLEN result = -1;
-        query += utf8_conv.from_bytes( keyAuth[hd.cookie["auth"]]) + L"', '";
+        query += utf8_conv.from_bytes( keyAuth[hd.arg["auth"]]) + L"', '";
         query += utf8_conv.from_bytes(hd.arg["orderID"]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["name"]) + L"'";
 
         result = result = dataServer->DataQuery(query.c_str());
         std::stringstream oss;
-        oss << "HTTP/1.1 204 No Content\r\n";
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             std::string a = "{\"code\":\"success\"}";
@@ -455,6 +460,57 @@ namespace API{
         }
     }
 
+    void GetService(HttpRequestHeader& hd,int client){
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"Select * from GetService () order by hosID";
+
+        SQLLEN result;
+        std::string rs = dataServer->SelectQuery(query.c_str(),result).str();
+        std::stringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>0){
+            std::string a = "{\"code\":\"success\",\"data\":";
+            a+=rs+ "}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"none\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
+
+    void SearchService(HttpRequestHeader& hd,int client){
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"Select * from ServiceSearch (N'";
+
+        query+= utf8_conv.from_bytes(hd.arg["searchstr"]) + L"')";
+        
+        SQLLEN result;
+        std::string rs = dataServer->SelectQuery(query.c_str(),result).str();
+        std::stringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>0){
+            std::string a = "{\"code\":\"success\",\"data\":";
+            a+=rs+ "}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"none\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
 
     void GetSchedulerDetail(HttpRequestHeader& hd,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
@@ -465,6 +521,7 @@ namespace API{
         std::string a = dataServer->SelectQuery(query.c_str(),result).str();
         std::stringstream oss;
         oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             a = "{\"code\":\"success\",\"data\":"+a+ "}";
@@ -484,7 +541,7 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec AddService '";
         SQLLEN result = -1;
-        query += utf8_conv.from_bytes( keyAuth[hd.cookie["auth"]]) + L"', N'";
+        query += utf8_conv.from_bytes( keyAuth[hd.arg["auth"]]) + L"', N'";
         query += utf8_conv.from_bytes(hd.arg["serviceID"]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["servicename"]) + L"' ";
 
@@ -492,7 +549,8 @@ namespace API{
         if (hd.arg["serviceID"]!="" && hd.arg["servicename"]!="")
             result = dataServer->DataQuery(query.c_str());
         std::stringstream oss;
-        oss << "HTTP/1.1 204 No Content\r\n";
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             std::string a = "{\"code\":\"success\"}";
@@ -512,12 +570,13 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec RemoveService '";
         SQLLEN result = -1;
-        query += utf8_conv.from_bytes( keyAuth[hd.cookie["auth"]]) + L"', N'";
+        query += utf8_conv.from_bytes( keyAuth[hd.arg["auth"]]) + L"', N'";
         query += utf8_conv.from_bytes(hd.arg["serviceID"]) + L"' ";
 
         result = dataServer->DataQuery(query.c_str());
         std::stringstream oss;
-        oss << "HTTP/1.1 204 No Content\r\n";
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             std::string a = "{\"code\":\"success\"}";
@@ -538,12 +597,13 @@ namespace API{
         std::wstring query = L"exec AddDocService '";
         SQLLEN result = -1;
         query += utf8_conv.from_bytes(hd.arg["docID"]) + L"', '";
-        query += utf8_conv.from_bytes(keyAuth[hd.cookie["auth"]]) + L"' ,N'";
+        query += utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["serviceID"]) + L"' ";
 
         result  = dataServer->DataQuery(query.c_str());
         std::stringstream oss;
-        oss << "HTTP/1.1 204 No Content\r\n";
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             std::string a = "{\"code\":\"success\"}";
@@ -564,12 +624,13 @@ namespace API{
         std::wstring query = L"exec RemoveDocService '";
         SQLLEN result = -1;
         query += utf8_conv.from_bytes(hd.arg["docID"]) + L"', '";
-        query += utf8_conv.from_bytes(keyAuth[hd.cookie["auth"]]) + L"' ,N'";
+        query += utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["serviceID"]) + L"' ";
 
         result = dataServer->DataQuery(query.c_str());
         std::stringstream oss;
-        oss << "HTTP/1.1 204 No Content\r\n";
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             std::string a = "{\"code\":\"success\"}";

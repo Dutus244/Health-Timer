@@ -61,7 +61,7 @@ bool SQL_SERVER::Connect()
 
     std::cout << "Attempting connection to SQL Server...\n";
     //ODBC Driver 17 for SQL Server
-    std::wstring connectString = L"DRIVER={ODBC Driver 18 for SQL Server};SERVER=";
+    std::wstring connectString = L"DRIVER={ODBC Driver 17 for SQL Server};SERVER=";
     connectString += serverHost;
     connectString += L" ;DATABASE=";
     connectString += serverName;

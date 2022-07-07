@@ -18,7 +18,7 @@ char asciitolower(char in)
 
 void WebResponse::GETcommand(int client, HttpRequestHeader &rq)
 {
-	if (int(GETAPI[rq.exfile]) != NULL)
+	if (GETAPI[rq.exfile] != NULL)
 	{
 		GETAPI[rq.exfile](rq,client);
 	}
@@ -65,7 +65,7 @@ void WebResponse::GETcommand(int client, HttpRequestHeader &rq)
 
 void WebResponse::POSTcommand(int client, HttpRequestHeader &rq)
 {
-	if (int(POSTAPI[rq.exfile]) != NULL)
+	if (POSTAPI[rq.exfile] != NULL)
 	{
 		POSTAPI[rq.exfile](rq,client);
 	}
@@ -81,7 +81,7 @@ void WebResponse::POSTcommand(int client, HttpRequestHeader &rq)
 
 void WebResponse::PUTcommand(int client, HttpRequestHeader &rq)
 {
-	if (int(PUTAPI[rq.exfile]) != NULL)
+	if (PUTAPI[rq.exfile] != NULL)
 	{
 		PUTAPI[rq.exfile](rq,client);
 	}
@@ -99,6 +99,7 @@ int WebResponse::ClientResponse(int client)
 {
 	char buff[65536];
 	ZeroMemory(buff, 65536);
+	try{
 	while (recv(client, buff, 65536, 0) > 0)
 	{
 		HttpRequestHeader rq(buff);
@@ -123,8 +124,11 @@ int WebResponse::ClientResponse(int client)
 			oss << "content-length: 0\r\n\r\n";
 		send(client, oss.str().c_str(), oss.str().size() + 1, 0);
 		}
+		ZeroMemory(buff, 65536);
 	}
 	return 0;
+	}
+	catch(...){return -1;}
 }
 
 int WebResponse::run()

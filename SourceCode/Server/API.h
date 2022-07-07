@@ -30,5 +30,8 @@ namespace API{
     void ServiceRemove(HttpRequestHeader&,int);
     void DocServiceAdd(HttpRequestHeader& hd,int client);
     void DocServiceRemove(HttpRequestHeader&,int);
+
+    void GetService(HttpRequestHeader& ,int );
+    void SearchService(HttpRequestHeader& ,int);
 }
 #endif

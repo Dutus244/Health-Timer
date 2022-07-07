@@ -32,6 +32,8 @@ int main()
   mweb.AddPostAPI("Paitent/scheduler/getp", API::GetPrescriptions);
   mweb.AddPostAPI("Paitent/scheduler/detailget", API::GetSchedulerDetail); 
 
+  mweb.AddPostAPI("Service/all",API::GetService);
+  mweb.AddPostAPI("Service/search",API::SearchService);
 
   mweb.AddPostAPI("Hos/account/log", API::LoginHos);
   mweb.AddPostAPI("Hos/doc/add",API::CreateDoctorAccount);

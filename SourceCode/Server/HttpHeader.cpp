@@ -55,6 +55,7 @@ HttpRequestHeader::HttpRequestHeader(std::string coma)
             std::getline(val, key, '=');
             std::getline(val, value, '&');
             this->arg[HexConv(key)] = HexConv(value);
+
         }
     }
     ctx = HexConv(ctx);
@@ -62,7 +63,7 @@ HttpRequestHeader::HttpRequestHeader(std::string coma)
 
     std::stringstream sstr(coma);
     std::getline(sstr, ctx);
-    while (sstr)
+    while (!sstr.eof())
     {
         std::getline(sstr, ctx);
         int k = ctx.find(":");
@@ -70,6 +71,16 @@ HttpRequestHeader::HttpRequestHeader(std::string coma)
         if (k != -1)
         {
             this->values[HexConv(ctx.substr(0, k))] = HexConv(ctx.substr(k + 2, e - k - 2));
+        }
+        else{
+            std::stringstream val(ctx);
+            std::string key, value;
+            while (!val.eof())
+            {
+                std::getline(val, key, '=');
+                std::getline(val, value, '&');
+                this->arg[HexConv(key)] = HexConv(value);
+            }
         }
     }
 
