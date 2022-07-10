@@ -42,9 +42,8 @@ int main()
   mweb.AddPostAPI("Hos/service/remove",API::ServiceRemove);
   mweb.AddPostAPI("Hos/doc/serviceadd",API::DocServiceAdd);
   mweb.AddPostAPI("Hos/doc/serviceremove",API::DocServiceRemove);
+  mweb.AddPostAPI("Hos/doc",API::DocList);
   
-
-
 
   mweb.init();
   mweb.run();

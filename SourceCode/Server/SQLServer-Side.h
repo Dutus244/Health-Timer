@@ -4,7 +4,8 @@
 #include <codecvt>
 #include <locale>
 #include <sstream>
-
+#include <iostream>
+#include <map>
 #define UNICODE
 
 class Semaphore {
@@ -26,9 +27,6 @@ public:
 	}
 };
 
-
-#ifdef _WIN32
-
 #include <Windows.h>
 #include <sql.h>
 #include <sqltypes.h>
@@ -47,7 +45,7 @@ public:
     bool Connect();
     std::stringstream SelectQuery(const wchar_t *query,SQLLEN &rowscount); // return in json format
     SQLLEN DataQuery(const wchar_t *query); // return the number of edit rows
-
+    std::map<int,std::string> Column(const wchar_t* query,SQLLEN &rowscount,int col);
     ~SQL_SERVER()
     {
         try
@@ -77,7 +75,4 @@ private:
 
 extern SQL_SERVER* dataServer;
 
-#elif __linux__
-
-#endif
 #endif

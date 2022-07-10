@@ -671,5 +671,56 @@ namespace API{
             send(client,oss.str().c_str(),oss.str().size(),0);
         }
     }
+    
+    void DocList(HttpRequestHeader& hd,int client){
+        std::map<int,std::string> id;
+
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"Select * from DocOfHos('";
+        query += utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"')";
+        SQLLEN result;
+        id = dataServer->Column(query.c_str(),result,1);
+        
+        std::string rs = dataServer->SelectQuery(query.c_str(),result).str();
+    
+        std::stringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>0){
+            std::stringstream a ;
+            a<<"{\"code\":\"success\",\"data\":{\"doclist\":";
+            a<<rs;
+            a<< ",\"service\":[";
+
+            for (auto i : id){
+                query = L"Select serviceID,isOn from [dbo].[Doc_service] where DocID='" + utf8_conv.from_bytes(i.second) +L"'and hosID = '";
+                query += utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"'";
+
+                a<< "{\"" + i.second + "\":";
+
+                std::string serv = dataServer->SelectQuery(query.c_str(),result).str();
+                if (result > 0){
+                    a<<""<<serv<<"";
+                }
+                else{
+                    a<<"null";
+                }
+                a<<"},";
+
+            }
+            a.seekp(-1, std::ios_base::cur);
+            a<<"]}}";
+            oss << "content-length: "<<a.str().size()<<"\r\n\r\n";
+            oss<<a.str();
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"none\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
 
 }

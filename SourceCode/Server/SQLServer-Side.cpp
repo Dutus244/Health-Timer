@@ -1,6 +1,4 @@
 #include "SQLServer-Side.h"
-#include <iostream>
-#include <map>
 #define SQL_RESULT_LEN 240
 #define SQL_RETURN_CODE_LEN 1000
 
@@ -114,7 +112,7 @@ std::stringstream SQL_SERVER::SelectQuery(const wchar_t *query,SQLLEN &rowscount
     std::stringstream os;
     if (SQL_SUCCESS != SQLExecDirectW(sqlStml_, (SQLWCHAR *)query, SQL_NTS))
         return os;
-    os << "{\"Table\": [";
+    os << "[";
     std::map<int, std::string> colname;
 
     // declare output variable and pointer
@@ -153,7 +151,7 @@ std::stringstream SQL_SERVER::SelectQuery(const wchar_t *query,SQLLEN &rowscount
         os << "[";
     }
     os.seekp(-1, std::ios_base::cur);
-    os << "]}";
+    os << "]";
     SQLFreeHandle(SQL_HANDLE_STMT, sqlStml_);
     return os;
 }
@@ -188,4 +186,40 @@ SQLLEN SQL_SERVER::DataQuery(const wchar_t* query){
     SQLFreeHandle(SQL_HANDLE_STMT,sqlStml);
     semaphore.Up();
     return count;
+}
+
+std::map<int,std::string> SQL_SERVER::Column(const wchar_t* query,SQLLEN &rowscount,int  col){
+    SQLHANDLE sqlStml_;
+    SQLAllocHandle(SQL_HANDLE_STMT, sqlCon, &sqlStml_);
+    rowscount = 0;
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> utf8_conv;
+    
+    if (SQL_SUCCESS != SQLExecDirectW(sqlStml_, (SQLWCHAR *)query, SQL_NTS))
+        return std::map<int,std::string>();
+
+    // declare output variable and pointer
+    SQLWCHAR sqlResult[SQL_RESULT_LEN];
+    SQLLEN ptrSqlResult;
+    SQLUSMALLINT ColumnNumber;
+    SQLWCHAR ColumnName[SQL_RESULT_LEN];
+    SQLSMALLINT BufferLength;
+    SQLSMALLINT NameLengthPtr;
+    SQLSMALLINT DataTypePtr;
+    SQLULEN ColumnSizePtr;
+    SQLSMALLINT DecimalDigitsPtr;
+    SQLSMALLINT NullablePtr;
+
+    std::map<int,std::string> rs;
+    SQLLEN temp = 0;
+    while (SQLFetch(sqlStml_) == SQL_SUCCESS)
+    {
+        if (SQL_SUCCESS == SQLGetData(sqlStml_, col, SQL_WCHAR, sqlResult, SQL_RESULT_LEN, &ptrSqlResult))
+        {
+            rs[temp] = utf8_conv.to_bytes(sqlResult,&sqlResult[ptrSqlResult/2]);
+        }
+        temp+=1;
+    }
+
+    SQLFreeHandle(SQL_HANDLE_STMT, sqlStml_);
+    return rs;
 }
