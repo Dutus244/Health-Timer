@@ -37,6 +37,7 @@ int main()
 
   mweb.AddPostAPI("Hos/account/log", API::LoginHos);
   mweb.AddPostAPI("Hos/doc/add",API::CreateDoctorAccount);
+  mweb.AddPostAPI("Hos/service",API::HosService); 
   mweb.AddPostAPI("Hos/service/add",API::ServiceAdd);
   mweb.AddPostAPI("Hos/service/remove",API::ServiceRemove);
   mweb.AddPostAPI("Hos/doc/serviceadd",API::DocServiceAdd);
