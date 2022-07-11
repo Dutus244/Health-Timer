@@ -1,0 +1,223 @@
+:root{
+    --box-shadow:0 .5rem 1.5rem rgba(50, 90, 185, .5)
+}
+
+*{
+    background-color: white;
+    color:black;
+    margin:0; padding:0;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 1.25rem;
+    box-sizing: border-box;
+    transition: all .2s linear;
+}
+
+html{
+    font-size: 75%;
+    overflow-x: hidden;
+    scroll-padding-top: 5.5rem;
+    scroll-behavior: smooth;
+}
+
+.butt{
+    margin-top: 1rem;
+    display: inline-block;
+    font-size: 1.7rem;
+    color: black;
+    background-color: rgb(85, 140, 221);
+    border-radius: .5rem;
+    cursor: pointer;
+    padding: .8rem 3rem;
+}
+
+.butt:hover{
+    color: black;
+    background-color: rgb(76, 123, 193);
+}
+
+header{
+    position: fixed;
+    top:0; left:0; right:0;
+    background: whitesmoke;
+    padding: 1rem 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    box-shadow: var(--box-shadow);
+}
+
+header a{
+    background: whitesmoke;
+    font-size: 2rem;
+}
+
+header .navbar a{
+    background: whitesmoke;
+    font-size: 1.75rem;
+    border-radius: .5rem;
+    padding: .5rem 1.5rem;
+    font-weight: bolder;
+}
+
+header .navbar a.active, 
+header .navbar a:hover{
+    background-color: rgb(86,179,247);
+    color: whitesmoke;
+    font-weight: bolder;
+}
+
+header .logo{
+    color: black;
+    background-color:  whitesmoke;
+    font-size: 2.5rem;
+    font-weight: bolder;
+}
+
+header .icons i,
+header .icons a{
+    cursor: pointer;
+    margin-left: .5rem;
+    height:4.5rem;
+    line-height: 4.5rem;
+    width:4.5rem;
+    text-align: center;
+    font-size: 1.7rem;
+    color:black;
+    border-radius: 100%;
+    background: whitesmoke
+}
+
+header .icons i:hover,
+header .icons a:hover{
+    color: white;
+    background:  rgb(86,179,247);
+    transform: rotate(360deg);
+}
+
+section{
+    padding: 2rem 9%;
+}
+
+section:nth-child(even){
+    background: white;
+}
+
+.home .home-slider .slide{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-top: 9rem;
+}
+
+.home .home-slider .slide .image{
+    flex:1 1 45rem;
+}
+
+.home .home-slider .slide .image img{
+    width: 30%;
+}
+
+.home .home-slider .slide .content{
+    flex: 1 1 45rem
+}
+
+.home .home-slider .slide .content span{
+    color: black;
+    font-size:3rem;
+    font-style: italic;
+}
+
+h1{
+    margin-left: 5rem;
+    background-color: white;
+    color: black;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 80px;
+    letter-spacing: .5rem;
+    text-align: center;
+}
+
+footer{
+    position: bottom;
+    top:0; left:0; right:0;
+    background: whitesmoke;
+    padding: 1rem 7%;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    box-shadow: var(--box-shadow);
+}
+
+#service {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+#service td, #service th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 8px;
+  }
+
+#service th input[type="text"]{
+    width: 2rem;
+}
+
+#service tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+#service th {
+    padding-top: 9rem;
+    padding-bottom: 3rem;
+    text-align: center;
+    background-color: #04AA6D;
+    color: white;
+    font-size:2rem;
+  }
+
+.button {
+    border: none;
+    color: white;
+    padding: .6rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: .5rem .5rem;
+    cursor: pointer;
+    background-color: rgb(85, 140, 221);
+  }
+
+.button .butt:hover{
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: .5rem .5rem;
+    cursor: pointer;
+    background-color: rgb(28, 60, 107);
+}
+
+.iconsedit{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.iconsedit i:hover, .iconsedit a:hover{
+    color:rgb(85, 140, 221);
+}

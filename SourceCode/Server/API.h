@@ -8,9 +8,8 @@ namespace API{
     void CreateDoctorAccount(HttpRequestHeader&,int);
     void CreateSubAccount(HttpRequestHeader&,int);
     
-    void LoginDoc(HttpRequestHeader&,int);
     void LoginPai(HttpRequestHeader&,int);
-    void LoginHos(HttpRequestHeader&hd,int);
+    void LoginHosDoc(HttpRequestHeader&hd,int);
 
     void BookAppointment(HttpRequestHeader&,int);
 

@@ -16,7 +16,6 @@ int main()
 
   mweb.AddPostAPI("Doc/scheduler", API::GetScheduler_doc);
   mweb.AddPostAPI("Doc/scheduler/Paitent", API::GetScheduler_doc_pai);
-  mweb.AddPostAPI("Doc/account/log", API::LoginDoc);
   mweb.AddPostAPI("Doc/scheduler/getp", API::GetPrescriptions);
   mweb.AddPostAPI("Doc/scheduler/givep", API::GivePrescriptions);
   mweb.AddPostAPI("Doc/scheduler/removep", API::RemovePrescriptions);
@@ -35,7 +34,8 @@ int main()
   mweb.AddPostAPI("Service/all",API::GetService);
   mweb.AddPostAPI("Service/search",API::SearchService);
 
-  mweb.AddPostAPI("Hos/account/log", API::LoginHos);
+  mweb.AddPostAPI("Home/account/log", API::LoginHosDoc);
+
   mweb.AddPostAPI("Hos/doc/add",API::CreateDoctorAccount);
   mweb.AddPostAPI("Hos/service",API::HosService); 
   mweb.AddPostAPI("Hos/service/add",API::ServiceAdd);

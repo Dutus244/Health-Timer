@@ -219,7 +219,7 @@ std::map<int,std::string> SQL_SERVER::Column(const wchar_t* query,SQLLEN &rowsco
         }
         temp+=1;
     }
-
+    rowscount = temp ;
     SQLFreeHandle(SQL_HANDLE_STMT, sqlStml_);
     return rs;
 }

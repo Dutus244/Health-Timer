@@ -19,7 +19,8 @@ static std::map<std::string, std::string> contentType = {
 	{"jpeg", "image/jpg"},
 	{"jpg", "image/jpg"},
 	{"php", "text/plain"},
-	{"css", "text/css"}
+	{"css", "text/css"},
+	{"js","text/javascript; charset=UTF-8"}
 };
 
 class HttpRequestHeader

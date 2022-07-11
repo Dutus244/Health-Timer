@@ -94,45 +94,7 @@ namespace API{
             send(client,oss.str().c_str(),oss.str().size(),0);
         }
     }
-    void LoginDoc(HttpRequestHeader&hd,int client){
-        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
-        std::wstring query = L"Select * from DocLogin (N'";
-        query += utf8_conv.from_bytes(hd.arg["id"]) + L"' ,N'";
-        query += utf8_conv.from_bytes(hd.arg["password"]) + L"')";
-
-        SQLLEN result;
-        std::string rs; //doctor ID
-        std::getline(dataServer->SelectQuery(query.c_str(),result),rs,'}');
-        rs = rs.substr(rs.find("\":\"")+3);
-        rs.resize(rs.size()-1);
-        
-        std::stringstream oss;
-        oss << "HTTP/1.1 303 See Other\r\n";
-        oss<< "Access-Control-Allow-Origin: *\r\n";
-		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>0){
-            char auth[16];
-            memset(auth,0,16);
-            TokenGenerator.GetNextToken(auth);
-            if (authKey[rs]!=""){
-                authKey.erase(rs);
-                keyAuth.erase(authKey[rs]); 
-            }
-            keyAuth[auth] = rs;
-            authKey[rs] = auth;
-
-            std::string a = "{\"code\":\"success\",\"auth\":\""+std::string(auth)+"\"}";
-            oss << "content-length: "<<a.size()<<"\r\n\r\n";
-            oss << a;
-            send(client,oss.str().c_str(),oss.str().size(),0);
-        }
-        else{
-            std::string a = "{\"code\":\"fail\"}";
-            oss << "content-length: "<<a.size()<<"\r\n\r\n";
-            oss<<a;
-            send(client,oss.str().c_str(),oss.str().size(),0);
-        }
-    }
+    
     void LoginPai(HttpRequestHeader&hd,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"Select * from UserLogin (N'";
@@ -141,9 +103,7 @@ namespace API{
 
         SQLLEN result;
         std::string rs; //doctor ID
-        std::getline(dataServer->SelectQuery(query.c_str(),result),rs,'}');
-        rs = rs.substr(rs.find("\":\"")+3);
-        rs.resize(rs.size()-1);
+        rs = dataServer->Column(query.c_str(),result,1)[0];
         std::stringstream oss;
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
@@ -171,43 +131,74 @@ namespace API{
             send(client,oss.str().c_str(),oss.str().size(),0);
         }
     }
-    void LoginHos(HttpRequestHeader&hd,int client){
+    void LoginHosDoc(HttpRequestHeader &hd, int client)
+    {
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"Select * from HosLogin (N'";
         query += utf8_conv.from_bytes(hd.arg["id"]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["password"]) + L"')";
 
         SQLLEN result;
-        std::string rs; //doctor ID
-        std::getline(dataServer->SelectQuery(query.c_str(),result),rs,'}');
-        rs = rs.substr(rs.find("\":\"")+3);
-        rs.resize(rs.size()-1);
+        std::string rs; // doctor ID
+        rs = dataServer->Column(query.c_str(), result, 1)[0];
 
         std::stringstream oss;
         oss << "HTTP/1.1 200 OK\r\n";
-        oss<< "Access-Control-Allow-Origin: *\r\n";
-		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>0){
+        oss << "Access-Control-Allow-Origin: *\r\n";
+        oss << "content-type: " << contentType["json"] << "; charset=UTF-8\r\n";
+        if (result > 0)
+        {
             char auth[16];
-            memset(auth,0,16);
+            memset(auth, 0, 16);
             TokenGenerator.GetNextToken(auth);
-            if (authKey[rs]!=""){
+            if (authKey[rs] != "")
+            {
                 authKey.erase(rs);
-                keyAuth.erase(authKey[rs]); 
+                keyAuth.erase(authKey[rs]);
             }
             keyAuth[auth] = rs;
             authKey[rs] = auth;
 
-            std::string a = "{\"code\":\"success\",\"auth\":\""+std::string(auth)+"\"}";
-            oss << "content-length: "<<a.size()<<"\r\n\r\n";
-            oss<<a;
-            send(client,oss.str().c_str(),oss.str().size(),0);
+            std::string a = "{\"code\":\"success\",\"type\":\"hospital\",\"auth\":\"" + std::string(auth) + "\"}";
+            oss << "content-length: " << a.size() << "\r\n\r\n";
+            oss << a;
+            send(client, oss.str().c_str(), oss.str().size(), 0);
         }
-        else{
-            std::string a = "{\"code\":\"fail\"}";
-            oss << "content-length: "<<a.size()<<"\r\n\r\n";
-            oss<<a;
-            send(client,oss.str().c_str(),oss.str().size(),0);
+        else
+        {
+
+            query = L"Select * from DocLogin (N'";
+            query += utf8_conv.from_bytes(hd.arg["id"]) + L"' ,N'";
+            query += utf8_conv.from_bytes(hd.arg["password"]) + L"')";
+
+            result=0;
+            rs = dataServer->Column(query.c_str(), result, 1)[0];
+
+            if (result > 0)
+            {
+                char auth[16];
+                memset(auth, 0, 16);
+                TokenGenerator.GetNextToken(auth);
+                if (authKey[rs] != "")
+                {
+                    authKey.erase(rs);
+                    keyAuth.erase(authKey[rs]);
+                }
+                keyAuth[auth] = rs;
+                authKey[rs] = auth;
+
+                std::string a = "{\"code\":\"success\",\"type\":\"doctor\",\"auth\":\"" + std::string(auth) + "\"}";
+                oss << "content-length: " << a.size() << "\r\n\r\n";
+                oss << a;
+                send(client, oss.str().c_str(), oss.str().size(), 0);
+            }
+            else
+            {
+                std::string a = "{\"code\":\"fail\"}";
+                oss << "content-length: " << a.size() << "\r\n\r\n";
+                oss << a;
+                send(client, oss.str().c_str(), oss.str().size(), 0);
+            }
         }
     }
 
