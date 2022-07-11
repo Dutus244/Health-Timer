@@ -1,0 +1,35 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/activity_home_page_bottom_nevigation_home_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Trang chủ"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/activity_home_page_bottom_nevigation_booking"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_book_24"
+        android:title="Đặt khám"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/activity_home_page_bottom_nevigation_schedule"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_date_range_24"
+        android:title="Lịch khám"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/activity_home_page_bottom_nevigation_record"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_folder_24"
+        android:title="Hồ sơ"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/activity_home_page_bottom_nevigation_account"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_account_box_24"
+        android:title="Tài khoản"
+        app:showAsAction="ifRoom" />
+</menu>

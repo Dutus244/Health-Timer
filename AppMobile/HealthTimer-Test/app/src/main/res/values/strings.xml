@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Health Timer</string>
+
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">KẾ TIẾP</string>
+    <string name="skip">BỎ QUA</string>
+    <string name="start">ĐÃ HIỂU</string>
+
+    <string name="slide_1_title">Đặt Lịch Khám</string>
+    <string name="slide_1_desc">Tiết kiệm thời gian cho người dùng trong việc đăng ký khám bệnh</string>
+
+    <string name="slide_2_title">Nhắc Nhở Uống Thuốc</string>
+    <string name="slide_2_desc">Chăm lo cho sức khỏe uống thuốc của bạn còn hơn bác sĩ</string>
+
+    <string name="slide_3_title">Coi Hồ Sơ Bệnh Án</string>
+    <string name="slide_3_desc">Hiểu hơn về sức khỏe của bản thân</string>
+
+    <string name="slide_4_title">Health Timer</string>
+    <string name="slide_4_desc">Bảo vệ sức khỏe cho cả bạn và gia đình</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+
+</resources>
