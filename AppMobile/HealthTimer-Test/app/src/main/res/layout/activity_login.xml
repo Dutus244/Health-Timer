@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.RegisterActivity2"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/signin_icon"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đăng nhập"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/image"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutphone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Số điện thoại"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/label">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/activity_login_input_phone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:ems="15"
+            android:maxLength="12"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutpassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Mật khẩu"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="5dp"
+        app:passwordToggleEnabled="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/layoutphone">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/activity_login_input_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPassword"
+            android:ems="15" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/activity_login_button_login"
+        android:textAllCaps="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:textStyle="bold"
+        android:background="@drawable/signin_btn"
+        android:textColor="@color/white"
+        android:text="Đăng nhập"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/layoutpassword"/>
+
+    <Button
+        android:id="@+id/activity_login_button_register"
+        android:textAllCaps="false"
+        android:layout_width="120dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:textColor="@color/main_color"
+        android:background="@drawable/transparent_black_ten_percent"
+        android:text="Đăng ký"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/activity_login_button_login"/>
+
+    <Button
+        android:id="@+id/activity_login_button_forgot_password"
+        android:textAllCaps="false"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:textColor="@color/main_color"
+        android:background="@drawable/transparent_black_ten_percent"
+        android:text="Quên mật khẩu?"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/activity_login_button_register"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Health Timer"
+        android:textColor="@color/black"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10sp"/>
+
+</RelativeLayout>
