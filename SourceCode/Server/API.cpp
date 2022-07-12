@@ -639,7 +639,7 @@ namespace API{
 
     void HosService(HttpRequestHeader& hd,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
-        std::wstring query = L"Select * from GetService () where hosID = '";
+        std::wstring query = L"Select serviceID,serviceName,isOn from Hos_service where hosID = '";
         query += utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"'";
 
         SQLLEN result;
