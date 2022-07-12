@@ -59,6 +59,8 @@ function edit(event){
   
   var canceltemp=document.getElementById(`cancel${rownum}`);
   canceltemp.addEventListener('click',function(){cancel(clone)});
+
+
 }
 
 function cancel(clone){
@@ -98,8 +100,9 @@ function GetHosService(){
           cell2.innerHTML = 'nono';
           cell3.innerHTML = resp.data[i].serviceID;
           cell4.innerHTML = resp.data[i].serviceName;
+          const ison = resp.data[i].isOn == '1' ? "fas fa-check": "fas fa-slash" 
           cell5.innerHTML = `<div class="icons" style="background-color: white;">
-                      <i class="fas fa-check" style="text-align: center; color:#04AA6D"></i>
+                      <i class=${ison} style="text-align: center; color:#04AA6D"></i>
                     </div>` ;
           
           var temp = document.getElementById(resp.data[i].serviceID);
@@ -110,4 +113,31 @@ function GetHosService(){
       console.log(resp)
   };
   Http.send();
+}
+
+function unavailable(event){
+  let countrow= event.target.id.slice(9);
+
+  let table = document.getElementById("row"+countrow);
+
+  table.cells[4].innerHTML = `<div class="icons" style="background-color: white;">
+                                <i class="fas fa-slash" id=available${countrow} style="text-align: center; color:rgb(255,0,0)"></i>
+                              </div>` ;
+
+  let avai = document.getElementById(`available${countrow}`);
+  avai.addEventListener('click', available);
+
+}
+
+function available(event){
+  let countrow= event.target.id.slice(9);
+
+  let table = document.getElementById("row"+countrow);
+
+  table.cells[4].innerHTML = `<div class="icons" style="background-color: white;">
+                                <i class="fas fa-check" id=available${countrow} style="text-align: center; color:#04AA6D"></i>
+                              </div>` ;
+
+  let avai = document.getElementById(`available${countrow}`);
+  avai.addEventListener('click', unavailable);
 }
