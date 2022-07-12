@@ -102,7 +102,7 @@ function GetHosService(){
           cell4.innerHTML = resp.data[i].serviceName;
           const ison = resp.data[i].isOn == '1' ? "fas fa-check": "fas fa-slash" 
           cell5.innerHTML = `<div class="icons" style="background-color: white;">
-                      <i class=${ison} style="text-align: center; color:#04AA6D"></i>
+                      <i class="${ison}" style="text-align: center; color:#04AA6D"></i>
                     </div>` ;
           
           var temp = document.getElementById(resp.data[i].serviceID);
