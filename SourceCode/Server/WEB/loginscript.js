@@ -1,10 +1,10 @@
 
 const url = "http://localhost:80"
 document.getElementById('bt1').addEventListener('click',function(){
-    LoginHos(document.getElementById('arg1').value,document.getElementById('arg2').value)
+    Login(document.getElementById('arg1').value,document.getElementById('arg2').value)
 })
 
-function LoginHos(id,pass){
+function Login(id,pass){
     var api = '/Home/account/log'
 
     var paragram  = `?id=${id}&password=${pass}`
