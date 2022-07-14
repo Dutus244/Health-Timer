@@ -56,15 +56,24 @@ function edit(event){
     var textx = table.cells[i].innerHTML;
     table.cells[i].innerHTML= "<input type ='text'  value='" +textx+ "'></input>";
   }
-  
+
+  document.getElementById(`isOn_${rownum}`).addEventListener('click',function(){
+    console.log(this.className)
+    if (this.className=="fas fa-slash")
+      this.className  ="fas fa-check"
+    else
+      this.className  ="fas fa-slash"
+  });
+
   var canceltemp=document.getElementById(`cancel${rownum}`);
   canceltemp.addEventListener('click',function(){cancel(clone)});
 
+  var canceltemp=document.getElementById(`save${rownum}`);
+  canceltemp.addEventListener('click',function(){save(clone)});
+
 
 }
 
-function cancel(clone){
-}
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -102,7 +111,7 @@ function GetHosService(){
           cell4.innerHTML = resp.data[i].serviceName;
           const ison = resp.data[i].isOn == '1' ? "fas fa-check": "fas fa-slash" 
           cell5.innerHTML = `<div class="icons" style="background-color: white;">
-                      <i class="${ison}" style="text-align: center; color:#04AA6D"></i>
+                      <i class="${ison}", id = "isOn_${resp.data[i].serviceID}" style="text-align: center; color:#04AA6D"></i>
                     </div>` ;
           
           var temp = document.getElementById(resp.data[i].serviceID);
@@ -115,29 +124,12 @@ function GetHosService(){
   Http.send();
 }
 
-function unavailable(event){
-  let countrow= event.target.id.slice(9);
 
-  let table = document.getElementById("row"+countrow);
-
-  table.cells[4].innerHTML = `<div class="icons" style="background-color: white;">
-                                <i class="fas fa-slash" id=available${countrow} style="text-align: center; color:rgb(255,0,0)"></i>
-                              </div>` ;
-
-  let avai = document.getElementById(`available${countrow}`);
-  avai.addEventListener('click', available);
-
+function cancel(clone){
+  console.log('cancle')
 }
 
-function available(event){
-  let countrow= event.target.id.slice(9);
 
-  let table = document.getElementById("row"+countrow);
-
-  table.cells[4].innerHTML = `<div class="icons" style="background-color: white;">
-                                <i class="fas fa-check" id=available${countrow} style="text-align: center; color:#04AA6D"></i>
-                              </div>` ;
-
-  let avai = document.getElementById(`available${countrow}`);
-  avai.addEventListener('click', unavailable);
+function save(clone){
+  console.log('save')
 }
