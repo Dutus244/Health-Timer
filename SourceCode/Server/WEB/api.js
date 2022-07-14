@@ -8,7 +8,6 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-
 function LoginDoc(id="",pass=""){
     let api = '/Doc/account/log'
     let paragram  = `id=${id}&password=${pass}`
@@ -23,21 +22,6 @@ function LoginDoc(id="",pass=""){
         console.log(resp)
     };
     Http.send(paragram);
-};
-
-function GetScheduler_doc(){
-    let api = '/Doc/scheduler'
-    let auth = getCookie('auth')
-    const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+`?auth=${auth}&`,true);
-
-    Http.onload = function(){
-        resp = JSON.parse(Http.responseText);
-        // do sthg here
-        
-        console.log(resp)
-    };
-    Http.send();
 };
 
 function GetScheduler_doc_pai(usID){
@@ -141,35 +125,6 @@ function RemoveSchedulerDetail(orderID="",_name=""){
     Http.send();
 }
 
-function ServiceAll(){
-    let api = '/Service/all'
-
-    const Http = new XMLHttpRequest();
-    Http.open("POST", url+api,true);
-    Http.onload = function(){
-        resp = JSON.parse(Http.responseText);
-        // do sthg here
-        
-        console.log(resp)
-    };
-    Http.send();
-}
-
-function ServiceSearch(searchstr=""){
-    let api = '/Service/search'
-
-    const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+`?searchstr=${searchstr}`,true);
-    Http.onload = function(){
-        resp = JSON.parse(Http.responseText);
-        // do sthg here
-        
-        console.log(resp)
-    };
-    Http.send();
-}
-
-
 export default function LoginHos(id,pass){
     let api = '/Hos/account/log'
 
@@ -268,21 +223,6 @@ function DocServiceRemove(doc,service){
         resp = JSON.parse(Http.responseText);
         // do sthg here
         
-        console.log(resp)
-    };
-    Http.send();
-}
-
-function DocList(){
-    let api = '/Hos/doc'
-
-    const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+`?auth=${getCookie('HosAuth')}`,true);
-    Http.onload = function(){
-        
-        console.log(Http.responseText)
-        resp =JSON.parse(Http.responseText);
-        // do sthg here
         console.log(resp)
     };
     Http.send();
