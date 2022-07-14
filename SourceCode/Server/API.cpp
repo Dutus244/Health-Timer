@@ -3,8 +3,14 @@
 
 #include "all_var.h"
 namespace API{
-    std::map<std::string,std::string> authKey;
-    std::map<std::string,std::string> keyAuth;
+    std::map<std::string,std::string> DocauthKey;
+    std::map<std::string,std::string> DockeyAuth;
+
+    std::map<std::string,std::string> UsauthKey;
+    std::map<std::string,std::string> UskeyAuth;
+
+    std::map<std::string,std::string> HosauthKey;
+    std::map<std::string,std::string> HoskeyAuth;
 
     void CreateUserAccount(HttpRequestHeader&hd,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
@@ -39,7 +45,7 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec CreateDoc '";
         
-        query += utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"', '";
+        query += utf8_conv.from_bytes(DockeyAuth[hd.arg["auth"]]) + L"', '";
         query += utf8_conv.from_bytes(hd.arg["docID"]) + L"',  N'";
         query += utf8_conv.from_bytes(hd.arg["citizenID"]) + L"', N'";
         query += utf8_conv.from_bytes(hd.arg["name"]) + L"','";
@@ -72,7 +78,7 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
          std::wstring query = L"exec CreateSubAccount @owner='";
         
-        query += utf8_conv.from_bytes(authKey[hd.arg["auth"]]) + L"', @relationship='";
+        query += utf8_conv.from_bytes(UsauthKey[hd.arg["auth"]]) + L"', @relationship='";
         query += utf8_conv.from_bytes(hd.arg["relationship"]) + L"'";
 
         int result = dataServer->DataQuery(query.c_str());
@@ -112,12 +118,12 @@ namespace API{
             char auth[16];
             memset(auth,0,16);
             TokenGenerator.GetNextToken(auth);
-            if (authKey[rs]!=""){
-                authKey.erase(rs);
-                keyAuth.erase(authKey[rs]); 
+            if (UsauthKey[rs]!=""){
+                UsauthKey.erase(rs);
+                UskeyAuth.erase(UsauthKey[rs]); 
             }
-            keyAuth[auth] = rs;
-            authKey[rs] = auth;
+            UskeyAuth[auth] = rs;
+            UsauthKey[rs] = auth;
             
             std::string a = "{\"code\":\"success\",\"auth\":\""+std::string(auth)+"\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
@@ -151,13 +157,13 @@ namespace API{
             char auth[16];
             memset(auth, 0, 16);
             TokenGenerator.GetNextToken(auth);
-            if (authKey[rs] != "")
+            if (HosauthKey[rs] != "")
             {
-                authKey.erase(rs);
-                keyAuth.erase(authKey[rs]);
+                HosauthKey.erase(rs);
+                HoskeyAuth.erase(HosauthKey[rs]);
             }
-            keyAuth[auth] = rs;
-            authKey[rs] = auth;
+            HoskeyAuth[auth] = rs;
+            HosauthKey[rs] = auth;
 
             std::string a = "{\"code\":\"success\",\"type\":\"hospital\",\"auth\":\"" + std::string(auth) + "\"}";
             oss << "content-length: " << a.size() << "\r\n\r\n";
@@ -179,13 +185,13 @@ namespace API{
                 char auth[16];
                 memset(auth, 0, 16);
                 TokenGenerator.GetNextToken(auth);
-                if (authKey[rs] != "")
+                if (DocauthKey[rs] != "")
                 {
-                    authKey.erase(rs);
-                    keyAuth.erase(authKey[rs]);
+                    DocauthKey.erase(rs);
+                    DockeyAuth.erase(DocauthKey[rs]);
                 }
-                keyAuth[auth] = rs;
-                authKey[rs] = auth;
+                DockeyAuth[auth] = rs;
+                DocauthKey[rs] = auth;
 
                 std::string a = "{\"code\":\"success\",\"type\":\"doctor\",\"auth\":\"" + std::string(auth) + "\"}";
                 oss << "content-length: " << a.size() << "\r\n\r\n";
@@ -205,7 +211,7 @@ namespace API{
     void BookAppointment(HttpRequestHeader&hd,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec CreateScheduler '";
-        query += utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"', '";
+        query += utf8_conv.from_bytes(UskeyAuth[hd.arg["auth"]]) + L"', '";
         query += utf8_conv.from_bytes(hd.arg["time"]) + L"', N'";
         query += utf8_conv.from_bytes(hd.arg["serviceID"]) + L"','";
         query += utf8_conv.from_bytes(hd.arg["hosID"]) + L"'";
@@ -220,7 +226,7 @@ namespace API{
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             query = L"select orderID from Scheduler where usID = '";
-            query += utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"'and a_Time ='";
+            query += utf8_conv.from_bytes(UskeyAuth[hd.arg["auth"]]) + L"'and a_Time ='";
             query += utf8_conv.from_bytes(hd.arg["time"]) + L"'";
             SQLLEN temp;
             std::stringstream ID; 
@@ -242,7 +248,7 @@ namespace API{
     void GetScheduler_doc(HttpRequestHeader& hd,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"Select * from DocScheduler ('";
-        query+= utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"') order by isDone desc, a_Time desc";
+        query+= utf8_conv.from_bytes(DockeyAuth[hd.arg["auth"]]) + L"') order by isDone desc, a_Time desc";
 
         SQLLEN result;
         std::string rs = dataServer->SelectQuery(query.c_str(),result).str();
@@ -267,7 +273,7 @@ namespace API{
     void GetScheduler_pai(HttpRequestHeader&hd ,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"Select * from PaitentScheduler ('";
-        query+= utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"') order by isDone desc, a_Time desc";
+        query+= utf8_conv.from_bytes(UskeyAuth[hd.arg["auth"]]) + L"') order by isDone desc, a_Time desc";
 
         SQLLEN result;
         std::string a = dataServer->SelectQuery(query.c_str(),result).str();
@@ -341,7 +347,7 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec AddPrescription '";
         SQLLEN result = -1;
-        query += utf8_conv.from_bytes( keyAuth[hd.arg["auth"]]) + L"', '";
+        query += utf8_conv.from_bytes( DockeyAuth[hd.arg["auth"]]) + L"', '";
         query += utf8_conv.from_bytes(hd.arg["orderID"]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["name"]) + L"' ,'";
         query += utf8_conv.from_bytes(hd.arg["amount"]) + L"'";
@@ -371,7 +377,7 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec RemovePrescription '";
         SQLLEN result = -1;
-        query += utf8_conv.from_bytes( keyAuth[hd.arg["auth"]]) + L"', '";
+        query += utf8_conv.from_bytes( DockeyAuth[hd.arg["auth"]]) + L"', '";
         query += utf8_conv.from_bytes(hd.arg["orderID"]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["name"]) + L"' ";
 
@@ -398,7 +404,7 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec AddSchedulerDetail '";
         SQLLEN result = -1;
-        query += utf8_conv.from_bytes( keyAuth[hd.arg["auth"]]) + L"', '";
+        query += utf8_conv.from_bytes( DockeyAuth[hd.arg["auth"]]) + L"', '";
         query += utf8_conv.from_bytes(hd.arg["orderID"]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["name"]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["value"]) + L"'";
@@ -428,7 +434,7 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec RemoveSchedulerDetail '";
         SQLLEN result = -1;
-        query += utf8_conv.from_bytes( keyAuth[hd.arg["auth"]]) + L"', '";
+        query += utf8_conv.from_bytes( DockeyAuth[hd.arg["auth"]]) + L"', '";
         query += utf8_conv.from_bytes(hd.arg["orderID"]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["name"]) + L"'";
 
@@ -532,7 +538,7 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec AddService '";
         SQLLEN result = -1;
-        query += utf8_conv.from_bytes( keyAuth[hd.arg["auth"]]) + L"', N'";
+        query += utf8_conv.from_bytes( HoskeyAuth[hd.arg["auth"]]) + L"', N'";
         query += utf8_conv.from_bytes(hd.arg["serviceID"]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["servicename"]) + L"' ";
 
@@ -561,7 +567,7 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec RemoveService '";
         SQLLEN result = -1;
-        query += utf8_conv.from_bytes( keyAuth[hd.arg["auth"]]) + L"', N'";
+        query += utf8_conv.from_bytes( HoskeyAuth[hd.arg["auth"]]) + L"', N'";
         query += utf8_conv.from_bytes(hd.arg["serviceID"]) + L"' ";
 
         result = dataServer->DataQuery(query.c_str());
@@ -588,7 +594,7 @@ namespace API{
         std::wstring query = L"exec AddDocService '";
         SQLLEN result = -1;
         query += utf8_conv.from_bytes(hd.arg["docID"]) + L"', '";
-        query += utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"' ,N'";
+        query += utf8_conv.from_bytes(HoskeyAuth[hd.arg["auth"]]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["serviceID"]) + L"' ";
 
         result  = dataServer->DataQuery(query.c_str());
@@ -615,7 +621,7 @@ namespace API{
         std::wstring query = L"exec RemoveDocService '";
         SQLLEN result = -1;
         query += utf8_conv.from_bytes(hd.arg["docID"]) + L"', '";
-        query += utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"' ,N'";
+        query += utf8_conv.from_bytes(HoskeyAuth[hd.arg["auth"]]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["serviceID"]) + L"' ";
 
         result = dataServer->DataQuery(query.c_str());
@@ -640,7 +646,7 @@ namespace API{
     void HosService(HttpRequestHeader& hd,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"Select serviceID,serviceName,isOn from Hos_service where hosID = '";
-        query += utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"'";
+        query += utf8_conv.from_bytes(HoskeyAuth[hd.arg["auth"]]) + L"'";
 
         SQLLEN result;
         std::string rs = dataServer->SelectQuery(query.c_str(),result).str();
@@ -668,7 +674,7 @@ namespace API{
 
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"Select * from DocOfHos('";
-        query += utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"')";
+        query += utf8_conv.from_bytes(HoskeyAuth[hd.arg["auth"]]) + L"')";
         SQLLEN result;
         id = dataServer->Column(query.c_str(),result,1);
         
@@ -686,7 +692,7 @@ namespace API{
 
             for (auto i : id){
                 query = L"Select serviceID,isOn from [dbo].[Doc_service] where DocID='" + utf8_conv.from_bytes(i.second) +L"'and hosID = '";
-                query += utf8_conv.from_bytes(keyAuth[hd.arg["auth"]]) + L"'";
+                query += utf8_conv.from_bytes(HoskeyAuth[hd.arg["auth"]]) + L"'";
 
                 a<< "{\"" + i.second + "\":";
 
