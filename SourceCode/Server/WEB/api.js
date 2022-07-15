@@ -8,7 +8,7 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-function LoginDoc(id="",pass=""){
+function LoginDoc(id="",pass=""){ // hàm này ko xài nũa, do đã chuyển API
     let api = '/Doc/account/log'
     let paragram  = `id=${id}&password=${pass}`
     const Http = new XMLHttpRequest();
@@ -24,7 +24,7 @@ function LoginDoc(id="",pass=""){
     Http.send(paragram);
 };
 
-function GetScheduler_doc_pai(usID){
+function GetScheduler_doc_pai(usID){// lấy ra lịch sử khám bệnh của 1 bên nhân nào đó
     let api = '/Doc/scheduler/Paitent'
     const Http = new XMLHttpRequest();
     Http.open("POST", url+api+`?usID=${usID}`,true);
@@ -38,7 +38,7 @@ function GetScheduler_doc_pai(usID){
     Http.send();
 }
 
-function GetPrescriptions(orderID=""){
+function GetPrescriptions(orderID=""){//lấy ra đơn thuốc
     let api = '/Doc/scheduler/getp'
     const Http = new XMLHttpRequest();
     Http.open("POST", url+api +`?orderID=${orderID}`,true);
@@ -52,7 +52,7 @@ function GetPrescriptions(orderID=""){
     Http.send();
 }
 
-function GivePrescriptions(orderID="",drugname="",amount=""){
+function GivePrescriptions(orderID="",drugname="",amount=""){// thêm 1 thuốc vào đơn thuốc (amount là chuỗi 8 kí tự, tương ứng số viên trc ăn sáng, sau ăn sáng, trc ăn trưa, sau ăn trưa ...)
     let api = '/Doc/scheduler/givep'
     let auth = getCookie('auth')
 
@@ -67,7 +67,7 @@ function GivePrescriptions(orderID="",drugname="",amount=""){
     Http.send();
 }
 
-function RemovePrescriptions(orderID="",drugname=""){
+function RemovePrescriptions(orderID="",drugname=""){// xóa bỏ 1 loại thuốc trong đơn
     let api ='/Doc/scheduler/removep'
     let auth = getCookie('auth')
     const Http = new XMLHttpRequest();
@@ -81,7 +81,7 @@ function RemovePrescriptions(orderID="",drugname=""){
     Http.send();
 }
 
-function AddSchedulerDetail(orderID="",_name="",_value=""){
+function AddSchedulerDetail(orderID="",_name="",_value=""){// thêm một dữ liệu sức khỏe cho 1 lần khám đó (nhịp tim, nhóm máu, blabla)
     let api = '/Doc/scheduler/detailadd'
     let auth = getCookie('auth')
     const Http = new XMLHttpRequest();
@@ -95,7 +95,7 @@ function AddSchedulerDetail(orderID="",_name="",_value=""){
     Http.send();
 }
 
-function GetSchedulerDetail(orderID=""){
+function GetSchedulerDetail(orderID=""){ // lấy ra thông tin chi tiết của buổi khám
     let api= '/Doc/scheduler/detailget'
     const Http = new XMLHttpRequest();
     Http.open("POST", url+api+`?orderID=${orderID}`,true);
@@ -109,7 +109,7 @@ function GetSchedulerDetail(orderID=""){
 
 }
 
-function RemoveSchedulerDetail(orderID="",_name=""){
+function RemoveSchedulerDetail(orderID="",_name=""){// xóa 1 dữ liệu trong chi tiết buổi khám
     let api = '/Doc/scheduler/detailremove'
 
     let auth = getCookie('auth')
@@ -125,7 +125,7 @@ function RemoveSchedulerDetail(orderID="",_name=""){
     Http.send();
 }
 
-export default function LoginHos(id,pass){
+export default function LoginHos(id,pass){ // hàm này ko xài nũa, do đã chuyển API
     let api = '/Hos/account/log'
 
     let paragram  = `?id=${id}&password=${pass}`
@@ -142,7 +142,7 @@ export default function LoginHos(id,pass){
     Http.send();
 }
 
-function CreateDoctorAccount(docid,name,citizenid,bhday,addr){
+function CreateDoctorAccount(docid,name,citizenid,bhday,addr){// tạo ra 1 bác sĩ mới trong bệnh viện, có tk là DocID.TNT (TNT là do đó là tên viết tắt của bv hiện tại), mk là citizen ID
     let api = '/Hos/doc/add'
     let auth = getCookie('HosAuth')
 
@@ -159,7 +159,7 @@ function CreateDoctorAccount(docid,name,citizenid,bhday,addr){
 
 }
 
-function GetHosService(){
+function GetHosService(){ //lấy ra các dịch vụ hiện tại của bệnh viện
     let api = '/Hos/service'
 
     const Http = new XMLHttpRequest();
@@ -173,7 +173,7 @@ function GetHosService(){
     Http.send();
 }
 
-function ServiceAdd(serviceID,serviceName){
+function ServiceAdd(serviceID,serviceName){//thêm một dịch vụ cho bênh viện
     let api = '/Hos/service/add'
     const Http = new XMLHttpRequest();
     Http.open("POST", url+api+`?auth=${getCookie('HosAuth')}&serviceID=${serviceID}&servicename=${serviceName}`,true);
@@ -186,7 +186,7 @@ function ServiceAdd(serviceID,serviceName){
     Http.send();
 }
 
-function ServiceRemove(serviceID){
+function ServiceRemove(serviceID){// xóa 1 dịch vụ ra khỏi danh sách bv
     let api = '/Hos/service/remove'
 
     const Http = new XMLHttpRequest();
@@ -200,7 +200,7 @@ function ServiceRemove(serviceID){
     Http.send();
 }
 
-function DocServiceAdd(doc,service){
+function DocServiceAdd(doc,service){ // thêm 1 bác sĩ vô 1 dịch vụ trong bv
     let api = '/Hos/doc/serviceadd'
     const Http = new XMLHttpRequest();
     Http.open("POST", url+api+`?auth=${getCookie('HosAuth')}&serviceID=${service}$docID=${doc}`,true);
@@ -214,7 +214,7 @@ function DocServiceAdd(doc,service){
 
 }
 
-function DocServiceRemove(doc,service){
+function DocServiceRemove(doc,service){// xóa đi 1 dịch vụ của bác sĩ
     let api = '/Hos/doc/serviceremove'
 
     const Http = new XMLHttpRequest();
