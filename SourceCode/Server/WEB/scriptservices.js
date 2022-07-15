@@ -27,7 +27,7 @@ function addNewRow() {
   cell3.innerHTML = "NULL";
   cell4.innerHTML = "NULL";
   cell5.innerHTML = `<div class="icons" style="background-color: white;">
-                      <i class="fas fa-check" style="text-align: center; color:#04AA6D"></i>
+                      <i class="fas fa-check" id="isOn_${id}" style="text-align: center; color:#04AA6D"></i>
                     </div>` ;
 
   var temp = document.getElementById(id);
@@ -58,7 +58,6 @@ function edit(event){
   }
 
   document.getElementById(`isOn_${rownum}`).addEventListener('click',function(){
-    console.log(this.className)
     if (this.className=="fas fa-slash")
       this.className  ="fas fa-check"
     else
