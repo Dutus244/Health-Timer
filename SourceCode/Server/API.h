@@ -36,5 +36,8 @@ namespace API{
     void SearchService(HttpRequestHeader& ,int);
     void HosService(HttpRequestHeader& ,int);
     void DocList(HttpRequestHeader&,int);
+
+
+    void HosList(HttpRequestHeader&,int);
 }
 #endif

@@ -780,5 +780,29 @@ namespace API{
         }
     }
 
-    
+    void HosList(HttpRequestHeader& hd,int client){
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"select * from [dbo].[HosInfo]";
+        
+        SQLLEN result;
+        std::string rs = dataServer->SelectQuery(query.c_str(),result).str();
+        std::stringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>0){
+            std::string a = "{\"code\":\"success\",\"data\":";
+            a+=rs+ "}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"none\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
+
 }
