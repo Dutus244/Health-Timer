@@ -36,6 +36,7 @@ int main()
 
   APIs.AddGetAPI("Service/all",API::GetService);
   APIs.AddGetAPI("Service/search",API::SearchService);
+  APIs.AddGetAPI("Service",API::UsHosService); 
   APIs.AddGetAPI("Hos/all",API::HosList);
 
   APIs.AddGetAPI("Home/account/log", API::LoginHosDoc);
