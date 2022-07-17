@@ -767,7 +767,7 @@ namespace API{
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             std::stringstream a ;
-            a<<"{\"code\":\"success\"";
+            a<<"{\"code\":\"success\"}";
             oss << "content-length: "<<a.str().size()<<"\r\n\r\n";
             oss<<a.str();
             send(client,oss.str().c_str(),oss.str().size(),0);
