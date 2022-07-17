@@ -131,13 +131,12 @@ int WebResponse::ClientResponse(int client)
 	catch(...){return -1;}
 }
 
-int WebResponse::run()
+
+void WebResponse::Threadrun()
 {
-	bool running = true;
 	if (listen(i_socket, 1000) == SOCKET_ERROR)
 	{
 		std::cout << "listen fail";
-		return -1;
 	};
 	while (running)
 	{
@@ -146,8 +145,17 @@ int WebResponse::run()
 		a.detach();
 	}
 	WSACleanup();
-	return 0;
 }
+
+
+void WebResponse::run()
+{
+	std::thread a = std::thread(&WebResponse::Threadrun,this);
+	a.detach();
+}
+
+
+
 
 void WebResponse::AddGetAPI(std::string path,void(*Func)(HttpRequestHeader&,int)){
 	this->GETAPI[path] = Func;
