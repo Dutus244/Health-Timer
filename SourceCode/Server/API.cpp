@@ -16,8 +16,8 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec CreateUser N'";
         SQLLEN result = -1;
-        if (hd.arg["account"] != "" && hd.arg["password"] != "" ){
-            query += utf8_conv.from_bytes(hd.arg["account"]) + L"', N'";
+        if (hd.arg["id"] != "" && hd.arg["password"] != "" ){
+            query += utf8_conv.from_bytes(hd.arg["id"]) + L"', N'";
             query += utf8_conv.from_bytes(hd.arg["password"]) + L"'";
 
             result = dataServer->DataQuery(query.c_str());
@@ -28,7 +28,7 @@ namespace API{
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
         if (result>0){
             std::string a = "{\"code\":\"success\"";
-            a+= ",\"account\":\""+hd.arg["account"]+"\"";
+            a+= ",\"id\":\""+hd.arg["id"]+"\"";
             a+= ",\"password\":\""+hd.arg["password"]+"\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
             oss<<a;
@@ -668,6 +668,32 @@ namespace API{
             send(client,oss.str().c_str(),oss.str().size(),0);
         }
     }
+
+    void UsHosService(HttpRequestHeader& hd,int client){
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"Select * where hosID = '";
+        query += utf8_conv.from_bytes(hd.arg["id"]) + L"'";
+
+        SQLLEN result;
+        std::string rs = dataServer->SelectQuery(query.c_str(),result).str();
+        std::stringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>0){
+            std::string a = "{\"code\":\"success\",\"data\":";
+            a+=rs+ "}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"none\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
     
     void DocList(HttpRequestHeader& hd,int client){
         std::map<int,std::string> id;
@@ -710,6 +736,91 @@ namespace API{
             a<<"]}}";
             oss << "content-length: "<<a.str().size()<<"\r\n\r\n";
             oss<<a.str();
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"none\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
+
+
+    void CheckUser(HttpRequestHeader& hd,int client){
+        std::map<int,std::string> id;
+
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"Select * from UserAccount where username = N'";
+        query += utf8_conv.from_bytes(hd.arg["id"]) + L"'";
+        SQLLEN result;
+
+        dataServer->SelectQuery(query.c_str(),result);
+    
+        std::stringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>0){
+            std::stringstream a ;
+            a<<"{\"code\":\"Available\"}";
+            oss << "content-length: "<<a.str().size()<<"\r\n\r\n";
+            oss<<a.str();
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"Unavailable\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
+
+    void ChangUsPass(HttpRequestHeader& hd,int client){
+        std::map<int,std::string> id;
+
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"update UserAccount set pass =N'";
+        query += utf8_conv.from_bytes(hd.arg["pass"])  + L"' where username = N'";
+        query += utf8_conv.from_bytes(hd.arg["id"]) + L"'";
+        SQLLEN result;
+
+        result = dataServer->DataQuery(query.c_str());
+    
+        std::stringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>0){
+            std::stringstream a ;
+            a<<"{\"code\":\"success\"}";
+            oss << "content-length: "<<a.str().size()<<"\r\n\r\n";
+            oss<<a.str();
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"fail\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
+
+    void HosList(HttpRequestHeader& hd,int client){
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"select * from [dbo].[HosInfo]";
+
+        SQLLEN result;
+        std::string rs = dataServer->SelectQuery(query.c_str(),result).str();
+        std::stringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>0){
+            std::string a = "{\"code\":\"success\",\"data\":";
+            a+=rs+ "}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
             send(client,oss.str().c_str(),oss.str().size(),0);
         }
         else{

@@ -4,6 +4,8 @@
 #include "SQLServer-Side.h"
 
 namespace API{
+    void CheckUser(HttpRequestHeader&,int);
+    void ChangUsPass(HttpRequestHeader&,int);
     void CreateUserAccount(HttpRequestHeader&,int);
     void CreateDoctorAccount(HttpRequestHeader&,int);
     void CreateSubAccount(HttpRequestHeader&,int);
@@ -34,5 +36,8 @@ namespace API{
     void SearchService(HttpRequestHeader& ,int);
     void HosService(HttpRequestHeader& ,int);
     void DocList(HttpRequestHeader&,int);
+    void UsHosService(HttpRequestHeader& ,int);
+
+    void HosList(HttpRequestHeader&,int);
 }
 #endif
