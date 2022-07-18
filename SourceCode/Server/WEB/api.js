@@ -1,4 +1,4 @@
-const url='http://localhost:80';
+const url='http://localhost:803';
 
 // _____________________________________________________________________________
 
@@ -12,7 +12,7 @@ function LoginDoc(id="",pass=""){ // hàm này ko xài nũa, do đã chuyển AP
     let api = '/Doc/account/log'
     let paragram  = `id=${id}&password=${pass}`
     const Http = new XMLHttpRequest();
-    Http.open("POST", url+api,true);
+    Http.open("GET", url+api,true);
     Http.onload  = function(){
         let resp = JSON.parse(Http.responseText);
         if (resp.code == "success"){
@@ -24,24 +24,10 @@ function LoginDoc(id="",pass=""){ // hàm này ko xài nũa, do đã chuyển AP
     Http.send(paragram);
 };
 
-function GetScheduler_doc_pai(usID){// lấy ra lịch sử khám bệnh của 1 bên nhân nào đó
-    let api = '/Doc/scheduler/Paitent'
-    const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+`?usID=${usID}`,true);
-
-    Http.onload = function(){
-        resp = JSON.parse(Http.responseText);
-        // do sthg here
-        
-        console.log(resp)
-    };
-    Http.send();
-}
-
 function GetPrescriptions(orderID=""){//lấy ra đơn thuốc
     let api = '/Doc/scheduler/getp'
     const Http = new XMLHttpRequest();
-    Http.open("POST", url+api +`?orderID=${orderID}`,true);
+    Http.open("GET", url+api +`?orderID=${orderID}`,true);
 
     Http.onload = function(){
         resp = JSON.parse(Http.responseText);
@@ -57,7 +43,7 @@ function GivePrescriptions(orderID="",drugname="",amount=""){// thêm 1 thuốc 
     let auth = getCookie('auth')
 
     const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+`?auth=${auth}&orderID=${orderID}&name=${drugname}&amount=${amount}`,true);
+    Http.open("GET", url+api+`?auth=${auth}&orderID=${orderID}&name=${drugname}&amount=${amount}`,true);
     Http.onload = function(){
         resp = JSON.parse(Http.responseText);
         // do sthg here
@@ -71,7 +57,7 @@ function RemovePrescriptions(orderID="",drugname=""){// xóa bỏ 1 loại thu�
     let api ='/Doc/scheduler/removep'
     let auth = getCookie('auth')
     const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+`?auth=${auth}&orderID=${orderID}&name=${drugname}`,true);
+    Http.open("GET", url+api+`?auth=${auth}&orderID=${orderID}&name=${drugname}`,true);
     Http.onload = function(){
         resp = JSON.parse(Http.responseText);
         // do sthg here
@@ -85,7 +71,7 @@ function AddSchedulerDetail(orderID="",_name="",_value=""){// thêm một dữ l
     let api = '/Doc/scheduler/detailadd'
     let auth = getCookie('auth')
     const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+`?auth=${auth}&orderID=${orderID}&name=${_name}&value=${_value}`,true);
+    Http.open("GET", url+api+`?auth=${auth}&orderID=${orderID}&name=${_name}&value=${_value}`,true);
     Http.onload = function(){
         resp = JSON.parse(Http.responseText);
         // do sthg here
@@ -98,7 +84,7 @@ function AddSchedulerDetail(orderID="",_name="",_value=""){// thêm một dữ l
 function GetSchedulerDetail(orderID=""){ // lấy ra thông tin chi tiết của buổi khám
     let api= '/Doc/scheduler/detailget'
     const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+`?orderID=${orderID}`,true);
+    Http.open("GET", url+api+`?orderID=${orderID}`,true);
     Http.onload = function(){
         resp = JSON.parse(Http.responseText);
         // do sthg here
@@ -115,7 +101,7 @@ function RemoveSchedulerDetail(orderID="",_name=""){// xóa 1 dữ liệu trong 
     let auth = getCookie('auth')
  
     const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+`?auth=${auth}&orderID=${orderID}&name=${_name}`,true);
+    Http.open("GET", url+api+`?auth=${auth}&orderID=${orderID}&name=${_name}`,true);
     Http.onload = function(){
         resp = JSON.parse(Http.responseText);
         // do sthg here
@@ -130,7 +116,7 @@ export default function LoginHos(id,pass){ // hàm này ko xài nũa, do đã ch
 
     let paragram  = `?id=${id}&password=${pass}`
     const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+paragram,true);
+    Http.open("GET", url+api+paragram,true);
     Http.onload  = function(){
         let resp = JSON.parse(Http.responseText);
         if (resp.code == "success"){
@@ -148,7 +134,7 @@ function CreateDoctorAccount(docid,name,citizenid,bhday,addr){// tạo ra 1 bác
 
     const Http = new XMLHttpRequest();
     paragram = `?docID=${docid}&citizenID=${citizenid}&name=${name}&bthday=${bhday}&addr=${addr}&auth=${auth}`
-    Http.open("POST", url+api+paragram,true);
+    Http.open("GET", url+api+paragram,true);
     Http.onload = function(){
         resp = JSON.parse(Http.responseText);
         // do sthg here
@@ -163,7 +149,7 @@ function GetHosService(){ //lấy ra các dịch vụ hiện tại của bệnh 
     let api = '/Hos/service'
 
     const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+`?auth=${getCookie('HosAuth')}`,true);
+    Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}`,true);
     Http.onload = function(){
         resp = JSON.parse(Http.responseText);
         // do sthg here
@@ -176,7 +162,7 @@ function GetHosService(){ //lấy ra các dịch vụ hiện tại của bệnh 
 function ServiceAdd(serviceID,serviceName){//thêm một dịch vụ cho bênh viện
     let api = '/Hos/service/add'
     const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+`?auth=${getCookie('HosAuth')}&serviceID=${serviceID}&servicename=${serviceName}`,true);
+    Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}&serviceID=${serviceID}&servicename=${serviceName}`,true);
     Http.onload = function(){
         resp = JSON.parse(Http.responseText);
         // do sthg here
@@ -190,7 +176,7 @@ function ServiceRemove(serviceID){// xóa 1 dịch vụ ra khỏi danh sách bv
     let api = '/Hos/service/remove'
 
     const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+`?auth=${getCookie('HosAuth')}&serviceID=${serviceID}`,true);
+    Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}&serviceID=${serviceID}`,true);
     Http.onload = function(){
         resp = JSON.parse(Http.responseText);
         // do sthg here
@@ -203,7 +189,7 @@ function ServiceRemove(serviceID){// xóa 1 dịch vụ ra khỏi danh sách bv
 function DocServiceAdd(doc,service){ // thêm 1 bác sĩ vô 1 dịch vụ trong bv
     let api = '/Hos/doc/serviceadd'
     const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+`?auth=${getCookie('HosAuth')}&serviceID=${service}$docID=${doc}`,true);
+    Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}&serviceID=${service}$docID=${doc}`,true);
     Http.onload = function(){
         resp = JSON.parse(Http.responseText);
         // do sthg here
@@ -218,7 +204,7 @@ function DocServiceRemove(doc,service){// xóa đi 1 dịch vụ của bác sĩ
     let api = '/Hos/doc/serviceremove'
 
     const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+`?auth=${getCookie('HosAuth')}&serviceID=${service}$docID=${doc}`,true);
+    Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}&serviceID=${service}$docID=${doc}`,true);
     Http.onload = function(){
         resp = JSON.parse(Http.responseText);
         // do sthg here

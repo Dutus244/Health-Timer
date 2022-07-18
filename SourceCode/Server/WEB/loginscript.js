@@ -1,5 +1,5 @@
 
-const url = "http://localhost:80"
+const url = "http://localhost:803"
 document.getElementById('bt1').addEventListener('click',function(){
     Login(document.getElementById('arg1').value,document.getElementById('arg2').value)
 })
@@ -9,7 +9,7 @@ function Login(id,pass){
 
     var paragram  = `?id=${id}&password=${pass}`
     const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+paragram,true);
+    Http.open("GET", url+api+paragram,true);
     Http.onload  = function(){
         let resp = JSON.parse(Http.responseText);
         if (resp.code == "success"){

@@ -1,10 +1,10 @@
-const url='http://localhost:80';
+const url='http://localhost:803';
 
 function ServiceAll(){
     let api = '/Service/all'
 
     const Http = new XMLHttpRequest();
-    Http.open("POST", url+api,true);
+    Http.open("GET", url+api,true);
     Http.onload = function(){
         resp = JSON.parse(Http.responseText);
         if (resp.code == "success"){
