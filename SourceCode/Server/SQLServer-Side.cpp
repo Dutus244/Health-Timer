@@ -111,7 +111,10 @@ std::stringstream SQL_SERVER::SelectQuery(const wchar_t *query,SQLLEN &rowscount
     std::wstring_convert<std::codecvt_utf8<wchar_t>> utf8_conv;
     std::stringstream os;
     if (SQL_SUCCESS != SQLExecDirectW(sqlStml_, (SQLWCHAR *)query, SQL_NTS))
+    {   
+        rowscount = -1;
         return os;
+    }
     os << "[";
     std::map<int, std::string> colname;
 
@@ -195,8 +198,10 @@ std::map<int,std::string> SQL_SERVER::Column(const wchar_t* query,SQLLEN &rowsco
     std::wstring_convert<std::codecvt_utf8<wchar_t>> utf8_conv;
     
     if (SQL_SUCCESS != SQLExecDirectW(sqlStml_, (SQLWCHAR *)query, SQL_NTS))
+    {
+        rowscount=-1;
         return std::map<int,std::string>();
-
+    }
     // declare output variable and pointer
     SQLWCHAR sqlResult[SQL_RESULT_LEN];
     SQLLEN ptrSqlResult;
