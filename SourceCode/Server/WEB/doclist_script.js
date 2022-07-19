@@ -29,7 +29,7 @@ addbutton.addEventListener("click", addNewRow);
 var edit1row = true;
 
 function addNewRow(){
-    var table = document.getElementById("service");
+    var table = document.getElementById("doctor");
     var countrow = table.rows.length;
     var id = "itcouldbesame" + countrow
     var row = table.insertRow(countrow);

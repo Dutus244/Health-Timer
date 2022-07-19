@@ -154,29 +154,29 @@ footer{
     box-shadow: var(--box-shadow);
 }
 
-#service {
+.services {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
     table-layout: fixed;
   }
   
-#service td, #service th {
+.services td, .services th {
     border: 1px solid #dddddd;
     text-align: center;
     font-size: 1.5rem;
     padding: 8px;
   }
 
-#service th input[type="text"]{
+.services th input[type="text"]{
     width: 2rem;
 }
 
-#service tr:nth-child(even){
+.services tr:nth-child(even){
     background-color: #f2f2f2;
 }
 
-#service th {
+.services th {
     padding-top: 9rem;
     padding-bottom: 3rem;
     text-align: center;
