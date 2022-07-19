@@ -1,4 +1,4 @@
-const url='http://localhost:80';
+const url='http://localhost:803';
 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -10,7 +10,7 @@ function DocList(){
     let api = '/Hos/doc'
 
     const Http = new XMLHttpRequest();
-    Http.open("POST", url+api+`?auth=${getCookie('HosAuth')}`,true);
+    Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}`,true);
     Http.onload = function(){
         
         console.log(Http.responseText)

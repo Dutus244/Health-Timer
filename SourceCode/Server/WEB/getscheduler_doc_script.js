@@ -1,4 +1,4 @@
-const url='http://localhost:80';
+const url='http://localhost:803';
 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -11,7 +11,7 @@ function GetScheduler_doc(){
     let auth = getCookie('auth')
     const Http = new XMLHttpRequest();
 
-    Http.open("POST", url+api+`?auth=${auth}&`,true);
+    Http.open("GET", url+api+`?auth=${auth}&`,true);
     Http.onload = function(){
         resp = JSON.parse(Http.responseText);
         if (resp.code != "none"){
