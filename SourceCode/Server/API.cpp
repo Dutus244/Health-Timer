@@ -540,7 +540,10 @@ namespace API{
         SQLLEN result = -1;
         query += utf8_conv.from_bytes( HoskeyAuth[hd.arg["auth"]]) + L"', N'";
         query += utf8_conv.from_bytes(hd.arg["serviceID"]) + L"' ,N'";
-        query += utf8_conv.from_bytes(hd.arg["servicename"]) + L"' ";
+        query += utf8_conv.from_bytes(hd.arg["servicename"]) + L"', N'";
+        query += utf8_conv.from_bytes(hd.arg["isOn"]) + L"'";
+
+
 
         result = -1;
         if (hd.arg["serviceID"]!="" && hd.arg["servicename"]!="")
