@@ -8,34 +8,53 @@ const url='http://localhost:803';
 GetHosService()
 
 function addNewRow() {
+  if(edit1row == false){
+    alert('Please finish editting the previous row')
+    return;
+  }
+
+  edit1row = false;
   var table = document.getElementById("service");
   var countrow = table.rows.length;
   var id = "itcouldbesame" + countrow
   var row = table.insertRow(countrow);
   row.setAttribute("id", "row_"+id);
+
   var cell1 = row.insertCell(0);
   var cell2 = row.insertCell(1);
   var cell3 = row.insertCell(2);
   var cell4 = row.insertCell(3);
-  var cell5 = row.insertCell(4);
-  
+
+  let saveid = `save${id}`;
   
   cell1.innerHTML =`<div class="iconsedit" style="background-color: white;">
-                      <i class="fas fa-pen" id='${id}' style="text-align: center"></i>
+                      <i class="fas fa-check" id="${saveid}" style="text-align: center; color:rgb(85, 140, 221)"></i>
                   </div>` ;
-  cell2.innerHTML = countrow;
-  cell3.innerHTML = "NULL";
-  cell4.innerHTML = "NULL";
-  cell5.innerHTML = `<div class="icons" style="background-color: white;">
+  for (let i = 1;i<3;i++){
+    let textx = row.cells[i].innerHTML;
+    row.cells[i].innerHTML= `<input id='edit${i}' type ='text'  value='${textx}'></input>`;
+  }
+  cell4.innerHTML = `<div class="icons" style="background-color: white;">
                       <i class="fas fa-check" id="isOn_${id}" style="text-align: center; color:#04AA6D"></i>
-                    </div>` ;
+                    </div>` ; 
+  
 
-  var temp = document.getElementById(id);
-  temp.addEventListener('click',edit);
+  document.getElementById(`isOn_${id}`).addEventListener('click',act);
+
+  let temp = document.getElementById(saveid);
+  temp.addEventListener('click',function(){save(row, 1)});
+  }
+
+  function act(){
+    if (this.className=="fas fa-slash")
+      this.className  ="fas fa-check"
+    else
+      this.className  ="fas fa-slash"
   }
 
 function edit(event){
   if(edit1row == false){
+    alert('Please finish editting the previous row')
     return;
   }
 
@@ -45,6 +64,7 @@ function edit(event){
   var editrow = table.cells.length;
 
   var clone = table.cloneNode(true);
+  clone.cells[3].innerHTML = document.getElementById(`isOn_${rownum}`).className
   clone.id = `clone${rownum}`;
 
   table.cells[0].innerHTML= `<div class="iconsedit" style="background-color: white; ">
@@ -52,23 +72,19 @@ function edit(event){
                               <i class="fas fa-ban" id="cancel${rownum}" style="text-align: center; color:rgb(255,0,0)"></i>
                               </div>`
 
-  for (let i = 1;i<editrow-1;i++){
-    var textx = table.cells[i].innerHTML;
-    table.cells[i].innerHTML= "<input type ='text'  value='" +textx+ "'></input>";
+  for (let i = 2;i<editrow-1;i++){
+    let textx = table.cells[i].innerHTML;
+    table.cells[i].innerHTML= `<input id='edit${i}' type ='text'  value='${textx}'></input>`;
   }
+  table.cells[1].id = `edit1`;
 
-  document.getElementById(`isOn_${rownum}`).addEventListener('click',function(){
-    if (this.className=="fas fa-slash")
-      this.className  ="fas fa-check"
-    else
-      this.className  ="fas fa-slash"
-  });
+  document.getElementById(`isOn_${rownum}`).addEventListener('click',act);
 
-  var canceltemp=document.getElementById(`cancel${rownum}`);
+  let canceltemp=document.getElementById(`cancel${rownum}`);
   canceltemp.addEventListener('click',function(){cancel(clone)});
 
-  var canceltemp=document.getElementById(`save${rownum}`);
-  canceltemp.addEventListener('click',function(){save(clone)});
+  savetemp=document.getElementById(`save${rownum}`);
+  savetemp.addEventListener('click',function(){save(table, 2)});
 
 
 }
@@ -99,17 +115,15 @@ function GetHosService(){
           var cell2 = row.insertCell(1);
           var cell3 = row.insertCell(2);
           var cell4 = row.insertCell(3);
-          var cell5 = row.insertCell(4);
 
           cell1.innerHTML =`<div class="iconsedit" style="background-color: white;">
                       <i class="fas fa-pen" id='${resp.data[i].serviceID}' style="text-align: center"></i>
                   </div>` ;
 
-          cell2.innerHTML = 'nono';
-          cell3.innerHTML = resp.data[i].serviceID;
-          cell4.innerHTML = resp.data[i].serviceName;
+          cell2.innerHTML = resp.data[i].serviceID;
+          cell3.innerHTML = resp.data[i].serviceName;
           const ison = resp.data[i].isOn == '1' ? "fas fa-check": "fas fa-slash" 
-          cell5.innerHTML = `<div class="icons" style="background-color: white;">
+          cell4.innerHTML = `<div class="icons" style="background-color: white;">
                       <i class="${ison}", id = "isOn_${resp.data[i].serviceID}" style="text-align: center; color:#04AA6D"></i>
                     </div>` ;
           
@@ -125,10 +139,76 @@ function GetHosService(){
 
 
 function cancel(clone){
+  const id = clone.id.slice(5);
+  let editrow = clone.cells.length;
+  let table = document.getElementById("row_"+id);
+  table.cells[2].innerHTML = clone.cells[2].innerHTML;
+  table.cells[0].innerHTML = `<div class="iconsedit" style="background-color: white;">
+                                <i class="fas fa-pen" id='${id}' style="text-align: center"></i>
+                              </div>` ;
+  
+  document.getElementById(`isOn_${id}`).className=clone.cells[3].innerHTML
+  edit1row = true;
+
+  document.getElementById(`isOn_${id}`).removeEventListener('click', act);
+  let temp = document.getElementById(id);
+  temp.addEventListener('click',edit);
+
   console.log('cancle')
 }
 
 
-function save(clone){
-  console.log('save')
+function save(table, num){
+  const id = table.id.slice(4);
+  let editrow = table.cells.length;
+
+  for (let i = num; i<editrow-1; i++){
+    if (document.getElementById( `edit${i}`).value == ""){
+      alert('You must input something here');
+      return;
+    }
+  }
+
+  let serviceID = ""
+  if(num == 1){
+    serviceID =  document.getElementById( `edit1`).value;
+  }
+  else{
+    serviceID = table.cells[1].innerHTML;
+  }
+  const serviceName = document.getElementById( `edit2`).value
+  const isOn = document.getElementById( `isOn_${id}`).className=="fas fa-check"
+  // gui API , neu thanh cong thi lam cai nay
+  let api = '/Hos/service/add'
+  const Http = new XMLHttpRequest();
+  Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}&serviceID=${serviceID}&servicename=${serviceName}&isOn=${isOn}`,true);
+  Http.onload = function(){
+      resp = JSON.parse(Http.responseText);
+      if (resp.code == "success"){
+        for (let i = num;i<editrow-1;i++){
+          table.cells[i].innerHTML = document.getElementById(`edit${i}`).value;
+        }
+        table.cells[0].innerHTML = `<div class="iconsedit" style="background-color: white;">
+                                    <i class="fas fa-pen" id='${id}' style="text-align: center"></i>
+                                  </div>` ;
+        edit1row = true;
+      
+        document.getElementById(`isOn_${id}`).removeEventListener('click', act);
+        let temp = document.getElementById(id);
+        temp.addEventListener('click',edit);                          
+        console.log('save')
+      }
+      else{
+        alert('fail')
+      }
+      
+      console.log(resp)
+  };
+  Http.send();
+
+
+
+
+  // neu khong bao loi bat ng dung nhap lai
+
 }
