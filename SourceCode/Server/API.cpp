@@ -26,7 +26,7 @@ namespace API{
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>=0){
+        if (result>0){
             std::string a = "{\"code\":\"success\"";
             a+= ",\"id\":\""+hd.arg["id"]+"\"";
             a+= ",\"password\":\""+hd.arg["password"]+"\"}";
@@ -61,7 +61,7 @@ namespace API{
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>=0){
+        if (result>0){
             std::string a = "{\"code\":\"success\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
             oss<<a;
@@ -87,7 +87,7 @@ namespace API{
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>=0){
+        if (result>0){
             std::string a = "{\"code\":\"success\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
             oss<<a;
@@ -114,7 +114,7 @@ namespace API{
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>=0){
+        if (result>0){
             char auth[16];
             memset(auth,0,16);
             TokenGenerator.GetNextToken(auth);
@@ -224,7 +224,7 @@ namespace API{
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>=0){
+        if (result>0){
             query = L"select orderID from Scheduler where usID = '";
             query += utf8_conv.from_bytes(UskeyAuth[hd.arg["auth"]]) + L"'and a_Time ='";
             query += utf8_conv.from_bytes(hd.arg["time"]) + L"'";
@@ -359,7 +359,7 @@ namespace API{
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>=0){
+        if (result>0){
             std::string a = "{\"code\":\"success\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
             oss<<a;
@@ -386,7 +386,7 @@ namespace API{
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>=0){
+        if (result>0){
             std::string a = "{\"code\":\"success\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
             oss<<a;
@@ -416,7 +416,7 @@ namespace API{
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>=0){
+        if (result>0){
             std::string a = "{\"code\":\"success\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
             oss<<a;
@@ -443,7 +443,7 @@ namespace API{
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>=0){
+        if (result>0){
             std::string a = "{\"code\":\"success\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
             oss<<a;
@@ -552,7 +552,39 @@ namespace API{
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>=0){
+        if (result>0){
+            std::string a = "{\"code\":\"success\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"fail\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
+
+    void ServiceEdit(HttpRequestHeader& hd,int client){
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"exec editService '";
+        SQLLEN result = -1;
+        query += utf8_conv.from_bytes( HoskeyAuth[hd.arg["auth"]]) + L"', N'";
+        query += utf8_conv.from_bytes(hd.arg["serviceID"]) + L"' ,N'";
+        query += utf8_conv.from_bytes(hd.arg["servicename"]) + L"', N'";
+        query += utf8_conv.from_bytes(hd.arg["isOn"]) + L"'";
+
+
+
+        result = -1;
+        if (hd.arg["serviceID"]!="" && hd.arg["servicename"]!="")
+            result = dataServer->DataQuery(query.c_str());
+        std::stringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>0){
             std::string a = "{\"code\":\"success\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
             oss<<a;
@@ -578,7 +610,7 @@ namespace API{
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>=0){
+        if (result>0){
             std::string a = "{\"code\":\"success\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
             oss<<a;
@@ -605,7 +637,7 @@ namespace API{
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>=0){
+        if (result>0){
             std::string a = "{\"code\":\"success\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
             oss<<a;
@@ -632,7 +664,7 @@ namespace API{
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>=0){
+        if (result>0){
             std::string a = "{\"code\":\"success\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
             oss<<a;
@@ -764,7 +796,7 @@ namespace API{
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>=0){
+        if (result>0){
             std::stringstream a ;
             a<<"{\"code\":\"Available\"}";
             oss << "content-length: "<<a.str().size()<<"\r\n\r\n";
@@ -794,7 +826,7 @@ namespace API{
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
 		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
-        if (result>=0){
+        if (result>0){
             std::stringstream a ;
             a<<"{\"code\":\"success\"}";
             oss << "content-length: "<<a.str().size()<<"\r\n\r\n";

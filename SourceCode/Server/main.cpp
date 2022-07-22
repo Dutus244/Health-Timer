@@ -44,6 +44,7 @@ int main()
   APIs.AddGetAPI("Hos/doc/add",API::CreateDoctorAccount);
   APIs.AddGetAPI("Hos/service",API::HosService); 
   APIs.AddGetAPI("Hos/service/add",API::ServiceAdd);
+  APIs.AddGetAPI("Hos/service/edit",API::ServiceEdit);
   APIs.AddGetAPI("Hos/service/remove",API::ServiceRemove);
   APIs.AddGetAPI("Hos/doc/serviceadd",API::DocServiceAdd);
   APIs.AddGetAPI("Hos/doc/serviceremove",API::DocServiceRemove);
