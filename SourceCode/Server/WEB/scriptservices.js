@@ -19,6 +19,7 @@ function addNewRow() {
   var id = "itcouldbesame" + countrow
   var row = table.insertRow(countrow);
   row.setAttribute("id", "row_"+id);
+  row.setAttribute("class", "edit");
 
   var cell1 = row.insertCell(0);
   var cell2 = row.insertCell(1);
@@ -26,16 +27,18 @@ function addNewRow() {
   var cell4 = row.insertCell(3);
 
   let saveid = `save${id}`;
+  let cancelid = `cancel${id}`;
   
-  cell1.innerHTML =`<div class="iconsedit" style="background-color: white;">
-                      <i class="fas fa-check" id="${saveid}" style="text-align: center; color:rgb(85, 140, 221)"></i>
-                  </div>` ;
+  cell1.innerHTML =`<div class="iconsedit" style="background-color: rgb(217, 247, 225)">
+                      <i class="fas fa-check" id="${saveid}" style="text-align: center; color:rgb(85, 140, 221); background-color: rgb(217, 247, 225)"></i>
+                      <i class="fas fa-ban" id="${cancelid}" style="text-align: center; color:rgb(255,0,0); background-color: rgb(217, 247, 225)"></i>
+                      </div>`
   for (let i = 1;i<3;i++){
     let textx = row.cells[i].innerHTML;
-    row.cells[i].innerHTML= `<input id='edit${i}' type ='text'  value='${textx}'></input>`;
+    row.cells[i].innerHTML= `<input id='edit${i}' type ='text' style = "background-color: rgb(217, 247, 225)" value='${textx}'></input>`;
   }
-  cell4.innerHTML = `<div class="icons" style="background-color: white;">
-                      <i class="fas fa-check" id="isOn_${id}" style="text-align: center; color:#04AA6D"></i>
+  cell4.innerHTML = `<div class="icons" style="background-color: rgb(217, 247, 225)">
+                      <i class="fas fa-check" id="isOn_${id}" style="text-align: center; color:#04AA6D; background-color: rgb(217, 247, 225)"></i>
                     </div>` ; 
   
 
@@ -43,7 +46,11 @@ function addNewRow() {
 
   let temp = document.getElementById(saveid);
   temp.addEventListener('click',function(){save(row, 1)});
+
+  let remove = document.getElementById(cancelid);
+  remove.addEventListener('click',function(){cancelAdd(countrow)});
   }
+
 
   function act(){
     if (this.className=="fas fa-slash")
@@ -63,22 +70,26 @@ function edit(event){
   var table = document.getElementById("row_"+rownum);
   var editrow = table.cells.length;
 
+  table.setAttribute("class", "edit");
+
   var clone = table.cloneNode(true);
   clone.cells[3].innerHTML = document.getElementById(`isOn_${rownum}`).className
   clone.id = `clone${rownum}`;
 
-  table.cells[0].innerHTML= `<div class="iconsedit" style="background-color: white; ">
-                              <i class="fas fa-check" id="save${rownum}" style="text-align: center; color:rgb(85, 140, 221)"></i>
-                              <i class="fas fa-ban" id="cancel${rownum}" style="text-align: center; color:rgb(255,0,0)"></i>
+  table.cells[0].innerHTML= `<div class="iconsedit" style="background-color: rgb(217, 247, 225)">
+                              <i class="fas fa-check" id="save${rownum}" style="text-align: center; color:rgb(85, 140, 221); background-color: rgb(217, 247, 225)"></i>
+                              <i class="fas fa-ban" id="cancel${rownum}" style="text-align: center; color:rgb(255,0,0); background-color: rgb(217, 247, 225)"></i>
                               </div>`
 
   for (let i = 2;i<editrow-1;i++){
     let textx = table.cells[i].innerHTML;
-    table.cells[i].innerHTML= `<input id='edit${i}' type ='text'  value='${textx}'></input>`;
+    table.cells[i].innerHTML= `<input id='edit${i}' type ='text' style="background-color: rgb(217, 247, 225)" value='${textx}'></input>`;
   }
   table.cells[1].id = `edit1`;
 
   document.getElementById(`isOn_${rownum}`).addEventListener('click',act);
+  document.getElementById(`isOn_${rownum}`).setAttribute("style", "background-color: rgb(217, 247, 225); color: #04AA6D")
+  table.cells[3].children[0].setAttribute("style", "background-color: rgb(217, 247, 225);")
 
   let canceltemp=document.getElementById(`cancel${rownum}`);
   canceltemp.addEventListener('click',function(){cancel(clone)});
@@ -137,6 +148,11 @@ function GetHosService(){
   Http.send();
 }
 
+function cancelAdd(row){
+  edit1row = true;
+  document.getElementById("service").deleteRow(row);
+}
+
 
 function cancel(clone){
   const id = clone.id.slice(5);
@@ -149,6 +165,10 @@ function cancel(clone){
   
   document.getElementById(`isOn_${id}`).className=clone.cells[3].innerHTML
   edit1row = true;
+
+  table.classList.remove("edit");
+  document.getElementById(`isOn_${id}`).setAttribute("style", "background-color: white; color: #04AA6D");
+  table.cells[3].children[0].setAttribute("style", "background-color: white;");
 
   document.getElementById(`isOn_${id}`).removeEventListener('click', act);
   let temp = document.getElementById(id);
@@ -172,7 +192,9 @@ function save(table, num){
   let serviceID = ""
   if(num == 1){
     serviceID =  document.getElementById( `edit1`).value;
+    // kiem tra ID co trung ko
   }
+
   else{
     serviceID = table.cells[1].innerHTML;
   }
@@ -192,6 +214,10 @@ function save(table, num){
                                     <i class="fas fa-pen" id='${id}' style="text-align: center"></i>
                                   </div>` ;
         edit1row = true;
+        table.classList.remove("edit");
+
+        document.getElementById(`isOn_${id}`).setAttribute("style", "background-color: white; color: #04AA6D");
+        table.cells[3].children[0].setAttribute("style", "background-color: white;");
       
         document.getElementById(`isOn_${id}`).removeEventListener('click', act);
         let temp = document.getElementById(id);
