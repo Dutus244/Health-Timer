@@ -28,6 +28,7 @@ namespace API{
     void RemoveSchedulerDetail(HttpRequestHeader&,int);
 
     void ServiceAdd(HttpRequestHeader&,int);
+    void ServiceEdit(HttpRequestHeader&,int);
     void ServiceRemove(HttpRequestHeader&,int);
     void DocServiceAdd(HttpRequestHeader& hd,int client);
     void DocServiceRemove(HttpRequestHeader&,int);
