@@ -164,7 +164,6 @@ namespace API{
             }
             HoskeyAuth[auth] = rs;
             HosauthKey[rs] = auth;
-
             std::string a = "{\"code\":\"success\",\"type\":\"hospital\",\"auth\":\"" + std::string(auth) + "\"}";
             oss << "content-length: " << a.size() << "\r\n\r\n";
             oss << a;

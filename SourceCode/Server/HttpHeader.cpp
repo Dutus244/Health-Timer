@@ -1,7 +1,7 @@
 #include "HttpHeader.h"
 #include <sstream>
 #include <string>
-
+#include <WinSock2.h>
 std::string HexConv(std::string str)
 {
     if (str.find('%') == -1)
@@ -24,7 +24,7 @@ std::string HexConv(std::string str)
     return s;
 }
 
-HttpRequestHeader::HttpRequestHeader(std::string coma)
+HttpRequestHeader::HttpRequestHeader(std::string coma,int sock)
 {
     if (coma.compare(0, 3, "GET") == 0)
         this->method = "GET";
@@ -61,8 +61,12 @@ HttpRequestHeader::HttpRequestHeader(std::string coma)
     ctx = HexConv(ctx);
     this->exfile = ctx;
 
-    std::stringstream sstr(coma);
+    int c_index = coma.find("\r\n\r\n");
+    std::string head = coma.substr(0,c_index);
+
+    std::stringstream sstr(head);
     std::getline(sstr, ctx);
+
     while (!sstr.eof())
     {
         std::getline(sstr, ctx);
@@ -83,6 +87,23 @@ HttpRequestHeader::HttpRequestHeader(std::string coma)
             }
         }
     }
+
+
+    //content , not complete
+    // if (this->values["content-length"] != "")
+    // {
+    //     content << coma.substr(c_index + 4);
+    //     if (content.str().length() != stoi(this->values["content-length"]))
+    //     {
+    //         int len = stoi(this->values["content-length"]) - this->content.str().length();
+    //         char *aa = new char[len + 1];
+    //         memset(aa, 0, len + 1);
+    //         recv(sock, aa, len, 0);
+    //         content.write(aa, len);
+    //     }
+    //     // dostring with content
+    // }
+    // std::cout<<"\n--------"<<this->content.str()<<"\n--------";
 
     std::stringstream val(values["Cookie"]);
     values.erase("Cookie");

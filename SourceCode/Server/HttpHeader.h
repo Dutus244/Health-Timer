@@ -2,6 +2,7 @@
 #define _HttpHeader__
 #include <iostream>
 #include <map>
+#include <sstream>
 std::string HexConv(std::string str);
 
 static std::map<std::string, std::string> contentType = {
@@ -25,13 +26,16 @@ static std::map<std::string, std::string> contentType = {
 
 class HttpRequestHeader
 {
+private:
+	int sock;
 public:
-    HttpRequestHeader(std::string request);
+    HttpRequestHeader(std::string request,int sock=-1);
     std::string method;
     std::string exfile;
     std::map<std::string, std::string> values;
     std::map<std::string, std::string> arg;
     std::map<std::string, std::string> cookie;
+	std::stringstream content;
 };
 
 #endif

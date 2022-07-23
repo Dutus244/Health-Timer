@@ -25,5 +25,5 @@ function Login(id,pass){
             }
         }
     };
-    Http.send();
+    Http.send('abbs=1232323&ads=2123rdtfyguhimjhyutr');
 }
