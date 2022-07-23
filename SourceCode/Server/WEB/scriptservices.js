@@ -72,7 +72,7 @@ function addNewRow() {
   document.getElementById(`isOn_${id}`).addEventListener('click',act);
 
   let temp = document.getElementById(saveid);
-  temp.addEventListener('click',function(){save(row, 1)});
+  temp.addEventListener('click',function(){add(row, 1)});
 
   let remove = document.getElementById(cancelid);
   remove.addEventListener('click',function(){cancelAdd(countrow)});
@@ -216,15 +216,58 @@ function save(table, num){
     }
   }
 
-  let serviceID = ""
-  if(num == 1){
-    serviceID =  document.getElementById( `edit1`).value;
-    // kiem tra ID co trung ko
+  let serviceID = table.cells[1].innerHTML;
+  const serviceName = document.getElementById( `edit2`).value
+  const isOn = document.getElementById( `isOn_${id}`).className=="fas fa-check"
+  // gui API , neu thanh cong thi lam cai nay
+  let api = '/Hos/service/edit'
+  const Http = new XMLHttpRequest();
+  Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}&serviceID=${serviceID}&servicename=${serviceName}&isOn=${isOn}`,true);
+  Http.onload = function(){
+      resp = JSON.parse(Http.responseText);
+      if (resp.code == "success"){
+        for (let i = num;i<editrow-1;i++){
+          table.cells[i].innerHTML = document.getElementById(`edit${i}`).value;
+        }
+        table.cells[0].innerHTML = `<div class="iconsedit" style="background-color: white;">
+                                    <i class="fas fa-pen" id='${id}' style="text-align: center"></i>
+                                  </div>` ;
+        edit1row = true;
+        table.classList.remove("edit");
+
+        document.getElementById(`isOn_${id}`).setAttribute("style", "background-color: white; color: #04AA6D");
+        table.cells[3].children[0].setAttribute("style", "background-color: white;");
+      
+        document.getElementById(`isOn_${id}`).removeEventListener('click', act);
+        let temp = document.getElementById(id);
+        temp.addEventListener('click',edit);                          
+        console.log('save')
+      }
+      else{
+        alert('fail')
+      }
+      
+      console.log(resp)
+  };
+  Http.send();
+  // neu khong bao loi bat ng dung nhap lai
+
+}
+
+
+function add(table, num){
+  const id = table.id.slice(4);
+  let editrow = table.cells.length;
+
+  for (let i = num; i<editrow-1; i++){
+    if (document.getElementById( `edit${i}`).value == ""){
+      alert('You must input something here');
+      return;
+    }
   }
 
-  else{
-    serviceID = table.cells[1].innerHTML;
-  }
+  let serviceID =  document.getElementById( `edit1`).value;
+    // kiem tra ID co trung ko
   const serviceName = document.getElementById( `edit2`).value
   const isOn = document.getElementById( `isOn_${id}`).className=="fas fa-check"
   // gui API , neu thanh cong thi lam cai nay
@@ -258,10 +301,6 @@ function save(table, num){
       console.log(resp)
   };
   Http.send();
-
-
-
-
   // neu khong bao loi bat ng dung nhap lai
 
 }
