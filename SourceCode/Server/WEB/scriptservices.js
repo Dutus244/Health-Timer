@@ -60,10 +60,12 @@ function addNewRow() {
                       <i class="fas fa-check" id="${saveid}" style="text-align: center; color:rgb(85, 140, 221); background-color: rgb(217, 247, 225)"></i>
                       <i class="fas fa-ban" id="${cancelid}" style="text-align: center; color:rgb(255,0,0); background-color: rgb(217, 247, 225)"></i>
                       </div>`
-  for (let i = 1;i<3;i++){
-    let textx = row.cells[i].innerHTML;
-    row.cells[i].innerHTML= `<input id='edit${i}' type ='text' style = "background-color: rgb(217, 247, 225)" value='${textx}'></input>`;
-  }
+  let textx = row.cells[1].innerHTML;
+  row.cells[1].innerHTML= `<input id='edit${1}' type ='text' maxlength="8" style = "background-color: rgb(217, 247, 225)" value='${textx}'></input>`;
+  
+  textx = row.cells[2].innerHTML;
+  row.cells[2].innerHTML= `<input id='edit${2}' type ='text'  style = "background-color: rgb(217, 247, 225)" value='${textx}'></input>`;
+
   cell4.innerHTML = `<div class="icons" style="background-color: rgb(217, 247, 225)">
                       <i class="fas fa-check" id="isOn_${id}" style="text-align: center; color:#04AA6D; background-color: rgb(217, 247, 225)"></i>
                     </div>` ; 
