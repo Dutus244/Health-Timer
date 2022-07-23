@@ -705,7 +705,7 @@ namespace API{
 
     void UsHosService(HttpRequestHeader& hd,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
-        std::wstring query = L"Select * where hosID = '";
+        std::wstring query = L"Select * from GetService () where hosID = '";
         query += utf8_conv.from_bytes(hd.arg["id"]) + L"'";
 
         SQLLEN result;
