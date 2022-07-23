@@ -1,6 +1,7 @@
 #include "SQLServer-Side.h"
 #define SQL_RESULT_LEN 240
 #define SQL_RETURN_CODE_LEN 1000
+#define SQL_VALUE_LEN 60000
 
 void extract_error(
     std::string fn,
@@ -119,7 +120,7 @@ std::stringstream SQL_SERVER::SelectQuery(const wchar_t *query,SQLLEN &rowscount
     std::map<int, std::string> colname;
 
     // declare output variable and pointer
-    SQLWCHAR sqlResult[SQL_RESULT_LEN];
+    SQLWCHAR sqlResult[SQL_VALUE_LEN];
     SQLLEN ptrSqlResult;
     SQLUSMALLINT ColumnNumber;
     SQLWCHAR ColumnName[SQL_RESULT_LEN];
@@ -140,7 +141,7 @@ std::stringstream SQL_SERVER::SelectQuery(const wchar_t *query,SQLLEN &rowscount
         temp+=1;
         int i = 1;
         os << "{";
-        while (SQL_SUCCESS == SQLGetData(sqlStml_, i++, SQL_WCHAR, sqlResult, SQL_RESULT_LEN, &ptrSqlResult))
+        while (SQL_SUCCESS == SQLGetData(sqlStml_, i++, SQL_WCHAR, sqlResult, SQL_VALUE_LEN, &ptrSqlResult))
         {
             os << "\"" << colname[i - 1] << "\":\"";
             os << utf8_conv.to_bytes(sqlResult,&sqlResult[ptrSqlResult/2]);
