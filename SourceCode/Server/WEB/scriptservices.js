@@ -32,7 +32,6 @@ function myFunction() {
   }
 }
 
-GetHosService()
 
 function addNewRow() {
   if(edit1row == false){
@@ -137,7 +136,7 @@ function getCookie(name) {
 }
 
 
-function GetHosService(){
+(function GetHosService(){
   let api = '/Hos/service'
 
   const Http = new XMLHttpRequest();
@@ -175,7 +174,7 @@ function GetHosService(){
       console.log(resp)
   };
   Http.send();
-}
+}())
 
 function cancelAdd(row){
   edit1row = true;

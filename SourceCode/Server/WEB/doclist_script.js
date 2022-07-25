@@ -1,9 +1,6 @@
 const url='http://localhost:803';
 
 const services = [
-  { ServiceId: 1 },
-  { ServiceId: 2},
-  { ServiceId: 3},
 ];
 
 function getCookie(name) {
@@ -11,6 +8,24 @@ function getCookie(name) {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
+
+(function GetHosService(){
+  let api = '/Hos/service'
+
+  const Http = new XMLHttpRequest();
+  Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}`,true);
+  Http.onload = function(){
+      resp = JSON.parse(Http.responseText);
+      if(resp.code == "success"){
+        for (let i = 0 ; i <resp.data.length;i++){
+          obj = {ServiceId:`${resp.data[i].serviceID}`}
+          services.push(obj)
+        }
+      }
+      console.log(resp)
+  };
+  Http.send();
+}())
 
 function DocList(){
     let api = '/Hos/doc'
