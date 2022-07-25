@@ -136,7 +136,7 @@ function getCookie(name) {
 }
 
 
-(function GetHosService(){
+(() =>{
   let api = '/Hos/service'
 
   const Http = new XMLHttpRequest();
@@ -174,7 +174,7 @@ function getCookie(name) {
       console.log(resp)
   };
   Http.send();
-}())
+})()
 
 function cancelAdd(row){
   edit1row = true;

@@ -9,23 +9,59 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-(function GetHosService(){
-  let api = '/Hos/service'
+(()=>{
+  const api = '/Hos/doc'
 
   const Http = new XMLHttpRequest();
   Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}`,true);
   Http.onload = function(){
-      resp = JSON.parse(Http.responseText);
+      const resp = JSON.parse(Http.responseText);
+      if(resp.code == "success"){
+        var table = document.getElementById("doctor");
+        for( let i = 0 ; i < resp.data.doclist.length;i++){
+          const row = table.insertRow(-1);
+          for(let j = 0 ; j < 7;j++){
+            row.insertCell(j)
+          }
+          row.cells[0].innerHTML = `<div class="iconsedit" style="background-color: white;">
+          <i class="fas fa-pen" id='${resp.data.doclist[i].DocID}' style="text-align: center"></i>
+        </div>` 
+          row.cells[1].innerHTML = resp.data.doclist[i].docID
+          row.cells[2].innerHTML = resp.data.doclist[i].name
+          row.cells[3].innerHTML = resp.data.doclist[i].address
+          row.cells[4].innerHTML = resp.data.doclist[i].citizenID
+          row.cells[5].innerHTML = resp.data.doclist[i].birthday
+        }
+      }
+      
+  };
+  Http.send();
+})();
+
+
+
+
+(()=>{
+  const api = '/Hos/service'
+
+  const Http = new XMLHttpRequest();
+  Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}`,true);
+  Http.onload = function(){
+      const resp = JSON.parse(Http.responseText);
       if(resp.code == "success"){
         for (let i = 0 ; i <resp.data.length;i++){
           obj = {ServiceId:`${resp.data[i].serviceID}`}
           services.push(obj)
         }
       }
-      console.log(resp)
   };
   Http.send();
-}())
+})();
+
+
+
+
+
 
 function DocList(){
     let api = '/Hos/doc'
@@ -33,8 +69,6 @@ function DocList(){
     const Http = new XMLHttpRequest();
     Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}`,true);
     Http.onload = function(){
-        
-        console.log(Http.responseText)
         resp =JSON.parse(Http.responseText);
         if (resp.code == "success"){
             const str  = "Auth=" +resp.auth
@@ -44,6 +78,8 @@ function DocList(){
     };
     Http.send();
 }
+
+
 
 function myFunction() {
     // Declare variables
@@ -102,18 +138,19 @@ function addNewRow(){
                         <i class="fas fa-check" id="${saveid}" style="text-align: center; color:rgb(85, 140, 221); background-color: rgb(217, 247, 225)"></i>
                         <i class="fas fa-ban" id="${cancelid}" style="text-align: center; color:rgb(255,0,0); background-color: rgb(217, 247, 225)"></i>
                         </div>`;
-    cell7.innerHTML = `<div class="icons" style="background-color: rgb(217, 247, 225)">
-                        <i class="fas fa-check" id="isOn_${id}" style="text-align: center; color:#04AA6D; background-color: rgb(217, 247, 225)"></i>
-                      </div>` ; 
-    cell6.innerHTML = `<input type="button" class = "smallbutton" onclick = "AddDropDownList()" value = "Add" />
+
+    cell7.innerHTML = `<input type="button" class = "smallbutton" onclick = "AddDropDownList()" value = "Add" />
                         <hr />
                         <div id = "dvContainer"></div>`
-    for (let i = 2;i<5;i++){
+    for (let i = 2;i<6;i++){
         let textx = row.cells[i].innerHTML;
-        row.cells[i].innerHTML= `<input id='edit${i}' type ='text' style = "background-color: rgb(217, 247, 225)" value='${textx}'></input>`;
+        row.cells[i].innerHTML= `<input id='edit${i}' type ='text' style = "background-color: rgb(217, 247, 225);text-align: left " value='${textx}'></input>`;
       }
     
-    row.cells[1].innerHTML = `<input id='edit${1}' type ='text' style = "background-color: rgb(217, 247, 225)" value="" maxlength = "8"></input>`
+    row.cells[1].innerHTML = `<input id='edit${1}' type ='text' style = "background-color: rgb(217, 247, 225);text-align: left" value="" maxlength = "8"></input>`
+    dateinput = row.cells[5].firstChild
+    dateinput.setAttribute('type','date')
+    dateinput.setAttribute('placeholder','dd-mm-yyyy')
 
     let remove = document.getElementById(cancelid);
     remove.addEventListener('click',function(){cancelAdd(countrow)});
@@ -169,3 +206,52 @@ function cancelAdd(row){
   edit1row = true;
   document.getElementById("doctor").deleteRow(row);
 }
+
+
+function add(table, num){
+  const id = table.id.slice(4);
+  let editrow = table.cells.length;
+
+  for (let i = num; i<5; i++){
+    if (document.getElementById( `edit${i}`).value == ""){
+      alert('You must input something here');
+      return;
+    }
+  }
+
+  let DocID =  document.getElementById( `edit1`).value;
+  let DocName =  document.getElementById( `edit2`).value;
+  let Docaddr =  document.getElementById( `edit3`).value;
+  let DocSocialID =  document.getElementById( `edit4`).value;
+  let bthd = document.getElementById( `edit5`).value;
+
+  // kiem tra ID co trung ko
+  // gui API , neu thanh cong thi lam cai nay
+  let api = '/Hos/doc/add'
+  const Http = new XMLHttpRequest();
+  Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}&docID=${DocID}&citizenID=${DocSocialID}&name=${DocName}&bthday=${bthd.replaceAll('-','/')}&addr=${Docaddr}`,true);
+  Http.onload = function(){
+      resp = JSON.parse(Http.responseText);
+      if (resp.code == "success"){
+        for (let i = num;i<editrow-1;i++){
+          table.cells[i].innerHTML = document.getElementById(`edit${i}`).value;
+        }
+        table.cells[0].innerHTML = `<div class="iconsedit" style="background-color: white;">
+                                    <i class="fas fa-pen" id='${id}' style="text-align: center"></i>
+                                  </div>` ;
+        edit1row = true;
+        table.classList.remove("edit");
+        // last ?                      
+      }
+      else{
+        alert('fail')
+      }
+
+
+      // chỉnh lại service của BS
+
+  };
+  Http.send();
+  // neu khong bao loi bat ng dung nhap lai
+}
+

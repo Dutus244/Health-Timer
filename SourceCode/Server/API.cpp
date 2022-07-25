@@ -45,7 +45,7 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec CreateDoc '";
         
-        query += utf8_conv.from_bytes(DockeyAuth[hd.arg["auth"]]) + L"', '";
+        query += utf8_conv.from_bytes(HoskeyAuth[hd.arg["auth"]]) + L"', '";
         query += utf8_conv.from_bytes(hd.arg["docID"]) + L"',  N'";
         query += utf8_conv.from_bytes(hd.arg["citizenID"]) + L"', N'";
         query += utf8_conv.from_bytes(hd.arg["name"]) + L"','";

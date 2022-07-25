@@ -204,7 +204,7 @@ std::map<int,std::string> SQL_SERVER::Column(const wchar_t* query,SQLLEN &rowsco
         return std::map<int,std::string>();
     }
     // declare output variable and pointer
-    SQLWCHAR sqlResult[SQL_RESULT_LEN];
+    SQLWCHAR sqlResult[SQL_VALUE_LEN];
     SQLLEN ptrSqlResult;
     SQLUSMALLINT ColumnNumber;
     SQLWCHAR ColumnName[SQL_RESULT_LEN];
@@ -219,7 +219,7 @@ std::map<int,std::string> SQL_SERVER::Column(const wchar_t* query,SQLLEN &rowsco
     SQLLEN temp = 0;
     while (SQLFetch(sqlStml_) == SQL_SUCCESS)
     {
-        if (SQL_SUCCESS == SQLGetData(sqlStml_, col, SQL_WCHAR, sqlResult, SQL_RESULT_LEN, &ptrSqlResult))
+        if (SQL_SUCCESS == SQLGetData(sqlStml_, col, SQL_WCHAR, sqlResult, SQL_VALUE_LEN, &ptrSqlResult))
         {
             rs[temp] = utf8_conv.to_bytes(sqlResult,&sqlResult[ptrSqlResult/2]);
         }
