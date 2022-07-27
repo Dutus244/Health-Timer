@@ -7,103 +7,207 @@
     tools:context=".activities.HomePageActivity"
     android:background="@color/white">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@color/main_color">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/home_page_scroll_view_background"
+        android:fillViewport="true">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Health Timer"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="30dp"
-            android:layout_marginTop="15sp"
-            android:layout_marginLeft="10sp"/>
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/activity_home_page_layout">
 
-    <Button
-        android:id="@+id/activity_home_page_button_hello_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/transparent_black_ten_percent"
-        android:text="Xin chào Nguyễn Duy"
-        android:layout_marginTop="15sp"
-        android:textSize="10sp"
-        android:layout_marginRight="5dp"
-        android:textColor="@color/white"
-        android:layout_toLeftOf="@+id/activity_home_page_layout_avatar"/>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/activity_home_page_layout_avatar"
-        android:layout_marginTop="15sp"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        app:cardCornerRadius="250dp"
-        app:cardBackgroundColor="@color/white"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10sp">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:cardCornerRadius="250dp"
-            android:layout_gravity="center">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:background="@color/main_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/activity_home_page_avatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/test_avatar"
-                android:scaleType="centerCrop"/>
 
-        </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:id="@+id/activity_home_page_label_health_timer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:text="Health Timer"
+                        android:textColor="@color/white"
+                        android:textSize="30dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.45" />
 
-    </androidx.cardview.widget.CardView>
+                    <Button
+                        android:id="@+id/activity_home_page_button_hello_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/transparent_black_ten_percent"
+                        android:text="Xin chào Nguyễn Duy"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.75"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.5" />
 
-    <Button
-        android:id="@+id/activity_home_page_button_search"
-        android:textAllCaps="false"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="67dp"
-        android:textStyle="bold"
-        android:background="@drawable/home_page_btn_search"
-        android:textColor="#969696"
-        android:text="Tìm kiếm"
-        android:gravity="fill"
-        android:layout_centerHorizontal="true"
-        android:drawableRight="@drawable/ic_baseline_search_24"
-        android:paddingRight="15sp"
-        android:paddingLeft="15dp"/>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/activity_home_page_layout_avatar"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_alignParentRight="true"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="250dp"
+                        app:layout_constraintHorizontal_bias="0.98"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/activity_home_page_my_pager"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="87dp"/>
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            app:cardCornerRadius="250dp">
 
-    <com.google.android.material.tabs.TabLayout
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:tabGravity="center"
-        android:id="@+id/activity_home_page_my_tablayout"
-        app:tabBackground="@drawable/indicator_selector"
-        app:tabIndicatorHeight="0dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/activity_home_page_my_pager"
-        android:layout_marginTop="245sp">
-    </com.google.android.material.tabs.TabLayout>
+                            <ImageView
+                                android:id="@+id/activity_home_page_avatar"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/test_avatar" />
+                        </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/activity_home_page_my_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="88dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/activity_home_page_my_tablayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/activity_home_page_my_pager"
+                    app:tabBackground="@drawable/indicator_selector"
+                    app:tabGravity="center"
+                    android:layout_marginBottom="10sp"
+                    app:tabIndicatorHeight="0dp"></com.google.android.material.tabs.TabLayout>
+
+                <Button
+                    android:id="@+id/activity_home_page_button_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/home_page_btn_search"
+                    android:drawableRight="@drawable/ic_baseline_search_24"
+                    android:gravity="fill"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15sp"
+                    android:text="Tìm kiếm"
+                    android:textAllCaps="false"
+                    android:textColor="#969696"
+                    android:textStyle="bold"
+                    app:layout_constraintVertical_bias="0.23                        "
+                    app:layout_constraintBottom_toBottomOf="@+id/activity_home_page_layout"
+                    app:layout_constraintEnd_toEndOf="@+id/activity_home_page_layout"
+                    app:layout_constraintStart_toStartOf="@+id/activity_home_page_layout"
+                    app:layout_constraintTop_toTopOf="@+id/activity_home_page_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <Button
+                android:id="@+id/activity_home_page_card_booking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/home_page_btn_card"
+                android:drawableLeft="@drawable/home_page_card_booking_icon"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="  Đặt lịch khám bệnh"
+                android:textAllCaps="false"
+                android:textColor="@color/main_color"
+                android:textSize="20dp"
+                android:layout_marginLeft="5sp"/>
+
+            <Button
+                android:id="@+id/activity_home_page_card_schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/home_page_btn_card"
+                android:drawableLeft="@drawable/home_page_card_schedule_icon"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="  Xem lịch khám bệnh"
+                android:textAllCaps="false"
+                android:textColor="@color/main_color"
+                android:textSize="20dp"
+                android:layout_marginLeft="5sp"/>
+
+            <Button
+                android:id="@+id/activity_home_page_card_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/home_page_btn_card"
+                android:drawableLeft="@drawable/home_page_card_record_icon"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="  Xem hồ sơ bệnh án"
+                android:textAllCaps="false"
+                android:textColor="@color/main_color"
+                android:textSize="20dp"
+                android:layout_marginLeft="5sp"/>
+
+            <Button
+                android:id="@+id/activity_home_page_card_medicine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/home_page_btn_card"
+                android:drawableLeft="@drawable/home_page_card_medicine_icon"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="  Nhắc nhở uống thuốc"
+                android:textAllCaps="false"
+                android:textColor="@color/main_color"
+                android:textSize="20dp"
+                android:layout_marginLeft="5sp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+        android:id="@+id/ativity_home_page_bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"

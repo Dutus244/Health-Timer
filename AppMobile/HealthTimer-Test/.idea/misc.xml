@@ -3,18 +3,46 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/activity_booking_search_edit_search.xml" value="0.236" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/booking_book_choose.xml" value="0.236" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/booking_book_time_choose.xml" value="0.236" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/booking_book_time_hide.xml" value="0.232" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/booking_search_edit_search.xml" value="0.124" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/booking_search_list_hospital.xml" value="0.236" />
         <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/circle.xml" value="0.3215" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/forgot_password_btn_1.xml" value="0.196" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/forgot_password_btn_2.xml" value="0.196" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/home_page_btn_card.xml" value="0.195" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/home_page_btn_search.xml" value="0.196" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/home_page_card_booking_icon.xml" value="0.196" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/home_page_card_medicine_icon.xml" value="0.195" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/home_page_card_record_icon.xml" value="0.195" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/home_page_card_schedule_icon.xml" value="0.195" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/home_page_scroll_view_background.xml" value="0.196" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/ic_baseline_arrow_forward_ios_24.xml" value="0.196" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/drawable/the_slider_background.xml" value="0.236" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_account.xml" value="0.365625" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_booking.xml" value="0.3059322033898305" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_booking_book.xml" value="0.25416666666666665" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_booking_book_date.xml" value="0.25416666666666665" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_booking_book_time.xml" value="0.253125" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_booking_search.xml" value="0.264" />
         <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_foreplay.xml" value="0.36666666666666664" />
         <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_forgot_password_1.xml" value="0.36666666666666664" />
         <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_forgot_password_2.xml" value="0.36666666666666664" />
         <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_forgot_password_3.xml" value="0.36666666666666664" />
-        <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_home_page.xml" value="0.36666666666666664" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_home_page.xml" value="0.3059322033898305" />
         <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_home_page_the_items_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_record.xml" value="0.365625" />
         <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_register_1.xml" value="0.36666666666666664" />
         <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_register_2.xml" value="0.36666666666666664" />
         <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_register_3.xml" value="0.36666666666666664" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_schedule.xml" value="0.365625" />
         <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_welcome.xml" value="0.36666666666666664" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/activity_welcome_slide1.xml" value="0.25416666666666665" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/layout/booking_search_list_hospital.xml" value="0.25416666666666665" />
+        <entry key="..\:/HealthTimer-Test/app/src/main/res/menu/activity_booking_search_search_menu.xml" value="1.3555555555555556" />
         <entry key="..\:/HealthTimer-Test/app/src/main/res/menu/activity_home_page_bottom_navigation_main.xml" value="0.18802083333333333" />
         <entry key="..\:/HealthTimer2/app/src/main/res/drawable/circle.xml" value="0.3215" />
         <entry key="..\:/HealthTimer2/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />

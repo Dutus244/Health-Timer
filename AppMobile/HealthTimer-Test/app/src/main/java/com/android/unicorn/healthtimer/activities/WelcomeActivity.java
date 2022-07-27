@@ -206,5 +206,4 @@ public class WelcomeActivity extends AppCompatActivity {
             return false;
         }
     }
-
 }

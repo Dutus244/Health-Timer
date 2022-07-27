@@ -57,6 +57,7 @@ public class RegisterActivity2 extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), RegisterActivity3.class);
                     intent.putExtra("key",phone);
                     startActivity(intent);
+                    finish();
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Mã OTP của bạn chưa đúng.", Toast.LENGTH_SHORT).show();
@@ -78,6 +79,7 @@ public class RegisterActivity2 extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity1.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

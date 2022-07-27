@@ -12,14 +12,27 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.unicorn.healthtimer.R;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ForgotPasswordActivity3 extends AppCompatActivity {
     private EditText inputpassword, reinputpassword;
     private Button forgotpassword;
+    private String phone;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password_3);
+
+        Bundle extras = getIntent().getExtras();
+        phone = extras.getString("key");
 
         inputpassword = findViewById(R.id.activity_forgot_password_3_input_password);
         reinputpassword = findViewById(R.id.activity_forgot_password_3_reinput_password);
@@ -39,8 +52,39 @@ public class ForgotPasswordActivity3 extends AppCompatActivity {
                     return;
                 }
                 else {
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
+                    try {
+                        String URL = getString(R.string.URLServer) + "/Paitent/account/change?id=" + phone + "&pass=" + password;
+                        RequestQueue queue = Volley.newRequestQueue(ForgotPasswordActivity3.this);
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    String result = response.getString("code");
+                                    if (result.equals("success")){
+                                        Toast.makeText(getApplicationContext(), "Mật khẩu của bạn đã được đổi thành công", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                        intent.putExtra("key",phone);
+                                        startActivity(intent);
+                                    }
+                                    else {
+                                        Toast.makeText(getApplicationContext(), "Lỗi trong việc đổi mật khẩu", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                            }
+                        });
+                        queue.add(jsonObjectRequest);
+                    }
+                    catch (Exception e){
+                        Toast.makeText(getApplicationContext(), "Bị lỗi kết nối", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

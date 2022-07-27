@@ -48,6 +48,27 @@
             android:name=".activities.WelcomeActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
+            android:name=".activities.AccountActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activities.BookingSearchActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activities.BookingBookActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activities.BookingBookDateActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activities.BookingBookTimeActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activities.ScheduleActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activities.RecordActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".activities.ForeplayActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:exported="true">

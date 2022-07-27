@@ -1,4 +1,4 @@
-package com.android.unicorn.healthtimer;
+package com.android.unicorn.healthtimer.fragments;
 
 public class The_Slide_Items_Model_Class_HomePage {
 

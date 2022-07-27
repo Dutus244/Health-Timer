@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.HomePageActivity"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@color/main_color">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Health Timer"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:layout_marginTop="15sp"
+            android:layout_marginLeft="10sp"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/activity_home_page_button_hello_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/transparent_black_ten_percent"
+        android:text="Xin chào Nguyễn Duy"
+        android:layout_marginTop="15sp"
+        android:textSize="10sp"
+        android:layout_marginRight="5dp"
+        android:textColor="@color/white"
+        android:layout_toLeftOf="@+id/activity_home_page_layout_avatar"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/activity_home_page_layout_avatar"
+        android:layout_marginTop="15sp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:cardCornerRadius="250dp"
+        app:cardBackgroundColor="@color/white"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10sp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:cardCornerRadius="250dp"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/activity_home_page_avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/test_avatar"
+                android:scaleType="centerCrop"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/activity_home_page_button_search"
+        android:textAllCaps="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="67dp"
+        android:textStyle="bold"
+        android:background="@drawable/home_page_btn_search"
+        android:textColor="#969696"
+        android:text="Tìm kiếm"
+        android:gravity="fill"
+        android:layout_centerHorizontal="true"
+        android:drawableRight="@drawable/ic_baseline_search_24"
+        android:paddingRight="15sp"
+        android:paddingLeft="15dp" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/activity_home_page_my_pager"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="87dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/activity_home_page_my_tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="245sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_home_page_my_pager"
+        app:tabBackground="@drawable/indicator_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp"></com.google.android.material.tabs.TabLayout>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="330dp"
+        android:background="@drawable/home_page_scroll_view_background"
+        android:fillViewport="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15sp"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:orientation="vertical">
+
+            <Button
+                android:paddingLeft="15dp"
+                android:id="@+id/activity_home_page_card_booking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/home_page_btn_card"
+                android:textAllCaps="false"
+                android:textColor="@color/main_color"
+                android:text="  Đặt lịch khám bệnh"
+                android:textSize="20dp"
+                android:gravity="center_vertical"
+                android:drawableLeft="@drawable/home_page_card_booking_icon" />
+
+            <Button
+                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp"
+                android:id="@+id/activity_home_page_card_booking1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/home_page_btn_card"
+                android:textAllCaps="false"
+                android:textColor="@color/main_color"
+                android:text="  Đặt lịch khám bệnh"
+                android:textSize="20dp"
+                android:gravity="center_vertical"
+                android:drawableLeft="@drawable/home_page_card_booking_icon" />
+
+            <Button
+                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp"
+                android:id="@+id/activity_home_page_card_booking2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/home_page_btn_card"
+                android:textAllCaps="false"
+                android:textColor="@color/main_color"
+                android:text="  Đặt lịch khám bệnh"
+                android:textSize="20dp"
+                android:gravity="center_vertical"
+                android:drawableLeft="@drawable/home_page_card_booking_icon" />
+
+            <Button
+                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp"
+                android:id="@+id/activity_home_page_card_booking3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/home_page_btn_card"
+                android:textAllCaps="false"
+                android:textColor="@color/main_color"
+                android:text="  Đặt lịch khám bệnh"
+                android:textSize="20dp"
+                android:gravity="center_vertical"
+                android:drawableLeft="@drawable/home_page_card_booking_icon" />
+
+            <Button
+                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp"
+                android:id="@+id/activity_home_page_card_booking4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/home_page_btn_card"
+                android:textAllCaps="false"
+                android:textColor="@color/main_color"
+                android:text="  Đặt lịch khám bệnh"
+                android:textSize="20dp"
+                android:gravity="center_vertical"
+                android:drawableLeft="@drawable/home_page_card_booking_icon"
+                android:layout_marginBottom="@dimen/dp20"/>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/ativity_home_page_bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        app:elevation="20dp"
+        app:itemIconTint="@drawable/nav_item_color_state"
+        app:itemTextColor="@drawable/nav_item_color_state"
+        app:menu="@menu/activity_home_page_bottom_navigation_main" />
+
+</RelativeLayout>
