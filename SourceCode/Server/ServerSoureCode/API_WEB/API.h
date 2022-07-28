@@ -1,7 +1,7 @@
 #ifndef __AIP_MY_WEB__
 #define __AIP_MY_WEB__
 #include "HttpHeader.h"
-#include "SQLServer-Side.h"
+#include "../Data/SQLServer-Side.h"
 
 namespace API{
     void CheckUser(HttpRequestHeader&,int);

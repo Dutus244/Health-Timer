@@ -1,7 +1,7 @@
 #include"API.h"
 #include<fstream>
 
-#include "all_var.h"
+#include "../all_var.h"
 namespace API{
     std::map<std::string,std::string> DocauthKey;
     std::map<std::string,std::string> DockeyAuth;

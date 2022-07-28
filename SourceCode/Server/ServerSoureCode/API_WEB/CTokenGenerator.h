@@ -4,7 +4,7 @@
 class CTokenGenerator {
 private:
 	int n_gen;
-	std::mt19937 eng{ std::random_device{}() };
+	std::mt19937 eng;
 	std::uniform_int_distribution<unsigned int> uniform_dist{ 0, UINT32_MAX };
 public:
 	CTokenGenerator();

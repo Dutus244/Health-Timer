@@ -1,6 +1,6 @@
-#include "WebServerSide.h"
-#include "SQLServer-Side.h"
-#include "API.h"
+#include "Network/WebServerSide.h"
+#include "Data/SQLServer-Side.h"
+#include "API_WEB/API.h"
 #include <thread>
 #pragma comment(lib, "lodbc32")
 #pragma comment(lib, "lws2_32")
