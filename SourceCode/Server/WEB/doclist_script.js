@@ -9,13 +9,13 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-(()=>{
+function DocListAPI() {
   const api = '/Hos/doc'
 
   const Http = new XMLHttpRequest();
   Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}`,true);
   Http.onload = function(){
-      const resp = JSON.parse(Http.responseText);
+      let resp = JSON.parse(Http.responseText);
       if(resp.code == "success"){
         var table = document.getElementById("doctor");
         for( let i = 0 ; i < resp.data.doclist.length;i++){
@@ -37,32 +37,29 @@ function getCookie(name) {
       
   };
   Http.send();
-})();
-
+};
 
 
 
 (()=>{
-  const api = '/Hos/service'
+  let api = '/Hos/service'
 
-  const Http = new XMLHttpRequest();
-  Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}`,true);
-  Http.onload = function(){
-      const resp = JSON.parse(Http.responseText);
+  const HttpAPI = new XMLHttpRequest();
+  HttpAPI.open("GET", url+api+`?auth=${getCookie('HosAuth')}`,true);
+  HttpAPI.onload = function(){
+      let resp = JSON.parse(HttpAPI.responseText);
       if(resp.code == "success"){
         for (let i = 0 ; i <resp.data.length;i++){
           obj = {ServiceId:`${resp.data[i].serviceID}`}
           services.push(obj)
         }
       }
+      
+      DocListAPI()  
   };
-  Http.send();
+  HttpAPI.send();
+  
 })();
-
-
-
-
-
 
 function DocList(){
     let api = '/Hos/doc'
@@ -70,7 +67,7 @@ function DocList(){
     const Http = new XMLHttpRequest();
     Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}`,true);
     Http.onload = function(){
-        resp =JSON.parse(Http.responseText);
+        let resp =JSON.parse(Http.responseText);
         if (resp.code == "success"){
             const str  = "Auth=" +resp.auth
             document.cookie = str
@@ -155,7 +152,6 @@ function addNewRow(){
     let temp = document.getElementById(saveid);
     temp.addEventListener('click',function(){add(row, 1)});
 
-    document.getElementById(`isOn_${id}`).addEventListener('click',act);
 }
 
 function act(){
