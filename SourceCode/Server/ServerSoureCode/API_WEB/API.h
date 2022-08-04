@@ -25,8 +25,12 @@ namespace API{
 
     void AddSchedulerDetail(HttpRequestHeader&,int);
     void GetSchedulerDetail(HttpRequestHeader&,int);
-    void RemoveSchedulerDetail(HttpRequestHeader&,int);
 
+    void AddSchedulerResult(HttpRequestHeader&,int);
+
+    void RemoveSchedulerDetail(HttpRequestHeader&,int);
+    void GetSchedulerResult(HttpRequestHeader&,int);
+    
     void ServiceAdd(HttpRequestHeader&,int);
     void ServiceEdit(HttpRequestHeader&,int);
     void ServiceRemove(HttpRequestHeader&,int);
