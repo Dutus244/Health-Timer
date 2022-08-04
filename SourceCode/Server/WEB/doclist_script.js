@@ -34,7 +34,7 @@ function DocListAPI() {
           row.cells[5].innerHTML = resp.data.doclist[i].birthday
 
           var temp = document.getElementById(resp.data.doclist[i].docID);
-          temp.addEventListener('click',edit);
+          temp.addEventListener('click',edit); 
         }
 
         for (let i = 0 ; i< resp.data.service.length;i++){
@@ -183,6 +183,7 @@ function edit(event){
   var rownum= event.target.id
   var table = document.getElementById("row_"+rownum);
   var editrow = table.cells.length;
+  let bttaddid = `bttadd${rownum}`;
 
   table.setAttribute("class", "edit");
 
@@ -198,30 +199,94 @@ function edit(event){
     let textx = table.cells[i].innerHTML;
     table.cells[i].innerHTML= `<input id='edit${i}' type ='text' style="background-color: rgb(217, 247, 225)" value='${textx}'></input>`;
   }
-
-  table.cells[6].innerHTML = `<input type="button" id = "${bttaddid}" class = "smallbutton" value = "Add" />
-                              <hr />
-                              <div id = "dvContainer${countrow}"></div>`
   
-  dateinput = row.cells[5].firstChild
+  dateinput = table.cells[5].firstChild
   dateinput.setAttribute('type','date')
   dateinput.setAttribute('placeholder','dd-mm-yyyy')
+
+  PastService(table, bttaddid, rownum);
 
   let canceltemp=document.getElementById(`cancel${rownum}`);
   canceltemp.addEventListener('click',function(){cancel(clone)});
 
   savetemp=document.getElementById(`save${rownum}`);
   savetemp.addEventListener('click',function(){save(table, 2)});
-
-  let btta = document.getElementById(bttaddid);
-  btta.addEventListener('click', function(){AddDropDownList(countrow)});
 }
 
-function act(){
-  if (this.className=="fas fa-slash")
-    this.className  ="fas fa-check"
-  else
-    this.className  ="fas fa-slash"
+function PastService(tablecell, bttaddid, rownum){
+  alert(rownum)
+  //tablecell.innerHTML = "";
+
+
+  //let btta = document.getElementById(bttaddid);
+  //btta.addEventListener('click', function(){AddDropDownList(rownum)});
+
+  let pserarr = [];
+  let numOfpSer = tablecell.cells[6].childElementCount;
+  for (let i = 0; i<numOfpSer; i++){
+    pserarr.push(tablecell.cells[6].children[i])
+  }
+
+  tablecell.cells[6].innerHTML = "";
+  var divcont = document.createElement("DIV");
+  divcont.setAttribute("id",`dvContainer${rownum}`)
+  divcont.setAttribute("style", "background-color: rgb(217, 247, 225);");
+  for (let j = 0; j<numOfpSer; j++){
+    var div = document.createElement("DIV");
+    alert(pserarr[j])
+    div.appendChild(pserarr[j]);
+    div.setAttribute("style", "background-color: rgb(217, 247, 225);");
+
+    var btnRemove = document.createElement("INPUT");
+    btnRemove.value = "Remove";
+    btnRemove.type = "button";
+    btnRemove.setAttribute("class", "smallbutton");
+    btnRemove.onclick = function () {
+      let api="/Hos/doc/serviceremove"
+      auth=getCookie('HosAuth');
+      let Http = new XMLHttpRequest();
+      Http.open("GET", url+api+`?auth=${auth}&docID=${rownum}&serviceID=${pserarr[j].innerHTML}`,true);
+      let tempNode = this.parentNode;
+      Http.onload= function()
+      {
+        let resp = JSON.parse(Http.responseText)
+        if (resp.code == "success"){
+          divcont.removeChild(tempNode);
+        }
+        console.log(resp)
+      }
+      Http.send()
+    };
+    div.appendChild(btnRemove);
+    divcont.appendChild(div);
+  }
+
+  tablecell.cells[6].appendChild(divcont);
+
+  let button = document.createElement('input');
+  button.type = "button";
+  button.value = "Add";
+  button.setAttribute("id", bttaddid);
+  button.setAttribute("class", "smallbutton");
+  divcont.appendChild(button);
+
+  let btta = document.getElementById(bttaddid);
+  btta.addEventListener('click', function(){AddDropDownList(rownum)});
+}
+
+function removeService(docid, ser, table){
+  let api="/Hos/doc/serviceremove"
+  auth=getCookie('HosAuth');
+  let Http = new XMLHttpRequest();
+  Http.open("GET", url+api+`?auth=${auth}&docID=${docid}&serviceID=${ser}`,true);
+  Http.onload= function()
+  {
+    let resp = JSON.parse(Http.responseText)
+    if (resp.code == "success"){
+      divcont.removeChild(this.parentNode);
+    }
+  }
+  Http.send()
 }
 
 function AddDropDownList(countrow){
