@@ -250,7 +250,7 @@ function save(table, num){
 
 
 function add(table, num){
-  const id = table.id.slice(4);
+  let id = table.id.slice(4);
   let editrow = table.cells.length;
 
   for (let i = num; i<editrow-1; i++){
@@ -271,6 +271,9 @@ function add(table, num){
   Http.onload = function(){
       resp = JSON.parse(Http.responseText);
       if (resp.code == "success"){
+        document.getElementById( `isOn_${id}`).setAttribute('id',`isOn_${serviceID}`)
+        id = serviceID
+        table.setAttribute("id", `row_${serviceID}`);
         for (let i = num;i<editrow-1;i++){
           table.cells[i].innerHTML = document.getElementById(`edit${i}`).value;
         }

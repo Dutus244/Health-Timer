@@ -23,15 +23,30 @@ function DocListAPI() {
           for(let j = 0 ; j < 7;j++){
             row.insertCell(j)
           }
+          row.setAttribute("id",`row_${resp.data.doclist[i].docID}`);
           row.cells[0].innerHTML = `<div class="iconsedit" style="background-color: white;">
-          <i class="fas fa-pen" id='${resp.data.doclist[i].DocID}' style="text-align: center"></i>
+          <i class="fas fa-pen" id='${resp.data.doclist[i].docID}' style="text-align: center"></i>
         </div>` 
           row.cells[1].innerHTML = resp.data.doclist[i].docID
           row.cells[2].innerHTML = resp.data.doclist[i].name
           row.cells[3].innerHTML = resp.data.doclist[i].address
           row.cells[4].innerHTML = resp.data.doclist[i].citizenID
           row.cells[5].innerHTML = resp.data.doclist[i].birthday
+
+          var temp = document.getElementById(resp.data.doclist[i].docID);
+          temp.addEventListener('click',edit);
         }
+
+        for (let i = 0 ; i< resp.data.service.length;i++){
+          let doc = resp.data.service[i].DocID
+          let ser = resp.data.service[i].serviceID
+
+          temp = document.createElement('div')
+          temp.innerHTML = ser
+          document.getElementById(`row_${doc}`).cells[6].appendChild(temp)
+        }
+
+
       }
       console.log(resp);
       
@@ -127,15 +142,16 @@ function addNewRow(){
 
     let saveid = `save${id}`;
     let cancelid = `cancel${id}`;  
+    let bttaddid = `bttadd${id}`;
 
     cell1.innerHTML =`<div class="iconsedit" style="background-color: rgb(217, 247, 225)">
                         <i class="fas fa-check" id="${saveid}" style="text-align: center; color:rgb(85, 140, 221); background-color: rgb(217, 247, 225)"></i>
                         <i class="fas fa-ban" id="${cancelid}" style="text-align: center; color:rgb(255,0,0); background-color: rgb(217, 247, 225)"></i>
                         </div>`;
 
-    cell7.innerHTML = `<input type="button" class = "smallbutton" onclick = "AddDropDownList()" value = "Add" />
+    cell7.innerHTML = `<input type="button" id = "${bttaddid}" class = "smallbutton" value = "Add" />
                         <hr />
-                        <div id = "dvContainer"></div>`
+                        <div id = "dvContainer${countrow}"></div>`
     for (let i = 2;i<6;i++){
         let textx = row.cells[i].innerHTML;
         row.cells[i].innerHTML= `<input id='edit${i}' type ='text' style = "background-color: rgb(217, 247, 225);text-align: left " value='${textx}'></input>`;
@@ -146,12 +162,59 @@ function addNewRow(){
     dateinput.setAttribute('type','date')
     dateinput.setAttribute('placeholder','dd-mm-yyyy')
 
+    let btta = document.getElementById(bttaddid);
+    btta.addEventListener('click', function(){AddDropDownList(countrow)});
+
     let remove = document.getElementById(cancelid);
     remove.addEventListener('click',function(){cancelAdd(countrow)});
 
     let temp = document.getElementById(saveid);
     temp.addEventListener('click',function(){add(row, 1)});
 
+}
+
+function edit(event){
+  if(edit1row == false){
+    alert('Please finish editting the previous row')
+    return;
+  }
+
+  edit1row=false;
+  var rownum= event.target.id
+  var table = document.getElementById("row_"+rownum);
+  var editrow = table.cells.length;
+
+  table.setAttribute("class", "edit");
+
+  var clone = table.cloneNode(true);
+  clone.id = `clone${rownum}`;
+
+  table.cells[0].innerHTML= `<div class="iconsedit" style="background-color: rgb(217, 247, 225)">
+                              <i class="fas fa-check" id="save${rownum}" style="text-align: center; color:rgb(85, 140, 221); background-color: rgb(217, 247, 225)"></i>
+                              <i class="fas fa-ban" id="cancel${rownum}" style="text-align: center; color:rgb(255,0,0); background-color: rgb(217, 247, 225)"></i>
+                              </div>`
+
+  for (let i = 2;i<editrow-1;i++){
+    let textx = table.cells[i].innerHTML;
+    table.cells[i].innerHTML= `<input id='edit${i}' type ='text' style="background-color: rgb(217, 247, 225)" value='${textx}'></input>`;
+  }
+
+  table.cells[6].innerHTML = `<input type="button" id = "${bttaddid}" class = "smallbutton" value = "Add" />
+                              <hr />
+                              <div id = "dvContainer${countrow}"></div>`
+  
+  dateinput = row.cells[5].firstChild
+  dateinput.setAttribute('type','date')
+  dateinput.setAttribute('placeholder','dd-mm-yyyy')
+
+  let canceltemp=document.getElementById(`cancel${rownum}`);
+  canceltemp.addEventListener('click',function(){cancel(clone)});
+
+  savetemp=document.getElementById(`save${rownum}`);
+  savetemp.addEventListener('click',function(){save(table, 2)});
+
+  let btta = document.getElementById(bttaddid);
+  btta.addEventListener('click', function(){AddDropDownList(countrow)});
 }
 
 function act(){
@@ -161,7 +224,7 @@ function act(){
     this.className  ="fas fa-slash"
 }
 
-function AddDropDownList(){
+function AddDropDownList(countrow){
   var ddlServices = document.createElement("SELECT");
 
   for (var i = 0; i < services.length; i++) {
@@ -176,7 +239,7 @@ function AddDropDownList(){
     ddlServices.options.add(option);
 }
 
-    var dvContainer = document.getElementById("dvContainer");
+    var dvContainer = document.getElementById(`dvContainer${countrow}`);
 
     var div = document.createElement("DIV");
     div.appendChild(ddlServices);
@@ -200,9 +263,32 @@ function cancelAdd(row){
   document.getElementById("doctor").deleteRow(row);
 }
 
+function updateservice(docid, uniqueser, table){
+  let api="/Hos/doc/serviceadd"
+  auth=getCookie('HosAuth');
+  table.cells[6].innerHTML = "";
+  uniqueser.forEach(function(services)
+  {
+    let Http = new XMLHttpRequest();
+    Http.open("GET", url+api+`?auth=${auth}&docID=${docid}&serviceID=${services}`,true);
+    Http.onload= function()
+    {
+      let resp = JSON.parse(Http.responseText)
+      if (resp.code == "success"){
+        let dvl = document.createElement("DIV");
+        dvl.innerHTML = services;
+        table.cells[6].appendChild(dvl);
+      }
+    }
+    Http.send()
+  })
+
+}
 
 function add(table, num){
-  const id = table.id.slice(4);
+  let id = table.id.slice(4);
+  const row = table.id.slice(17);
+  alert(row)
   let editrow = table.cells.length;
 
   for (let i = num; i<5; i++){
@@ -218,14 +304,28 @@ function add(table, num){
   let DocSocialID =  document.getElementById( `edit4`).value;
   let bthd = document.getElementById( `edit5`).value;
 
+  let serarr = [];
+  let numOfSer = document.getElementById(`dvContainer${row}`).childElementCount;
+  let dvser = document.getElementById(`dvContainer${row}`);
+
+  for (let j = 0; j < numOfSer; j++){
+    dvserfirstChild= dvser.children[j].firstChild;
+    serarr.push(dvserfirstChild.options[dvserfirstChild.selectedIndex].text);
+  }
+
+  let uniqueser = serarr.filter((item, i, ar) => ar.indexOf(item) === i);
+  console.log(uniqueser);
+
   // kiem tra ID co trung ko
   // gui API , neu thanh cong thi lam cai nay
   let api = '/Hos/doc/add'
   const Http = new XMLHttpRequest();
   Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}&docID=${DocID}&citizenID=${DocSocialID}&name=${DocName}&bthday=${bthd.replaceAll('-','/')}&addr=${Docaddr}`,true);
+  id = DocID
   Http.onload = function(){
       resp = JSON.parse(Http.responseText);
       if (resp.code == "success"){
+        table.setAttribute('id',`row_${DocID}`)
         for (let i = num;i<editrow-1;i++){
           table.cells[i].innerHTML = document.getElementById(`edit${i}`).value;
         }
@@ -233,8 +333,14 @@ function add(table, num){
                                     <i class="fas fa-pen" id='${id}' style="text-align: center"></i>
                                   </div>` ;
         edit1row = true;
+
+        let temp = document.getElementById(id);
+        temp.addEventListener('click',edit);  
+
         table.classList.remove("edit");
-        // last ?                      
+        // last ?    
+        
+        updateservice(DocID, uniqueser, table)
       }
       else{
         alert('fail')
