@@ -428,6 +428,36 @@ namespace API{
             send(client,oss.str().c_str(),oss.str().size(),0);
         }
     }
+    
+    void AddSchedulerResult(HttpRequestHeader& hd,int client){
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"exec AddSchedulerResult '";
+        SQLLEN result = -1;
+        query += utf8_conv.from_bytes( DockeyAuth[hd.arg["auth"]]) + L"', '";
+        query += utf8_conv.from_bytes(hd.arg["orderID"]) + L"' ,N'";
+        query += utf8_conv.from_bytes(hd.arg["value"]) + L"'";
+
+        result = -1;
+        if (hd.arg["name"]!="" && hd.arg["value"]!="")
+            result = dataServer->DataQuery(query.c_str());
+        std::stringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>0){
+            std::string a = "{\"code\":\"success\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"fail\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
+
 
     void RemoveSchedulerDetail(HttpRequestHeader& hd,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
@@ -532,6 +562,32 @@ namespace API{
             send(client,oss.str().c_str(),oss.str().size(),0);
         }
     }
+
+        void GetSchedulerResult(HttpRequestHeader& hd,int client){
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"select (select [name] from [dbo].[DocInfo] e where e.docID =  b.docId ) as doc ,c.[result] from [dbo].[Scheduler] b join [dbo].[Conclusion] c on c.orderID = b.orderID  where b.orderID = '";
+        query+= utf8_conv.from_bytes(hd.arg["orderID"]) + L"'";
+
+        SQLLEN result;
+        std::string a = dataServer->SelectQuery(query.c_str(),result).str();
+        std::stringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>=0){
+            a = "{\"code\":\"success\",\"data\":"+a+ "}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"none\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
+
 
     void ServiceAdd(HttpRequestHeader& hd,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;

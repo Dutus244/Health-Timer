@@ -24,6 +24,8 @@ int main()
   APIs.AddGetAPI("Doc/scheduler/detailadd", API::AddSchedulerDetail); 
   APIs.AddGetAPI("Doc/scheduler/detailget", API::GetSchedulerDetail); 
   APIs.AddGetAPI("Doc/scheduler/detailremove", API::RemoveSchedulerDetail); 
+  APIs.AddGetAPI("Doc/scheduler/result", API::GetSchedulerResult); 
+  APIs.AddGetAPI("Doc/scheduler/resultAdd", API::AddSchedulerResult); 
 
   APIs.AddGetAPI("Paitent/scheduler", API::GetScheduler_pai);
   APIs.AddGetAPI("Paitent/account/log", API::LoginPai);
@@ -33,6 +35,7 @@ int main()
   APIs.AddGetAPI("Paitent/account/change",API::ChangUsPass);
   APIs.AddGetAPI("Paitent/scheduler/getp", API::GetPrescriptions);
   APIs.AddGetAPI("Paitent/scheduler/detailget", API::GetSchedulerDetail); 
+  APIs.AddGetAPI("Paitent/scheduler/result", API::GetSchedulerResult); 
 
   APIs.AddGetAPI("Service/all",API::GetService);
   APIs.AddGetAPI("Service/search",API::SearchService);
