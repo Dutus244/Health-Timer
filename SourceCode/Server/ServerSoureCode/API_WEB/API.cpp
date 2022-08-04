@@ -736,7 +736,6 @@ namespace API{
         std::wstring query = L"Select * from DocOfHos('";
         query += utf8_conv.from_bytes(HoskeyAuth[hd.arg["auth"]]) + L"')";
         SQLLEN result;
-        id = dataServer->Column(query.c_str(),result,1);
         
         std::string rs = dataServer->SelectQuery(query.c_str(),result).str();
     
@@ -748,26 +747,14 @@ namespace API{
             std::stringstream a ;
             a<<"{\"code\":\"success\",\"data\":{\"doclist\":";
             a<<rs;
-            a<< ",\"service\":[";
+            a<< ",\"service\":";
 
-            for (auto i : id){
-                query = L"Select serviceID,isOn from [dbo].[Doc_service] where DocID='" + utf8_conv.from_bytes(i.second) +L"'and hosID = '";
-                query += utf8_conv.from_bytes(HoskeyAuth[hd.arg["auth"]]) + L"'";
+            query = L"Select DocID,serviceID from [dbo].[Doc_service] where hosID = '";
+            query += utf8_conv.from_bytes(HoskeyAuth[hd.arg["auth"]]) + L"' and  isOn = '1' order by DocID";
 
-                a<< "{\"" + i.second + "\":";
+            a<<dataServer->SelectQuery(query.c_str(),result).str();
 
-                std::string serv = dataServer->SelectQuery(query.c_str(),result).str();
-                if (result > 0){
-                    a<<""<<serv<<"";
-                }
-                else{
-                    a<<"null";
-                }
-                a<<"},";
-
-            }
-            a.seekp(-1, std::ios_base::cur);
-            a<<"]}}";
+            a<<"}}";
             oss << "content-length: "<<a.str().size()<<"\r\n\r\n";
             oss<<a.str();
             send(client,oss.str().c_str(),oss.str().size(),0);
