@@ -565,7 +565,7 @@ namespace API{
 
         void GetSchedulerResult(HttpRequestHeader& hd,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
-        std::wstring query = L"Select result from Conclusion where orderID = '";
+        std::wstring query = L"select (select [name] from [dbo].[DocInfo] e where e.docID =  b.docId ) as doc ,c.[result] from [dbo].[Scheduler] b join [dbo].[Conclusion] c on c.orderID = b.orderID  where b.orderID = '";
         query+= utf8_conv.from_bytes(hd.arg["orderID"]) + L"'";
 
         SQLLEN result;
