@@ -44,5 +44,6 @@ namespace API{
     void UsHosService(HttpRequestHeader& ,int);
 
     void HosList(HttpRequestHeader&,int);
+    void EditDoctor(HttpRequestHeader&,int);
 }
 #endif

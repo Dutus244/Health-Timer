@@ -74,6 +74,41 @@ namespace API{
             send(client,oss.str().c_str(),oss.str().size(),0);
         }
     }
+
+    void EditDoctor(HttpRequestHeader&hd,int client){
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"exec EditDoc '";
+        
+        query += utf8_conv.from_bytes(HoskeyAuth[hd.arg["auth"]]) + L"', '";
+        query += utf8_conv.from_bytes(hd.arg["docID"]) + L"',  N'";
+        query += utf8_conv.from_bytes(hd.arg["citizenID"]) + L"', N'";
+        query += utf8_conv.from_bytes(hd.arg["name"]) + L"','";
+        query += utf8_conv.from_bytes(hd.arg["bthday"]) + L"', N'";
+        query += utf8_conv.from_bytes(hd.arg["addr"]) + L"'";
+
+
+        int result = -1;
+        if (hd.arg["docID"] != "" && hd.arg["citizenID"]!=""){
+            result = dataServer->DataQuery(query.c_str());
+        }
+        std::stringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>0){
+            std::string a = "{\"code\":\"success\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"fail\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
+
     void CreateSubAccount(HttpRequestHeader&hd,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
          std::wstring query = L"exec CreateSubAccount @owner='";
