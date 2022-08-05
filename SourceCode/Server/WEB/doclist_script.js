@@ -214,7 +214,6 @@ function edit(event){
 }
 
 function PastService(tablecell, bttaddid, rownum){
-  alert(rownum)
   //tablecell.innerHTML = "";
 
 
@@ -233,7 +232,6 @@ function PastService(tablecell, bttaddid, rownum){
   divcont.setAttribute("style", "background-color: rgb(217, 247, 225);");
   for (let j = 0; j<numOfpSer; j++){
     var div = document.createElement("DIV");
-    alert(pserarr[j])
     div.appendChild(pserarr[j]);
     div.setAttribute("style", "background-color: rgb(217, 247, 225);");
 
@@ -274,21 +272,6 @@ function PastService(tablecell, bttaddid, rownum){
   btta.addEventListener('click', function(){AddDropDownList(rownum)});
 }
 
-function removeService(docid, ser, table){
-  let api="/Hos/doc/serviceremove"
-  auth=getCookie('HosAuth');
-  let Http = new XMLHttpRequest();
-  Http.open("GET", url+api+`?auth=${auth}&docID=${docid}&serviceID=${ser}`,true);
-  Http.onload= function()
-  {
-    let resp = JSON.parse(Http.responseText)
-    if (resp.code == "success"){
-      divcont.removeChild(this.parentNode);
-    }
-  }
-  Http.send()
-}
-
 function AddDropDownList(countrow){
   var ddlServices = document.createElement("SELECT");
 
@@ -309,6 +292,7 @@ function AddDropDownList(countrow){
     var div = document.createElement("DIV");
     div.appendChild(ddlServices);
     div.setAttribute("style", "background-color: rgb(217, 247, 225)");
+    div.setAttribute("class", "Add");
 
     var btnRemove = document.createElement("INPUT");
     btnRemove.value = "Remove";
@@ -350,10 +334,36 @@ function updateservice(docid, uniqueser, table){
 
 }
 
+function updateservice2(docid, uniqueser, p_serarr, table){
+  alert("Edit Service")
+  let api="/Hos/doc/serviceadd"
+  auth=getCookie('HosAuth');
+  table.cells[6].innerHTML = "";
+  p_serarr.forEach(function(pser)
+  {
+    table.cells[6].appendChild(pser);
+  })
+  uniqueser.forEach(function(services)
+  {
+    let Http = new XMLHttpRequest();
+    Http.open("GET", url+api+`?auth=${auth}&docID=${docid}&serviceID=${services}`,true);
+    Http.onload= function()
+    {
+      let resp = JSON.parse(Http.responseText)
+      if (resp.code == "success"){
+        let dvl = document.createElement("DIV");
+        dvl.innerHTML = services;
+        table.cells[6].appendChild(dvl);
+      }
+    }
+    Http.send()
+  })
+
+}
+
 function add(table, num){
   let id = table.id.slice(4);
   const row = table.id.slice(17);
-  alert(row)
   let editrow = table.cells.length;
 
   for (let i = num; i<5; i++){
@@ -375,6 +385,7 @@ function add(table, num){
 
   for (let j = 0; j < numOfSer; j++){
     dvserfirstChild= dvser.children[j].firstChild;
+    dvserfirstChild.classList.remove("Add");
     serarr.push(dvserfirstChild.options[dvserfirstChild.selectedIndex].text);
   }
 
@@ -419,3 +430,93 @@ function add(table, num){
   // neu khong bao loi bat ng dung nhap lai
 }
 
+function save(table, num){
+  const id = table.id.slice(4);
+  let editrow = table.cells.length;
+
+  for (let i = num; i<editrow-1; i++){
+    if (document.getElementById( `edit${i}`).value == ""){
+      alert('You must input something here');
+      return;
+    }
+  }
+  
+  let DocName =  document.getElementById( `edit2`).value;
+  let Docaddr =  document.getElementById( `edit3`).value;
+  let DocSocialID =  document.getElementById( `edit4`).value;
+  let bthd = document.getElementById( `edit5`).value;
+
+  let serarr = [];
+  let p_serarr = [];
+  let numOfSer = document.getElementById(`dvContainer${id}`).childElementCount;
+  let dvser = document.getElementById(`dvContainer${id}`);
+
+  for (let j = 0; j < numOfSer; j++){
+    if(dvser.children[j].className == "Add"){
+      dvserfirstChild= dvser.children[j].firstChild;
+      dvserfirstChild.classList.remove("Add");
+      serarr.push(dvserfirstChild.options[dvserfirstChild.selectedIndex].text);
+    }
+    else if (dvser.children[j].className != "smallbutton"){
+      pserfirstChild = dvser.children[j].firstChild;
+      alert(1)
+      alert(pserfirstChild)
+      p_serarr.push(pserfirstChild);
+    }
+  }
+
+  let uniqueser = serarr.filter((item, i, ar) => ar.indexOf(item) === i);
+  console.log(uniqueser);
+ 
+    // kiem tra ID co trung ko
+  // gui API , neu thanh cong thi lam cai nay
+  let api = '/Hos/doc/edit'
+  const Http = new XMLHttpRequest();
+  Http.open("GET", url+api+`?auth=${getCookie('HosAuth')}&docID=${id}&citizenID=${DocSocialID}&name=${DocName}&bthday=${bthd.replaceAll('-','/')}&addr=${Docaddr}`,true);
+  Http.onload = function(){
+      resp = JSON.parse(Http.responseText);
+      if (resp.code == "success"){
+        table.setAttribute('id',`row_${id}`)
+        for (let i = num;i<editrow-1;i++){
+          table.cells[i].innerHTML = document.getElementById(`edit${i}`).value;
+        }
+        table.cells[0].innerHTML = `<div class="iconsedit" style="background-color: white;">
+                                    <i class="fas fa-pen" id='${id}' style="text-align: center"></i>
+                                  </div>` ;
+        edit1row = true;
+
+        let temp = document.getElementById(id);
+        temp.addEventListener('click',edit);  
+
+        table.classList.remove("edit");
+        // last ?    
+        
+        updateservice2(id, uniqueser, p_serarr, table)
+      }
+      else{
+        alert('fail')
+      }
+
+
+      // chỉnh lại service của BS
+
+  };
+  Http.send();
+  // neu khong bao loi bat ng dung nhap lai
+}
+
+function cancel(clone){
+  edit1row = true;
+  const id = clone.id.slice(5);
+  let editrow = clone.cells.length;
+  let table = document.getElementById("row_"+id);
+  for (let i=0; i<clone.cells.length; i++){
+    table.cells[i].innerHTML = clone.cells[i].innerHTML;
+  }
+  
+  table.cells[0].innerHTML = `<div class="iconsedit" style="background-color: white;">
+                                <i class="fas fa-pen" id='${id}' style="text-align: center"></i>
+                              </div>` ;
+
+  table.classList.remove("edit");
+}
