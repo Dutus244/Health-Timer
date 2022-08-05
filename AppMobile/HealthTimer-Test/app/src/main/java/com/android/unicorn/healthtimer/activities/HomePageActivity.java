@@ -4,7 +4,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -12,13 +14,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.android.unicorn.healthtimer.R;
 import com.android.unicorn.healthtimer.fragments.BookingSearchListHospitalData;
 import com.android.unicorn.healthtimer.fragments.The_Slide_Items_Model_Class_HomePage;
 import com.android.unicorn.healthtimer.fragments.The_Slide_items_Pager_Adapter_HomePage;
+import com.android.unicorn.healthtimer.viewmodels.BookingData;
 import com.android.unicorn.healthtimer.viewmodels.HospitalData;
+import com.android.unicorn.healthtimer.viewmodels.HospitalService;
+import com.android.unicorn.healthtimer.viewmodels.ListBooking;
 import com.android.unicorn.healthtimer.viewmodels.ListHospital;
 import com.android.unicorn.healthtimer.viewmodels.UserData;
 import com.android.volley.Request;
@@ -49,12 +55,16 @@ public class HomePageActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private String phone;
     private Button helloUsername;
+    private Button card_booking,card_schedule,card_record;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UserData userData = UserData.getInstance();
+        String auth = userData.getAuth();
+
         setContentView(R.layout.activity_home_page);
 
-        UserData userData = UserData.getInstance();
+
         phone = userData.getPhone();
 
         page = findViewById(R.id.activity_home_page_my_pager) ;
@@ -62,8 +72,50 @@ public class HomePageActivity extends AppCompatActivity {
 
         helloUsername = findViewById(R.id.activity_home_page_button_hello_username);
         helloUsername.setText("XIN CHÀO " + phone);
+        helloUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_account = new Intent(getApplicationContext(), AccountActivity.class);
+                startActivity(intent_account);
+            }
+        });
 
+        CardView cardView = findViewById(R.id.activity_home_page_layout_avatar);
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_account = new Intent(getApplicationContext(), AccountActivity.class);
+                startActivity(intent_account);
+            }
+        });
         bottomNavigationView = findViewById(R.id.ativity_home_page_bottom_navigation);
+
+        card_booking = findViewById(R.id.activity_home_page_card_booking);
+        card_booking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_booking = new Intent(getApplicationContext(), BookingSearchActivity.class);
+                startActivity(intent_booking);
+            }
+        });
+
+        card_schedule = findViewById(R.id.activity_home_page_card_schedule);
+        card_schedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_schedule = new Intent(getApplicationContext(), BookingScheduleListActivity.class);
+                startActivity(intent_schedule);
+            }
+        });
+
+        card_record = findViewById(R.id.activity_home_page_card_record);
+        card_record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_schedule = new Intent(getApplicationContext(), RecordActivity.class);
+                startActivity(intent_schedule);
+            }
+        });
 
         // Make a copy of the slides you'll be presenting.
         listItems = new ArrayList<>() ;
@@ -80,6 +132,8 @@ public class HomePageActivity extends AppCompatActivity {
         timer.scheduleAtFixedRate(new The_slide_timer(),2000,3000);
         tabLayout.setupWithViewPager(page,true);
 
+
+
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -90,7 +144,7 @@ public class HomePageActivity extends AppCompatActivity {
                         startActivity(intent_booking);
                         break;
                     case R.id.activity_home_page_bottom_nevigation_schedule:
-                        Intent intent_schedule = new Intent(getApplicationContext(), ScheduleActivity.class);
+                        Intent intent_schedule = new Intent(getApplicationContext(), BookingScheduleListActivity.class);
                         startActivity(intent_schedule);
                         break;
                     case R.id.activity_home_page_bottom_nevigation_record:

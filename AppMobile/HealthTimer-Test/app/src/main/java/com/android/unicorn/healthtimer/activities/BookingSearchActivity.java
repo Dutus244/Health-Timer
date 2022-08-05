@@ -1,9 +1,12 @@
 package com.android.unicorn.healthtimer.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -38,7 +41,6 @@ public class BookingSearchActivity extends AppCompatActivity implements TextWatc
         search.addTextChangedListener(this);
 
         list_hospital = findViewById(R.id.activity_booking_search_list_hospital);
-
 
         ListHospital listHospital_BookingSearch = ListHospital.getInstance();
         ArrayList<BookingSearchListHospitalData> temp = new ArrayList<>();

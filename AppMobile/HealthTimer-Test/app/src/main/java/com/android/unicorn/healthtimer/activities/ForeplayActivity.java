@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -106,6 +107,7 @@ public class ForeplayActivity extends AppCompatActivity {
                                         }
                                     });
                                     queue.add(jsonObjectRequest);
+                                    SystemClock.sleep(100);
                                 }
                                 catch (Exception e){
 
@@ -134,6 +136,8 @@ public class ForeplayActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Bị lỗi kết nối", Toast.LENGTH_SHORT).show();
         }
 
+
+
         ActivityCompat.requestPermissions(ForeplayActivity.this, new String[]{Manifest.permission.SEND_SMS, Manifest.permission.READ_SMS}, PackageManager.PERMISSION_GRANTED);
 
         Handler handler = new Handler();
@@ -142,8 +146,7 @@ public class ForeplayActivity extends AppCompatActivity {
             public void run() {
                 Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
                 startActivity(intent);
-                finish();
             }
-        }, 5000);
+        }, 3000);
     }
 }

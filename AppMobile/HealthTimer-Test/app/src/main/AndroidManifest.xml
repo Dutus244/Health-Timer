@@ -60,10 +60,16 @@
             android:name=".activities.BookingBookDateActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
+            android:name=".activities.BookingConfirmActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".activities.BookingBookTimeActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activities.ScheduleActivity"
+            android:name=".activities.BookingScheduleListActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activities.BookingScheduleCalendarActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.RecordActivity"

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.net.Uri;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ import java.util.Locale;
 
 public class BookingSearchListHospitalCustomAdapter extends BaseAdapter {
     private ArrayList<BookingSearchListHospitalData> originList;
-    Context context;
+    private Context context;
 
     public BookingSearchListHospitalCustomAdapter(Context context, ArrayList<BookingSearchListHospitalData> originList) {
         this.originList=originList;
@@ -103,7 +104,7 @@ public class BookingSearchListHospitalCustomAdapter extends BaseAdapter {
           Picasso.with(context)
                   .load(bookingSearchListHospitalData.Image)
                   .into(imag);
-
+          SystemClock.sleep(10);
       }
         return convertView;
     }

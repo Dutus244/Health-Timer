@@ -2,6 +2,8 @@ package com.android.unicorn.healthtimer.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.unicorn.healthtimer.R;
 import com.android.unicorn.healthtimer.fragments.BookingSearchListHospitalData;
+import com.android.unicorn.healthtimer.viewmodels.BookingData;
 import com.android.unicorn.healthtimer.viewmodels.HospitalData;
 import com.android.unicorn.healthtimer.viewmodels.HospitalService;
 import com.android.unicorn.healthtimer.viewmodels.ListHospital;
@@ -54,6 +57,7 @@ public class BookingBookActivity extends AppCompatActivity {
     private int minute = -1;
     int spinnerPosition = 0;
     ArrayList<String> ServiceName,ServiceID;
+    private Button button_confirm;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -185,6 +189,10 @@ public class BookingBookActivity extends AppCompatActivity {
         button_choose_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(day == 0 && month == 0 && year == 0){
+                    Toast.makeText(BookingBookActivity.this, "Hãy chọn ngày khám trước khi chọn giờ khám", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(getApplicationContext(), BookingBookTimeActivity.class);
                 preService = spinnerService.getSelectedItem().toString();
                 intent.putExtra("name",HospitalName);
@@ -192,14 +200,37 @@ public class BookingBookActivity extends AppCompatActivity {
                 intent.putExtra("day",day);
                 intent.putExtra("month",month);
                 intent.putExtra("year",year);
+                intent.putExtra("hour",hour);
+                intent.putExtra("minute",minute);
                 startActivity(intent);
+
+                String tempURL = getString(R.string.URLServer) + "/Paitent/appoinment?auth=123456789&time=000000&serviceI;D=0000&hosID=000";
+                try {
+                    RequestQueue queue = Volley.newRequestQueue(BookingBookActivity.this);
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, tempURL, null, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    });
+                    queue.add(jsonObjectRequest);
+                }
+                catch (Exception e){
+
+                }
             }
         });
 
-        Button button_confirm = findViewById(R.id.activity_booking_book_confirm);
+        button_confirm = findViewById(R.id.activity_booking_book_confirm_book);
         button_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                spinnerPosition = spinnerService.getSelectedItemPosition();
                 if (spinnerPosition == 0){
                     Toast.makeText(BookingBookActivity.this, "Hãy chọn dịch vụ trước khi đặt lịch", Toast.LENGTH_SHORT).show();
                     return;
@@ -208,10 +239,11 @@ public class BookingBookActivity extends AppCompatActivity {
                     Toast.makeText(BookingBookActivity.this, "Hãy chọn ngày trước khi đặt lịch", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (hour == -1 || minute == -1){
+                if (hour == -1 || minute == -1 || hour == 0){
                     Toast.makeText(BookingBookActivity.this, "Hãy chọn giờ trước khi đặt lịch", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 UserData userData = UserData.getInstance();
                 String auth = userData.getAuth();
 
@@ -225,8 +257,8 @@ public class BookingBookActivity extends AppCompatActivity {
 
                 String serviceid = ServiceID.get(spinnerPosition);
 
+                String URL = getString(R.string.URLServer) + "/Paitent/appoinment?auth=" + auth + "&time=" + time + "&serviceID=" + serviceid + "&hosID=" + HospitalID;
                 try {
-                    String URL = getString(R.string.URLServer) + "/Paitent/appoinment?auth=" + auth + "&time=" + time + "&serviceID=" + serviceid + "&hosID=" + HospitalID;
                     RequestQueue queue = Volley.newRequestQueue(BookingBookActivity.this);
                     JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
                         @Override
@@ -236,6 +268,15 @@ public class BookingBookActivity extends AppCompatActivity {
                                 if (result.equals("success")){
                                     Toast.makeText(getApplicationContext(), "Đặt lịch thành công", Toast.LENGTH_SHORT).show();
 
+                                    Intent intent = new Intent(getApplicationContext(), BookingConfirmActivity.class);
+                                    String service = spinnerService.getSelectedItem().toString();
+                                    intent.putExtra("hospitalname",HospitalName);
+                                    intent.putExtra("service",service);
+                                    intent.putExtra("date",bookday + "/" + bookmonth + "/" + bookyear);
+                                    intent.putExtra("hour",hour);
+                                    intent.putExtra("minute",minute);
+
+                                    startActivity(intent);
                                 }
                                 else {
                                     Toast.makeText(getApplicationContext(), "Đặt lịch thất bại", Toast.LENGTH_SHORT).show();
