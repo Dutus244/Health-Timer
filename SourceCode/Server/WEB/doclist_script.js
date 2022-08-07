@@ -20,7 +20,7 @@ function DocListAPI() {
         var table = document.getElementById("doctor");
         for( let i = 0 ; i < resp.data.doclist.length;i++){
           const row = table.insertRow(-1);
-          for(let j = 0 ; j < 7;j++){
+          for(let j = 0; j < 7; j++){
             row.insertCell(j)
           }
           row.setAttribute("id",`row_${resp.data.doclist[i].docID}`);
@@ -45,16 +45,11 @@ function DocListAPI() {
           temp.innerHTML = ser
           document.getElementById(`row_${doc}`).cells[6].appendChild(temp)
         }
-
-
       }
       console.log(resp);
-      
   };
   Http.send();
 };
-
-
 
 (()=>{
   let api = '/Hos/service'
@@ -69,11 +64,9 @@ function DocListAPI() {
           services.push(obj)
         }
       }
-      
       DocListAPI()  
   };
   HttpAPI.send();
-  
 })();
 
 function DocList(){
@@ -91,8 +84,6 @@ function DocList(){
     };
     Http.send();
 }
-
-
 
 function myFunction() {
     // Declare variables

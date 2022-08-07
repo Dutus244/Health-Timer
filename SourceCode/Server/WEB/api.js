@@ -81,20 +81,6 @@ function AddSchedulerDetail(orderID="",_name="",_value=""){// thêm một dữ l
     Http.send();
 }
 
-function GetSchedulerDetail(orderID=""){ // lấy ra thông tin chi tiết của buổi khám
-    let api= '/Doc/scheduler/detailget'
-    const Http = new XMLHttpRequest();
-    Http.open("GET", url+api+`?orderID=${orderID}`,true);
-    Http.onload = function(){
-        resp = JSON.parse(Http.responseText);
-        // do sthg here
-        
-        console.log(resp)
-    };
-    Http.send();
-
-}
-
 function RemoveSchedulerDetail(orderID="",_name=""){// xóa 1 dữ liệu trong chi tiết buổi khám
     let api = '/Doc/scheduler/detailremove'
 

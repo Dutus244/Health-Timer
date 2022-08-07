@@ -174,7 +174,6 @@ function cancelAdd(row){
   document.getElementById("service").deleteRow(row);
 }
 
-
 function cancel(clone){
   const id = clone.id.slice(5);
   let editrow = clone.cells.length;
@@ -197,7 +196,6 @@ function cancel(clone){
 
   console.log('cancle')
 }
-
 
 function save(table, num){
   const id = table.id.slice(4);

@@ -6,19 +6,49 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-function GetScheduler_doc(){
-    let api = '/Doc/scheduler'
-    let auth = getCookie('auth')
-    const Http = new XMLHttpRequest();
+/* (() => {
+  let api = '/Doc/scheduler'
+  const Http = new XMLHttpRequest();
 
-    Http.open("GET", url+api+`?auth=${auth}&`,true);
-    Http.onload = function(){
-        resp = JSON.parse(Http.responseText);
-        if (resp.code != "none"){
-            const str  = "Auth=" +resp.auth
-            document.cookie = str
-            window.location.href="waitlits.html"
+  Http.open("GET", url+api+`?auth=${getCookie('Auth')}`,true);
+  Http.onload = function(){
+      resp = JSON.parse(Http.responseText);
+      if(resp.code == "success"){
+          var table = document.getElementById("waitlist");
+          for( let i = 0 ; i < resp.data.length;i++){
+              if (resp.data[i].isDone == "0") {
+                  const row = table.insertRow(-1);
+                  for(let j = 0; j < 4; j++)
+                      row.insertCell(j)
+                  
+                  row.setAttribute("id",`row_${resp.data[i].usID}`);
+                  row.cells[0].innerHTML = resp.data[i].a_Time
+                  row.cells[1].innerHTML = resp.data[i].hosID
+                  row.cells[2].innerHTML = resp.data[i].serviceID
+                  row.cells[3].innerHTML = `<div class="iconsedit" style="background-color: white;">
+                  <i class="fas fa-pen" id='${resp.data[i].usID}' style="text-align: center"></i>
+                  </div>` 
+          
+                  var temp = document.getElementById(resp.data[i].usID);
+                  temp.addEventListener('click', addPrescription);
+              }
+          }
         }
-    };
-    Http.send();
-};
+      console.log(resp);
+  };
+  Http.send();
+})(); */
+
+function GetPrescriptions(){//lấy ra đơn thuốc
+  let api = '/Doc/scheduler/getp'
+  const Http = new XMLHttpRequest();
+  Http.open("GET", url+api +`?orderID=${"000000000004"}`,true);
+
+  Http.onload = function(){
+      resp = JSON.parse(Http.responseText);
+      // do sthg here
+      
+      console.log(resp)
+  };
+  Http.send();
+}
