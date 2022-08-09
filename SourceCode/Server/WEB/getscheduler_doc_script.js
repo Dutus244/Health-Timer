@@ -37,12 +37,12 @@ function getCookie(name) {
       console.log(resp);
   };
   Http.send();
-})(); */
+})();*/
 
 function GetPrescriptions(){//lấy ra đơn thuốc
   let api = '/Doc/scheduler/getp'
   const Http = new XMLHttpRequest();
-  Http.open("GET", url+api +`?orderID=${"000000000004"}`,true);
+  Http.open("GET", url+api +`?orderID=${"000000000014"}`,true);
 
   Http.onload = function(){
       resp = JSON.parse(Http.responseText);

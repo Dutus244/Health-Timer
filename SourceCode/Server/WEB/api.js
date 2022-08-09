@@ -38,7 +38,7 @@ function GetPrescriptions(orderID=""){//lấy ra đơn thuốc
     Http.send();
 }
 
-function GivePrescriptions(orderID="",drugname="",amount=""){// thêm 1 thuốc vào đơn thuốc (amount là chuỗi 8 kí tự, tương ứng số viên trc ăn sáng, sau ăn sáng, trc ăn trưa, sau ăn trưa ...)
+/* function GivePrescriptions(orderID="",drugname="",amount=""){// thêm 1 thuốc vào đơn thuốc (amount là chuỗi 8 kí tự, tương ứng số viên trc ăn sáng, sau ăn sáng, trc ăn trưa, sau ăn trưa ...)
     let api = '/Doc/scheduler/givep'
     let auth = getCookie('auth')
 
@@ -51,7 +51,7 @@ function GivePrescriptions(orderID="",drugname="",amount=""){// thêm 1 thuốc 
         console.log(resp)
     };
     Http.send();
-}
+} */
 
 function RemovePrescriptions(orderID="",drugname=""){// xóa bỏ 1 loại thuốc trong đơn
     let api ='/Doc/scheduler/removep'
