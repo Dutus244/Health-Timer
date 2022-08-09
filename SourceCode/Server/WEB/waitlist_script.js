@@ -71,14 +71,13 @@ function addNewRow(event){
                                 <i class="fas fa-ban" id="${cancelid}" style="text-align: center; color:rgb(255,0,0); background-color: rgb(217, 247, 225)"></i>
                                 </div>`;
 
-            row.cells[0].innerHTML = `Prescription`
+            row.cells[0].innerHTML = `<p>Prescription</p>`
 
             let textx = row.cells[1].innerHTML;
-            console.log(textx)
-            row.cells[1].innerHTML = `Drug name: <input id='edit${1}' type ='text' style = "background-color: rgb(217, 247, 225);text-align: left " value='${textx}'></input>`;
+            row.cells[1].innerHTML = `<p>Drug name:</p><input id='edit${1}' type ='text' style = "background-color: rgb(217, 247, 225);text-align: left " value='${textx}'></input>`;
 
             textx = row.cells[2].innerHTML;
-            row.cells[2].innerHTML = `Amount: <input id='edit${2}' type ='text' style = "background-color: rgb(217, 247, 225);text-align: left " value='${textx}'></input>`;
+            row.cells[2].innerHTML = `<p>Amount:</p><input id='edit${2}' type ='text' style = "background-color: rgb(217, 247, 225);text-align: left " value='${textx}'></input>`;
 
             let addPre = document.getElementById(saveid);
             addPre.addEventListener('click', function(){GivePrescriptions(row, targetRow,  1)});
@@ -107,8 +106,10 @@ function GivePrescriptions(table, targetRow, num) {
         }
     }
 
-    var name = table.cells[1].value;
-    var number = table.cells[2].value;
+    var name = table.cells[1].lastChild.value;
+    var number = table.cells[2].lastChild.value;
+    console.log(name, number)
+
     // gui API , neu thanh cong thi lam cai nay
     let api = '/Doc/scheduler/givep'
     const Http = new XMLHttpRequest();
@@ -121,7 +122,6 @@ function GivePrescriptions(table, targetRow, num) {
         else{
             alert('fail')
         }
-        console.log(resp, targetRow)
     };
     Http.send();
 }
