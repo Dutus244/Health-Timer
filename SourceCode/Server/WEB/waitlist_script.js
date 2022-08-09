@@ -52,6 +52,17 @@ function addNewRow(event){
     var targetRow = event.target.id
     var targerID = "row_" + targetRow
     var table = document.getElementById("waitlist");
+    
+    for (let i = 1; i < table.getElementsByTagName("tr").length; i++){
+        if(table.getElementsByTagName("tr")[i].id == targerID){
+            var id = "itcouldbesame" + targetRow
+            var row = table.insertRow(i + 1);
+            row.setAttribute("class", "edit");
+            row.innerHTML  = `<th colspan = '4'><div id="infomationTab"></div></th>`
+        }
+    }
+    
+    return 
     for (let i = 1; i < table.getElementsByTagName("tr").length; i++){
         if(table.getElementsByTagName("tr")[i].id == targerID){
             var id = "itcouldbesame" + targetRow
@@ -107,8 +118,10 @@ function GivePrescriptions(table, targetRow, num) {
         }
     }
 
-    var name = table.cells[1].value;
-    var number = table.cells[2].value;
+    var name = table.cells[1].lastChild.value;
+    var number = table.cells[2].lastChild.value;
+    console.log(name,number)
+    return
     // gui API , neu thanh cong thi lam cai nay
     let api = '/Doc/scheduler/givep'
     const Http = new XMLHttpRequest();
