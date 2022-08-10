@@ -303,10 +303,11 @@ function cancelAdd(row){
   document.getElementById("doctor").deleteRow(row);
 }
 
-function updateservice(docid, uniqueser, table){
+function updateservice(docid, uniqueser, table,rs=true){
   let api="/Hos/doc/serviceadd"
   auth=getCookie('HosAuth');
-  table.cells[6].innerHTML = "";
+  if (rs==true)
+    table.cells[6].innerHTML = "";
   uniqueser.forEach(function(services)
   {
     let Http = new XMLHttpRequest();
@@ -327,29 +328,12 @@ function updateservice(docid, uniqueser, table){
 
 function updateservice2(docid, uniqueser, p_serarr, table){
   alert("Edit Service")
-  let api="/Hos/doc/serviceadd"
-  auth=getCookie('HosAuth');
   table.cells[6].innerHTML = "";
   p_serarr.forEach(function(pser)
   {
     table.cells[6].appendChild(pser);
   })
-  uniqueser.forEach(function(services)
-  {
-    let Http = new XMLHttpRequest();
-    Http.open("GET", url+api+`?auth=${auth}&docID=${docid}&serviceID=${services}`,true);
-    Http.onload= function()
-    {
-      let resp = JSON.parse(Http.responseText)
-      if (resp.code == "success"){
-        let dvl = document.createElement("DIV");
-        dvl.innerHTML = services;
-        table.cells[6].appendChild(dvl);
-      }
-    }
-    Http.send()
-  })
-
+  updateservice(docid, uniqueser, table,false)
 }
 
 function add(table, num){
@@ -501,13 +485,37 @@ function cancel(clone){
   const id = clone.id.slice(5);
   let editrow = clone.cells.length;
   let table = document.getElementById("row_"+id);
-  for (let i=0; i<clone.cells.length; i++){
+  for (let i=0; i<clone.cells.length - 1; i++){
     table.cells[i].innerHTML = clone.cells[i].innerHTML;
   }
   
   table.cells[0].innerHTML = `<div class="iconsedit" style="background-color: white;">
                                 <i class="fas fa-pen" id='${id}' style="text-align: center"></i>
                               </div>` ;
+
+                              let serarr = [];
+  let p_serarr = [];
+  let numOfSer = document.getElementById(`dvContainer${id}`).childElementCount;
+  let dvser = document.getElementById(`dvContainer${id}`);
+
+  for (let j = 0; j < numOfSer; j++){
+    if(dvser.children[j].className == "Add"){
+      dvserfirstChild= dvser.children[j].firstChild;
+      dvserfirstChild.classList.remove("Add");
+      serarr.push(dvserfirstChild.options[dvserfirstChild.selectedIndex].text);
+    }
+    else if (dvser.children[j].className != "smallbutton"){
+      pserfirstChild = dvser.children[j].firstChild;
+      alert(1)
+      alert(pserfirstChild)
+      p_serarr.push(pserfirstChild);
+    }
+  }
+
+  let uniqueser = serarr.filter((item, i, ar) => ar.indexOf(item) === i);
+  console.log(uniqueser);
+
+  updateservice2(id, uniqueser, p_serarr, table) 
 
   table.classList.remove("edit");
 }
