@@ -344,4 +344,31 @@ footer{
     border: 1px solid #ccc;
     border-top: none;
     min-height: 400px;
-}
+    }
+
+    #pres tr th,#pres tr td{
+        font-size: small;
+        background-color:white;
+        border: 1px solid black;
+        height: 30px;   
+    }
+
+    
+    #pres tr td input{
+        width: 100%;
+        font-size: smaller;
+        max-width: 100%;
+    }
+
+    #pres tr td textarea{
+        width: 100%;
+        font-size: smaller;
+        max-width: 100%;
+        height: 30px;
+    }
+
+    #pres tr td textarea::-webkit-scrollbar {
+        display: none;
+      }
+
+

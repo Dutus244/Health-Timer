@@ -58,8 +58,36 @@ function addNewRow(event){
             var id = "itcouldbesame" + targetRow
             var row = table.insertRow(i + 1);
             row.setAttribute("class", "edit");
+            row.innerHTML  = `<td colspan = '4'><div id="infomationTab" style = "width : 100%;display:flex ">
+            <div style = "width : 30%">
+            <table class="mytab" id ="pres" style = "width: 100%; border-spacing: 0px;">
+                <tr><td colspan="2" style = "font-size:medium">Symptom</td></tr>
+                <tr>
+                    <th style = "width: 50%"><p>Name</p></th>
+                    <th style = "width: 50%"><p>Description</p></th>
+                </tr>
+                <tr>
+                    <td style = "width: 50%"><textarea> </textarea></td>
+                    <td style = "width: 50%"><textarea> </textarea></td>
+                </tr>
+            </table>
+            </div>
+            <div style = "width : 5%"></div>
+            <div style = "width : 30%">
+            <table class="mytab" id ="pres" style = "width: 100%; border-spacing: 0px;">
+                <tr><td colspan="2" style = "font-size:medium">Prescription</td></tr>
+                <tr>
+                    <th style = "width: 50%"><p>Name</p></th>
+                    <th style = "width: 50%"><p>Amount</p></th>
+                </tr>
+                <tr>
+                    <td style = "width: 50%"><textarea> </textarea></td>
+                    <td style = "width: 50%"><textarea> </textarea></td>
+                </tr>
+            </table>
+            </div>
 
-            row.innerHTML  = `<th colspan = '4'><div id="infomationTab"></div></th>`
+            </div></td>`
             /* var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
