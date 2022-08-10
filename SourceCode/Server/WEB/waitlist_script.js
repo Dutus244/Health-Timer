@@ -60,7 +60,7 @@ function addNewRow(event){
             row.setAttribute("class", "edit");
             row.innerHTML  = `<td colspan = '4'><div id="infomationTab" style = "width : 100%;display:flex ">
             <div style = "width : 30%">
-            <table class="mytab" id ="pres" style = "width: 100%; border-spacing: 0px;">
+            <table class="mytab" id ="symptom" style = "width: 100%; border-spacing: 0px;">
                 <tr><td colspan="2" style = "font-size:medium">Symptom</td></tr>
                 <tr>
                     <th style = "width: 50%"><p>Name</p></th>
@@ -74,7 +74,7 @@ function addNewRow(event){
             </div>
             <div style = "width : 5%"></div>
             <div style = "width : 30%">
-            <table class="mytab" id ="pres" style = "width: 100%; border-spacing: 0px;">
+            <table class="mytab" id ="prescription" style = "width: 100%; border-spacing: 0px;">
                 <tr><td colspan="2" style = "font-size:medium">Prescription</td></tr>
                 <tr>
                     <th style = "width: 50%"><p>Name</p></th>
@@ -87,6 +87,22 @@ function addNewRow(event){
             </table>
             </div>
 
+            <div style = "width : 5%"></div>
+            
+            <div style = "width :30%">
+            <div style = "height : 40%">
+                <p style = "text-align: left;font-family: 'Times New Roman', Times, serif;font-size:20;"><b>Patient's record</b></p>
+                <textarea id = "UserRecord" style = "height: 90%;width: 100%;border: 1px solid black;text-align: left;" readonly>
+                    
+                </textarea>
+            </div>
+            <div style = "height : 5%"></div>
+            <div style = "height : 40%">
+                <p style = "text-align: left;font-family: 'Times New Roman', Times, serif;font-size:20;"><b>Doctor's conclusion</b></p>
+                <textarea style = "height: 80%;width: 100%;border: 1px solid black;text-align: left;"></textarea>
+            </div>
+                <button type = "button" id = "saveInfo">Done</button>            
+            </div>
             </div></td>`
             /* var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);

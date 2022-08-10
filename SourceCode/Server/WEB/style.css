@@ -346,7 +346,7 @@ footer{
     min-height: 400px;
     }
 
-    #pres tr th,#pres tr td{
+    #symptom tr th,#symptom tr td,#prescription tr th,#prescription tr td{
         font-size: small;
         background-color:white;
         border: 1px solid black;
@@ -354,21 +354,33 @@ footer{
     }
 
     
-    #pres tr td input{
+    #symptom tr td input,#prescription tr td input{
         width: 100%;
         font-size: smaller;
         max-width: 100%;
     }
 
-    #pres tr td textarea{
+    #symptom tr td textarea,#prescription tr td textarea{
         width: 100%;
         font-size: smaller;
         max-width: 100%;
         height: 30px;
     }
 
-    #pres tr td textarea::-webkit-scrollbar {
+    #symptom tr td textarea::-webkit-scrollbar,#prescription tr td textarea::-webkit-scrollbar {
         display: none;
-      }
+    }
+
+    #saveInfo {
+        background-color: #04AA6D;
+        padding: 5px;
+        position:absolute;
+        right: 5%;
+    }
+
+    #saveInfo:hover {
+        background-color: #0f862d;
+
+    }
 
 
