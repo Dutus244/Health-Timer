@@ -60,7 +60,6 @@ function addNewRow(event){
             row.setAttribute("class", "edit");
 
             row.innerHTML  = `<th colspan = '4'><div id="infomationTab"></div></th>`
-            window.open("www.google.com");
             /* var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
