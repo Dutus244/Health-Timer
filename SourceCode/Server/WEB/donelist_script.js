@@ -14,9 +14,9 @@ function getCookie(name) {
     Http.onload = function(){
         resp = JSON.parse(Http.responseText);
         if(resp.code == "success"){
-            var table = document.getElementById("waitlist");
+            var table = document.getElementById("donelist");
             for( let i = 0 ; i < resp.data.length; i++){
-                if (resp.data[i].isDone == "0") {
+                if (resp.data[i].isDone == "1") {
                     const row = table.insertRow(-1);
                     for(let j = 0; j < 4; j++)
                         row.insertCell(j)
@@ -90,51 +90,3 @@ function addNewRow(event){
         }
     }
 }
-
-function cancelAdd(row){
-    edit1row = true;
-    document.getElementById("waitlist").deleteRow(row);
-}
-
-
-function GivePrescriptions(table, targetRow, num) {
-    let id = table.id.slice(4);
-    let editrow = table.cells.length;
-
-    for (let i = num; i < editrow - 1; i++){
-        if (document.getElementById( `edit${i}`).value == "") {
-            alert('You must input something here');
-            return;
-        }
-    }
-
-    var name = table.cells[1].lastChild.value;
-    var number = table.cells[2].lastChild.value;
-    console.log(name, number)
-
-    // gui API , neu thanh cong thi lam cai nay
-    let api = '/Doc/scheduler/givep'
-    const Http = new XMLHttpRequest();
-    Http.open("GET", url+api+`?auth=${getCookie('Auth')}&orderID=${targetRow}&name=${name}&amount=${number}`,true);
-    Http.onload = function() {
-        resp = JSON.parse(Http.responseText);
-        if (resp.code == "fail") {
-            alert('fail')
-        }
-    };
-    Http.send();
-}
-
-/* function GetSchedulerDetail(orderID=""){ // lấy ra thông tin chi tiết của buổi khám
-    let api= '/Doc/scheduler/detailget'
-    const Http = new XMLHttpRequest();
-    Http.open("GET", url+api+`?orderID=${orderID}`,true);
-    Http.onload = function(){
-        resp = JSON.parse(Http.responseText);
-        // do sthg here
-        
-        console.log(resp)
-    };
-    Http.send();
-
-} */
