@@ -52,13 +52,15 @@ function addNewRow(event){
     var targetRow = event.target.id
     var targerID = "row_" + targetRow
     var table = document.getElementById("waitlist");
+    
     for (let i = 1; i < table.getElementsByTagName("tr").length; i++){
         if(table.getElementsByTagName("tr")[i].id == targerID){
             var id = "itcouldbesame" + targetRow
             var row = table.insertRow(i + 1);
             row.setAttribute("class", "edit");
 
-            var cell1 = row.insertCell(0);
+            row.innerHTML  = `<th colspan = '4'><div id="infomationTab"></div></th>`
+            /* var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
             var cell4 = row.insertCell(3);
@@ -83,10 +85,9 @@ function addNewRow(event){
             addPre.addEventListener('click', function(){GivePrescriptions(row, targetRow,  1)});
 
             let remove = document.getElementById(cancelid); 
-            remove.addEventListener('click', function(){cancelAdd(i + 1)});
+            remove.addEventListener('click', function(){cancelAdd(i + 1)}); */
         }
     }
-    console.log(table.getElementsByTagName("tr"))
 }
 
 function cancelAdd(row){
@@ -116,10 +117,7 @@ function GivePrescriptions(table, targetRow, num) {
     Http.open("GET", url+api+`?auth=${getCookie('Auth')}&orderID=${targetRow}&name=${name}&amount=${number}`,true);
     Http.onload = function() {
         resp = JSON.parse(Http.responseText);
-        if (resp.code == "success") {
-            
-        }
-        else{
+        if (resp.code == "fail") {
             alert('fail')
         }
     };
