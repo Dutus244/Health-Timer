@@ -344,4 +344,43 @@ footer{
     border: 1px solid #ccc;
     border-top: none;
     min-height: 400px;
-}
+    }
+
+    #symptom tr th,#symptom tr td,#prescription tr th,#prescription tr td{
+        font-size: small;
+        background-color:white;
+        border: 1px solid black;
+        height: 30px;   
+    }
+
+    
+    #symptom tr td input,#prescription tr td input{
+        width: 100%;
+        font-size: smaller;
+        max-width: 100%;
+    }
+
+    #symptom tr td textarea,#prescription tr td textarea{
+        width: 100%;
+        font-size: smaller;
+        max-width: 100%;
+        height: 30px;
+    }
+
+    #symptom tr td textarea::-webkit-scrollbar,#prescription tr td textarea::-webkit-scrollbar {
+        display: none;
+    }
+
+    #saveInfo {
+        background-color: #04AA6D;
+        padding: 5px;
+        position:absolute;
+        right: 5%;
+    }
+
+    #saveInfo:hover {
+        background-color: #0f862d;
+
+    }
+
+
