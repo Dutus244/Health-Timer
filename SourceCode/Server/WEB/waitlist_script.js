@@ -30,7 +30,7 @@ function getCookie(name) {
                     </div>` 
             
                     var temp = document.getElementById(resp.data[i].orderID);
-                    temp.addEventListener('click', addNewRow);
+                    temp.addEventListener('click', more);
                 }
             }
           }
@@ -41,7 +41,7 @@ function getCookie(name) {
 
 var edit1row = true;
 
-function addNewRow(event){
+function more(event){
     if(edit1row == false){
       alert('Please finish editting the previous row')
       return;
@@ -52,37 +52,47 @@ function addNewRow(event){
     var targetRow = event.target.id
     var targerID = "row_" + targetRow
     var table = document.getElementById("waitlist");
+    var tableSymptom = document.getElementById("symptom");
     
     for (let i = 1; i < table.getElementsByTagName("tr").length; i++){
         if(table.getElementsByTagName("tr")[i].id == targerID){
             var id = "itcouldbesame" + targetRow
             var row = table.insertRow(i + 1);
+
+            let saveid = `save${id}`;
+            let cancelid = `cancel${id}`;
+
             row.setAttribute("class", "edit");
-            row.innerHTML  = `<td colspan = '4'><div id="infomationTab" style = "width : 100%;display:flex ">
+            row.innerHTML  = `<td colspan = '4'><div id="informationTab" style = "width : 100%;display:flex ">
             <div style = "width : 30%">
             <table class="mytab" id ="symptom" style = "width: 100%; border-spacing: 0px;">
-                <tr><td colspan="2" style = "font-size:medium">Symptom</td></tr>
+                <tr>
+                    <td colspan="2" style = "font-size:medium">Symptom</td></tr>
                 <tr>
                     <th style = "width: 50%"><p>Name</p></th>
                     <th style = "width: 50%"><p>Description</p></th>
                 </tr>
                 <tr>
-                    <td style = "width: 50%"><textarea> </textarea></td>
-                    <td style = "width: 50%"><textarea> </textarea></td>
+                    <td style = "width: 50%"><textarea id = 'name${1}' onkeydown="tmp(${tableSymptom})"> </textarea></td>
+                    <td style = "width: 50%"><textarea id = 'description${1}'> </textarea></td>
                 </tr>
             </table>
+
             </div>
+
             <div style = "width : 5%"></div>
+
             <div style = "width : 30%">
             <table class="mytab" id ="prescription" style = "width: 100%; border-spacing: 0px;">
-                <tr><td colspan="2" style = "font-size:medium">Prescription</td></tr>
+                <tr>
+                    <td colspan="2" style = "font-size:medium">Prescription</td></tr>
                 <tr>
                     <th style = "width: 50%"><p>Name</p></th>
                     <th style = "width: 50%"><p>Amount</p></th>
                 </tr>
                 <tr>
                     <td style = "width: 50%"><textarea> </textarea></td>
-                    <td style = "width: 50%"><textarea> </textarea></td>
+                    <td style = "width: 50%"><textarea maxlength = "8"> </textarea></td>
                 </tr>
             </table>
             </div>
@@ -92,16 +102,16 @@ function addNewRow(event){
             <div style = "width :30%">
             <div style = "height : 40%">
                 <p style = "text-align: left;font-family: 'Times New Roman', Times, serif;font-size:20;"><b>Patient's record</b></p>
-                <textarea id = "UserRecord" style = "height: 90%;width: 100%;border: 1px solid black;text-align: left;" readonly>
-                    
-                </textarea>
+                <textarea id = "UserRecord" style = "height: 90%;width: 100%;border: 1px solid black;text-align: left;" readonly></textarea>
             </div>
+
             <div style = "height : 5%"></div>
             <div style = "height : 40%">
                 <p style = "text-align: left;font-family: 'Times New Roman', Times, serif;font-size:20;"><b>Doctor's conclusion</b></p>
-                <textarea style = "height: 80%;width: 100%;border: 1px solid black;text-align: left;"></textarea>
+                <textarea id = 'edit${i + 1}' style = "height: 80%;width: 100%;border: 1px solid black;text-align: left;"></textarea>
             </div>
-                <button type = "button" id = "saveInfo">Done</button>            
+                <button type = "button" id = "${saveid}">Done</button>
+                <button type = "button" id = "${cancelid}">Cancel</button>
             </div>
             </div></td>`
             /* var cell1 = row.insertCell(0);
@@ -124,12 +134,37 @@ function addNewRow(event){
 
             textx = row.cells[2].innerHTML;
             row.cells[2].innerHTML = `<p>Amount:</p><input id='edit${2}' type ='text' style = "background-color: rgb(217, 247, 225);text-align: left " value='${textx}'></input>`;
-
+*/
             let addPre = document.getElementById(saveid);
-            addPre.addEventListener('click', function(){GivePrescriptions(row, targetRow,  1)});
+            addPre.addEventListener('click', function(){done(i + 1)});
 
             let remove = document.getElementById(cancelid); 
-            remove.addEventListener('click', function(){cancelAdd(i + 1)}); */
+            remove.addEventListener('click', function(){cancelAdd(i + 1)});
+
+            let addSymptom = document.getElementById("symptom");
+            // /addSymptom.addEventListener('click');
+        }
+    }
+}
+
+function tmp(tableSymptom){
+    var row = document.createAttribute("tr");
+
+    row.innerHTML = `<tr>
+                        <td style = "width: 50%"><textarea id = 'name${2}' onkeydown="tmp()"></textarea></td>
+                        <td style = "width: 50%"><textarea id = 'description${2}'></textarea></td>
+                    </tr>`;
+
+    tableSymptom.appendChild(row);
+}
+
+function done(row) {
+    let tableSymptom = document.getElementById("symptom");
+    let rowSymptom = tableSymptom.getElementsByTagName("tr");
+    
+    for (let i = 2; i < rowSymptom.length; i++){
+        for(let j = 0; j < rowSymptom[i].getElementsByTagName("td").length; j++){
+            console.log(rowSymptom[i].getElementsByTagName("td")[j].firstChild.id);
         }
     }
 }
@@ -139,21 +174,15 @@ function cancelAdd(row){
     document.getElementById("waitlist").deleteRow(row);
 }
 
-
 function GivePrescriptions(table, targetRow, num) {
     let id = table.id.slice(4);
-    let editrow = table.cells.length;
-
-    for (let i = num; i < editrow - 1; i++){
+    
+    for (let i = num; i < 6; i++){
         if (document.getElementById( `edit${i}`).value == "") {
             alert('You must input something here');
             return;
         }
     }
-
-    var name = table.cells[1].lastChild.value;
-    var number = table.cells[2].lastChild.value;
-    console.log(name, number)
 
     // gui API , neu thanh cong thi lam cai nay
     let api = '/Doc/scheduler/givep'
@@ -167,6 +196,9 @@ function GivePrescriptions(table, targetRow, num) {
     };
     Http.send();
 }
+
+var savebutton = document.getElementById('saveInfo');
+//savebutton.addEventListener('click', GivePrescriptions);
 
 /* function GetSchedulerDetail(orderID=""){ // lấy ra thông tin chi tiết của buổi khám
     let api= '/Doc/scheduler/detailget'
