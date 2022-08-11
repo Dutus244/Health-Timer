@@ -894,7 +894,7 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"update UserAccount set pass =N'";
         query += utf8_conv.from_bytes(hd.arg["pass"])  + L"' where username = N'";
-        query += utf8_conv.from_bytes(UskeyAuth[hd.arg["auth"]]) + L"'";
+        query += utf8_conv.from_bytes(hd.arg["id"]) + L"'";
         SQLLEN result;
 
         result = dataServer->DataQuery(query.c_str());
