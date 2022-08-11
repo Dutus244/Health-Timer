@@ -894,7 +894,7 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"update UserAccount set pass =N'";
         query += utf8_conv.from_bytes(hd.arg["pass"])  + L"' where username = N'";
-        query += utf8_conv.from_bytes(hd.arg["id"]) + L"'";
+        query += utf8_conv.from_bytes(UskeyAuth[hd.arg["auth"]]) + L"'";
         SQLLEN result;
 
         result = dataServer->DataQuery(query.c_str());
@@ -931,6 +931,61 @@ namespace API{
         if (result>=0){
             std::string a = "{\"code\":\"success\",\"data\":";
             a+=rs+ "}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"none\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
+
+
+    void UsInfo(HttpRequestHeader& hd,int client){
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"select * from [dbo].[UserInfo] where usID = '";
+        query += utf8_conv.from_bytes(UskeyAuth[hd.arg["auth"]]) + L"'";
+
+        SQLLEN result;
+        std::string rs = dataServer->SelectQuery(query.c_str(),result).str();
+        std::stringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>=0){
+            std::string a = "{\"code\":\"success\",\"data\":";
+            a+=rs+ "}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"none\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
+
+    void EditUsInfo(HttpRequestHeader& hd,int client){
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"update [dbo].[UserInfo] set [name] = N'";
+        query += utf8_conv.from_bytes(hd.arg["name"]) + L"', citizenID = '";
+        query += utf8_conv.from_bytes(hd.arg["citizenID"]) + L"', addr = N'";
+        query += utf8_conv.from_bytes(hd.arg["addr"]) + L"', bthday = '";
+        query += utf8_conv.from_bytes(hd.arg["bthday"]) + L"' where usID = '";
+        query += utf8_conv.from_bytes(UskeyAuth[hd.arg["auth"]]) + L"'";
+        
+        SQLLEN result= dataServer->DataQuery(query.c_str());
+        std::stringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>0){
+            std::string a = "{\"code\":\"success\"}";
             oss << "content-length: "<<a.size()<<"\r\n\r\n";
             oss<<a;
             send(client,oss.str().c_str(),oss.str().size(),0);
