@@ -67,7 +67,7 @@ function RemovePrescriptions(orderID="",drugname=""){// xóa bỏ 1 loại thu�
     Http.send();
 }
 
-function AddSchedulerDetail(orderID="",_name="",_value=""){// thêm một dữ liệu sức khỏe cho 1 lần khám đó (nhịp tim, nhóm máu, blabla)
+/* function AddSchedulerDetail(orderID="",_name="",_value=""){// thêm một dữ liệu sức khỏe cho 1 lần khám đó (nhịp tim, nhóm máu, blabla)
     let api = '/Doc/scheduler/detailadd'
     let auth = getCookie('auth')
     const Http = new XMLHttpRequest();
@@ -79,7 +79,7 @@ function AddSchedulerDetail(orderID="",_name="",_value=""){// thêm một dữ l
         console.log(resp)
     };
     Http.send();
-}
+} */
 
 function RemoveSchedulerDetail(orderID="",_name=""){// xóa 1 dữ liệu trong chi tiết buổi khám
     let api = '/Doc/scheduler/detailremove'
