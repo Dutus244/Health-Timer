@@ -36,6 +36,9 @@ int main()
   APIs.AddGetAPI("Paitent/scheduler/getp", API::GetPrescriptions);
   APIs.AddGetAPI("Paitent/scheduler/detailget", API::GetSchedulerDetail); 
   APIs.AddGetAPI("Paitent/scheduler/result", API::GetSchedulerResult); 
+  APIs.AddGetAPI("Paitent/Profile", API::UsInfo);
+  APIs.AddGetAPI("Paitent/Edit", API::EditUsInfo); 
+  
 
   APIs.AddGetAPI("Service/all",API::GetService);
   APIs.AddGetAPI("Service/search",API::SearchService);

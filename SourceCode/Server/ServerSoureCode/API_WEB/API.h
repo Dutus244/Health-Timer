@@ -9,6 +9,8 @@ namespace API{
     void CreateUserAccount(HttpRequestHeader&,int);
     void CreateDoctorAccount(HttpRequestHeader&,int);
     void CreateSubAccount(HttpRequestHeader&,int);
+    void UsInfo(HttpRequestHeader&,int);
+    void EditUsInfo(HttpRequestHeader&,int);
     
     void LoginPai(HttpRequestHeader&,int);
     void LoginHosDoc(HttpRequestHeader&hd,int);
