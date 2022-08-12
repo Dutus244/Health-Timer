@@ -4,6 +4,14 @@ document.getElementById('bt1').addEventListener('click',function(){
     Login(document.getElementById('arg1').value,document.getElementById('arg2').value)
 })
 
+document.getElementById("arg2").addEventListener('keydown',press);
+
+function press(event){
+    if(event.code == "Enter"){
+        Login(document.getElementById('arg1').value,document.getElementById('arg2').value)
+    }
+}
+
 function Login(id,pass){
     var api = '/Home/account/log'
 
@@ -23,6 +31,9 @@ function Login(id,pass){
                 document.cookie = str
                 window.location.href="HomeAd.html"
             }
+        }
+        else{
+            document.getElementById("logfail").setAttribute("style","color:red;display:")
         }
     };
     Http.send();
