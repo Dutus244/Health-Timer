@@ -94,7 +94,7 @@ public class BookingSearchListCustomAdapter extends BaseAdapter {
             TextView time=convertView.findViewById(R.id.booking_search_list_hospital_time);
             TextView isdone=convertView.findViewById(R.id.booking_search_list_hospital_isdone);
             name.setText(bookingSearchListData.HospitalName);
-            service.setText(bookingSearchListData.OrderName);
+            service.setText(bookingSearchListData.ServiceName);
             date.setText(bookingSearchListData.Date);
             time.setText(bookingSearchListData.Time);
 

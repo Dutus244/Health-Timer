@@ -68,7 +68,7 @@ public class BookingScheduleCalendarActivity extends AppCompatActivity {
                     String bookday = String.format("%02d", dayOfMonth);
                     String date = bookday + "/" + bookmonth + "/" + bookyear;
                     if (bookingData.get(i).getDate().equals(date)){
-                        temp.add(new BookingSearchListData(bookingData.get(i).getDate(),bookingData.get(i).getTime(),bookingData.get(i).getServiceName(),bookingData.get(i).getHospitalName(),bookingData.get(i).getDone()));
+                        temp.add(new BookingSearchListData(bookingData.get(i).getOrderID(), bookingData.get(i).getDate(),bookingData.get(i).getTime(),bookingData.get(i).getServiceName(),bookingData.get(i).getHospitalName(),bookingData.get(i).getDone()));
                     }
                 }
                 Collections.sort(temp, new Comparator<BookingSearchListData>() {

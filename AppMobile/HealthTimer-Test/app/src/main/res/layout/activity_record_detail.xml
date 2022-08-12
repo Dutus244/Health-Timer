@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/activity_record_layout"
+        android:layout_width="match_parent"
+        android:layout_height="70sp"
+        android:background="@color/main_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal" />
+
+    <TextView
+        android:id="@+id/activity_booking_search_return_home_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/transparent_black_ten_percent"
+        android:textSize="27dp"
+        android:text="Chi tiết khám bệnh"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"/>
+
+    <TextView
+        android:id="@+id/activity_record_detail_hospital_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tên bệnh viện"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_layout"
+        android:textSize="15sp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintHorizontal_bias="0.05"/>
+
+    <TextView
+        android:id="@+id/activity_record_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chi tiết khám bệnh"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_layout"
+        android:textSize="25sp"
+        android:layout_marginTop="50dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/activity_record_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tên bệnh nhân: "
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_label"
+        app:layout_constraintHorizontal_bias="0.05"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/activity_record_detail_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@+id/activity_record_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_label"
+        app:layout_constraintHorizontal_bias="0.1"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/activity_record_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CMND: "
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_1"
+        app:layout_constraintHorizontal_bias="0.05"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/activity_record_detail_user_citizenID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@+id/activity_record_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_1"
+        app:layout_constraintHorizontal_bias="0.1"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/activity_record_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ngày sinh: "
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_2"
+        app:layout_constraintHorizontal_bias="0.05"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/activity_record_detail_user_birthday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@+id/activity_record_3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_2"
+        app:layout_constraintHorizontal_bias="0.1"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/activity_record_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Địa chỉ: "
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_3"
+        app:layout_constraintHorizontal_bias="0.05"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/activity_record_detail_user_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@+id/activity_record_4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_3"
+        app:layout_constraintHorizontal_bias="0.1"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/activity_record_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dịch vụ: "
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_4"
+        app:layout_constraintHorizontal_bias="0.05"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/activity_record_detail_service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@+id/activity_record_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_4"
+        app:layout_constraintHorizontal_bias="0.1"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/activity_record_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Triệu chứng: "
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_10"
+        app:layout_constraintHorizontal_bias="0.05"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/activity_record_detail_user_symptom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@+id/activity_record_5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_10"
+        app:layout_constraintHorizontal_bias="0.1"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/activity_record_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chẩn đoán: "
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_5"
+        app:layout_constraintHorizontal_bias="0.05"
+        android:layout_marginTop="50dp"/>
+
+    <TextView
+        android:id="@+id/activity_record_detail_user_diagnose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@+id/activity_record_6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_5"
+        app:layout_constraintHorizontal_bias="0.1"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="10dp"/>
+
+    <TextView
+        android:id="@+id/activity_record_7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đơn thuốc: "
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_6"
+        app:layout_constraintHorizontal_bias="0.05"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/activity_record_detail_user_prescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Xem chi tiết"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@+id/activity_record_7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_6"
+        app:layout_constraintHorizontal_bias="0.1"
+        android:layout_marginTop="10dp"
+        android:textStyle="italic"
+        />
+
+    <TextView
+        android:text="Ngày    tháng    năm    "
+        android:id="@+id/activity_record_detail_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintVertical_bias="0.75"/>
+
+    <TextView
+        android:text="Bác sĩ điều trị"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintVertical_bias="0.8"/>
+
+    <TextView
+        android:id="@+id/activity_record_detail_doc_name"
+        android:text="Tên bác sĩ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintVertical_bias="0.95"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

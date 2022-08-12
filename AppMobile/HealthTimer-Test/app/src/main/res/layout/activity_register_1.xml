@@ -46,12 +46,12 @@
         android:id="@+id/activity_register_1_checkbox_rules"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Đồng ý với các Điều khoản, Điều kiện sử dụng của chúng tôi"
-        android:textSize="10sp"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/activity_register_1_input_phone"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="15sp"
-        android:buttonTint="@color/main_color"/>
+        android:buttonTint="@color/main_color"
+        android:text="Đồng ý với các Điều khoản, Điều kiện sử dụng của chúng tôi"
+        android:textSize="10sp" />
 
     <Button
         android:id="@+id/activity_register_1_button_login"

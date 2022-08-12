@@ -69,7 +69,7 @@ public class BookingScheduleListActivity extends AppCompatActivity implements Te
 
             ArrayList<BookingSearchListData> temp = new ArrayList<>();
             for(int i = 0; i < bookingData.size(); i++){
-                temp.add(new BookingSearchListData(bookingData.get(i).getDate(),bookingData.get(i).getTime(),bookingData.get(i).getServiceName(),bookingData.get(i).getHospitalName(),bookingData.get(i).getDone()));
+                temp.add(new BookingSearchListData(bookingData.get(i).getOrderID(), bookingData.get(i).getDate(),bookingData.get(i).getTime(),bookingData.get(i).getServiceName(),bookingData.get(i).getHospitalName(),bookingData.get(i).getDone()));
             }
 
             Collections.sort(temp, new Comparator<BookingSearchListData>() {
@@ -145,14 +145,14 @@ public class BookingScheduleListActivity extends AppCompatActivity implements Te
                     String date = temp.get(i).getDate();
                     String time = temp.get(i).getTime();
                     if(hospitalName.toUpperCase(Locale.ROOT).contains(s) || serviceName.toUpperCase(Locale.ROOT).contains(s) || date.toUpperCase(Locale.ROOT).contains(s) || time.toUpperCase(Locale.ROOT).contains(s)){
-                        filters.add(new BookingSearchListData(temp.get(i).getDate(),temp.get(i).getTime(),temp.get(i).getServiceName(),temp.get(i).getHospitalName(),temp.get(i).getDone()));
+                        filters.add(new BookingSearchListData(temp.get(i).getOrderID(), temp.get(i).getDate(),temp.get(i).getTime(),temp.get(i).getServiceName(),temp.get(i).getHospitalName(),temp.get(i).getDone()));
                     }
                 }
                 results.addAll(filters);
             }
             else {
                 for(int i = 0; i < temp.size(); i++){
-                    results.add(new BookingSearchListData(temp.get(i).getDate(),temp.get(i).getTime(),temp.get(i).getServiceName(),temp.get(i).getHospitalName(),temp.get(i).getDone()));
+                    results.add(new BookingSearchListData(temp.get(i).getOrderID(), temp.get(i).getDate(),temp.get(i).getTime(),temp.get(i).getServiceName(),temp.get(i).getHospitalName(),temp.get(i).getDone()));
                 }
             }
 

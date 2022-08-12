@@ -57,13 +57,51 @@ public class HomePageActivity extends AppCompatActivity {
     private Button helloUsername;
     private Button card_booking,card_schedule,card_record;
 
+    private String citizenID = "";
+    private String fullname = "";
+    private String birthday = "";
+    private String address = "";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UserData userData = UserData.getInstance();
         String auth = userData.getAuth();
-
         setContentView(R.layout.activity_home_page);
 
+
+
+        String URL = getString(R.string.URLServer) + "/Paitent/Profile?auth=" + auth;
+        RequestQueue queue = Volley.newRequestQueue(HomePageActivity.this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String result = response.getString("code");
+                    if (result.equals("success")) {
+                        JSONArray jsonArray = response.getJSONArray("data");
+                        JSONObject datainside = jsonArray.getJSONObject(0);
+                        citizenID = datainside.getString("citizenID");
+                        fullname = datainside.getString("name");
+                        birthday = datainside.getString("bthday");
+                        address = datainside.getString("addr");
+
+                        userData.setCitizenID(citizenID);
+                        userData.setFullname(fullname);
+                        userData.setBirthday(birthday);
+                        userData.setAddress(address);
+                    } else {
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(jsonObjectRequest);
 
         phone = userData.getPhone();
 
@@ -140,7 +178,7 @@ public class HomePageActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 switch(id){
                     case R.id.activity_home_page_bottom_nevigation_booking:
-                        Intent intent_booking = new Intent(getApplicationContext(), BookingSearchActivity.class);
+                        Intent intent_booking = new Intent(getApplicationContext(), InputInformationActivity.class);
                         startActivity(intent_booking);
                         break;
                     case R.id.activity_home_page_bottom_nevigation_schedule:
@@ -177,8 +215,6 @@ public class HomePageActivity extends AppCompatActivity {
             });
         }
     }
-
-
 
     @Override
     public void onBackPressed() {

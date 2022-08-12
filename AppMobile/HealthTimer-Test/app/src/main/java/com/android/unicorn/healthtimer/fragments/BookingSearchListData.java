@@ -1,18 +1,28 @@
 package com.android.unicorn.healthtimer.fragments;
 
 public class BookingSearchListData {
+    String OrderID;
     String Date;
     String Time;
-    String OrderName;
+    String ServiceName;
     String HospitalName;
     Boolean IsDone;
 
-    public BookingSearchListData(String date, String time, String orderName, String hospitalName, Boolean isDone) {
+    public BookingSearchListData(String orderID,String date, String time, String serviceName, String hospitalName, Boolean isDone) {
+        OrderID = orderID;
         Date = date;
         Time = time;
-        OrderName = orderName;
+        ServiceName = serviceName;
         HospitalName = hospitalName;
         IsDone = isDone;
+    }
+
+    public String getOrderID() {
+        return OrderID;
+    }
+
+    public void setOrderID(String orderID) {
+        OrderID = orderID;
     }
 
     public String getDate() {
@@ -31,12 +41,12 @@ public class BookingSearchListData {
         Time = time;
     }
 
-    public String getOrderName() {
-        return OrderName;
+    public String getServiceName() {
+        return ServiceName;
     }
 
-    public void setOrderName(String orderName) {
-        OrderName = orderName;
+    public void setServiceName(String serviceName) {
+        ServiceName = serviceName;
     }
 
     public String getHospitalName() {
