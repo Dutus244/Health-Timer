@@ -46,6 +46,7 @@ public class BookingBookActivity extends AppCompatActivity {
     boolean HospitalIsOn;
     String IconImage;
     String Image;
+
     private Button button_choose_date, button_choose_time;
     private String preService = "";
     private String preDate = "";
@@ -56,8 +57,11 @@ public class BookingBookActivity extends AppCompatActivity {
     private int hour = -1;
     private int minute = -1;
     int spinnerPosition = 0;
-    ArrayList<String> ServiceName,ServiceID;
+    private ArrayList<String> ServiceName,ServiceID;
     private Button button_confirm;
+    private ImageView imageViewHosptalIconImage, imageViewHosptalImage;
+    private Spinner spinnerService;
+    private TextView textViewHospitalName, textViewHospitalDescribe;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,19 +103,19 @@ public class BookingBookActivity extends AppCompatActivity {
             }
         }
 
-        ImageView imageViewHosptalIconImage = findViewById(R.id.activity_booking_book_hospital_icon_image);
+        imageViewHosptalIconImage = findViewById(R.id.activity_booking_book_hospital_icon_image);
         Picasso.with(BookingBookActivity.this).load(IconImage).into(imageViewHosptalIconImage);
 
-        TextView textViewHospitalName = findViewById(R.id.activity_booking_book_hospital_name);
+        textViewHospitalName = findViewById(R.id.activity_booking_book_hospital_name);
         textViewHospitalName.setText(HospitalName);
 
-        ImageView imageViewHosptalImage = findViewById(R.id.activity_booking_book_hospital_image);
+        imageViewHosptalImage = findViewById(R.id.activity_booking_book_hospital_image);
         Picasso.with(BookingBookActivity.this).load(Image).resize(600, 320).into(imageViewHosptalImage);
 
-        TextView textViewHospitalDescribe = findViewById(R.id.activity_booking_book_hospital_describe);
+        textViewHospitalDescribe = findViewById(R.id.activity_booking_book_hospital_describe);
         textViewHospitalDescribe.setText(HospitalDescribe);
 
-        Spinner spinnerService = findViewById(R.id.activity_booking_book_service_spinner);
+        spinnerService = findViewById(R.id.activity_booking_book_service_spinner);
         ServiceName = new ArrayList<>();
         ServiceID = new ArrayList<>();
         ServiceName.add("Chọn dịch vụ");
@@ -186,6 +190,7 @@ public class BookingBookActivity extends AppCompatActivity {
         if (hour == 16 && minute == 0){
             button_choose_time.setText("16:00 - 16:30");
         }
+
         button_choose_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

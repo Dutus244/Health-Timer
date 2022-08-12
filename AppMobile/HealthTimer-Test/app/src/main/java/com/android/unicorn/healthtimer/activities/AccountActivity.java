@@ -20,7 +20,8 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 
 public class AccountActivity extends AppCompatActivity {
-    private ImageView test;
+    private Button buttonChangeInformation, buttonChangePassword, buttonLogout, buttonForApplication;
+    private TextView textphone, textfullname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,16 +30,16 @@ public class AccountActivity extends AppCompatActivity {
 
         UserData userData = UserData.getInstance();
         String phone = userData.getPhone();
-        TextView textphone = findViewById(R.id.activity_account_phone);
+        textphone = findViewById(R.id.activity_account_phone);
         textphone.setText(phone);
 
         String fullname = userData.getFullname();
         if (fullname != null || fullname != ""){
-            TextView textfullname = findViewById(R.id.activity_account_name);
+            textfullname = findViewById(R.id.activity_account_name);
             textfullname.setText(fullname);
         }
 
-        Button buttonChangeInformation = findViewById(R.id.activity_account_change_information);
+        buttonChangeInformation = findViewById(R.id.activity_account_change_information);
         buttonChangeInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,7 +48,7 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
-        Button buttonChangePassword = findViewById(R.id.activity_account_change_password);
+        buttonChangePassword = findViewById(R.id.activity_account_change_password);
         buttonChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +57,7 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
-        Button buttonLogout = findViewById(R.id.activity_account_logout);
+        buttonLogout = findViewById(R.id.activity_account_logout);
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +67,7 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
-        Button buttonForApplication = findViewById(R.id.activity_account_for_application);
+        buttonForApplication = findViewById(R.id.activity_account_for_application);
         buttonForApplication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
