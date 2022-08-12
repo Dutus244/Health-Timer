@@ -343,7 +343,6 @@ footer{
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
-    min-height: 400px;
     }
 
     #symptom tr th,#symptom tr td,#prescription tr th,#prescription tr td{
@@ -356,7 +355,8 @@ footer{
     
     #symptom tr td input,#prescription tr td input{
         width: 100%;
-        font-size: smaller;
+        font-size: small;
+        font-weight: bold;
         max-width: 100%;
     }
 
@@ -383,4 +383,11 @@ footer{
 
     }
 
+    #informationTab div button {
+        border: 1px solid black;
+        padding: 5px;
+    }
 
+    #informationTab div button:hover {
+        background-color: rgb(184, 181, 181);
+    }
