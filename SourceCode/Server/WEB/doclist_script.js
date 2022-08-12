@@ -103,7 +103,7 @@ function myFunction() {
             tr[i].style.display = "none";
         }
     }
-  }
+}
 
 var addbutton = document.getElementById('addbutton');
 addbutton.addEventListener("click", addNewRow);

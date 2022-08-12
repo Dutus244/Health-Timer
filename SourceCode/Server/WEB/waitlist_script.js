@@ -30,7 +30,7 @@ function getCookie(name) {
                     </div>` 
             
                     var temp = document.getElementById(resp.data[i].orderID);
-                    temp.addEventListener('click', addNewRow);
+                    temp.addEventListener('click', more);
                 }
             }
           }
@@ -41,7 +41,7 @@ function getCookie(name) {
 
 var edit1row = true;
 
-function addNewRow(event){
+function more(event){
     if(edit1row == false){
       alert('Please finish editting the previous row')
       return;
@@ -57,32 +57,41 @@ function addNewRow(event){
         if(table.getElementsByTagName("tr")[i].id == targerID){
             var id = "itcouldbesame" + targetRow
             var row = table.insertRow(i + 1);
+
+            let saveid = `save${id}`;
+            let cancelid = `cancel${id}`;
+
             row.setAttribute("class", "edit");
-            row.innerHTML  = `<td colspan = '4'><div id="infomationTab" style = "width : 100%;display:flex ">
+            row.innerHTML  = `<td colspan = '4'><div id="informationTab" style = "width : 100%;display:flex ">
             <div style = "width : 30%">
             <table class="mytab" id ="symptom" style = "width: 100%; border-spacing: 0px;">
-                <tr><td colspan="2" style = "font-size:medium">Symptom</td></tr>
+                <tr>
+                    <td colspan="2" style = "font-size:medium">Symptom</td></tr>
                 <tr>
                     <th style = "width: 50%"><p>Name</p></th>
                     <th style = "width: 50%"><p>Description</p></th>
                 </tr>
                 <tr>
-                    <td style = "width: 50%"><textarea> </textarea></td>
-                    <td style = "width: 50%"><textarea> </textarea></td>
+                    <td style = "width: 50%"><textarea onkeydown="addNewRowSymptom()"></textarea></td>
+                    <td style = "width: 50%"><textarea></textarea></td>
                 </tr>
             </table>
+
             </div>
+
             <div style = "width : 5%"></div>
+
             <div style = "width : 30%">
             <table class="mytab" id ="prescription" style = "width: 100%; border-spacing: 0px;">
-                <tr><td colspan="2" style = "font-size:medium">Prescription</td></tr>
+                <tr>
+                    <td colspan="2" style = "font-size:medium">Prescription</td></tr>
                 <tr>
                     <th style = "width: 50%"><p>Name</p></th>
                     <th style = "width: 50%"><p>Amount</p></th>
                 </tr>
                 <tr>
-                    <td style = "width: 50%"><textarea> </textarea></td>
-                    <td style = "width: 50%"><textarea> </textarea></td>
+                    <td style = "width: 50%"><textarea onkeydown="addNewRowPrescription()"></textarea></td>
+                    <td style = "width: 50%"><textarea maxlength = "8"></textarea></td>
                 </tr>
             </table>
             </div>
@@ -92,44 +101,112 @@ function addNewRow(event){
             <div style = "width :30%">
             <div style = "height : 40%">
                 <p style = "text-align: left;font-family: 'Times New Roman', Times, serif;font-size:20;"><b>Patient's record</b></p>
-                <textarea id = "UserRecord" style = "height: 90%;width: 100%;border: 1px solid black;text-align: left;" readonly>
-                    
-                </textarea>
+                <textarea id = "UserRecord" style = "height: 90%;width: 100%;border: 1px solid black;text-align: left;" readonly></textarea>
             </div>
+
             <div style = "height : 5%"></div>
             <div style = "height : 40%">
                 <p style = "text-align: left;font-family: 'Times New Roman', Times, serif;font-size:20;"><b>Doctor's conclusion</b></p>
-                <textarea style = "height: 80%;width: 100%;border: 1px solid black;text-align: left;"></textarea>
+                <textarea id = 'edit${i + 1}' style = "height: 80%;width: 100%;border: 1px solid black;text-align: left;"></textarea>
             </div>
-                <button type = "button" id = "saveInfo">Done</button>            
+                <button type = "button" id = "${saveid}">Done</button>
+                <button type = "button" id = "${cancelid}">Cancel</button>
             </div>
             </div></td>`
-            /* var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            var cell4 = row.insertCell(3);
-            
-            let saveid = `save${id}`;
-            let cancelid = `cancel${id}`;
-
-            cell4.innerHTML =`<div class="iconsedit" style="background-color: rgb(217, 247, 225)">
-                                <i class="fas fa-check" id="${saveid}" style="text-align: center; color:rgb(85, 140, 221); background-color: rgb(217, 247, 225)"></i>
-                                <i class="fas fa-ban" id="${cancelid}" style="text-align: center; color:rgb(255,0,0); background-color: rgb(217, 247, 225)"></i>
-                                </div>`;
-
-            row.cells[0].innerHTML = `<p>Prescription</p>`
-
-            let textx = row.cells[1].innerHTML;
-            row.cells[1].innerHTML = `<p>Drug name:</p><input id='edit${1}' type ='text' style = "background-color: rgb(217, 247, 225);text-align: left " value='${textx}'></input>`;
-
-            textx = row.cells[2].innerHTML;
-            row.cells[2].innerHTML = `<p>Amount:</p><input id='edit${2}' type ='text' style = "background-color: rgb(217, 247, 225);text-align: left " value='${textx}'></input>`;
 
             let addPre = document.getElementById(saveid);
-            addPre.addEventListener('click', function(){GivePrescriptions(row, targetRow,  1)});
+            addPre.addEventListener('click', function(){done(i + 1, targetRow)});
 
             let remove = document.getElementById(cancelid); 
-            remove.addEventListener('click', function(){cancelAdd(i + 1)}); */
+            remove.addEventListener('click', function(){cancelAdd(i + 1)});
+        }
+    }
+}
+
+function checkEmptyTextarea(row){
+    for(let i = 2; i < row.length; i++){
+        if(row[i].getElementsByTagName("td")[0].firstChild.value != "" 
+            && row[i].getElementsByTagName("td")[1].firstChild.value != ""){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+function addNewRowSymptom(){
+    var tableSymptom = document.getElementById("symptom");
+    let rowSymptom = tableSymptom.getElementsByTagName("tr");
+    
+    if(checkEmptyTextarea(rowSymptom) == 1){
+        var row = document.createElement("tr");
+
+        row.innerHTML = `<tr>
+                            <td style = "width: 50%"><textarea onkeydown="addNewRowSymptom()"></textarea></td>
+                            <td style = "width: 50%"><textarea></textarea></td>
+                        </tr>`;
+
+        tableSymptom.appendChild(row);
+    }
+}
+
+function addNewRowPrescription(){
+    let tablePrescription = document.getElementById("prescription");
+    let rowPrescription = tablePrescription.getElementsByTagName("tr");
+    
+    if(checkEmptyTextarea(rowPrescription) == 1){
+        var row = document.createElement("tr");
+
+        row.innerHTML = `<tr>
+                            <td style = "width: 50%"><textarea onkeydown="addNewRowPrescription()"></textarea></td>
+                            <td style = "width: 50%"><textarea></textarea></td>
+                        </tr>`;
+
+        tablePrescription.appendChild(row);
+    }
+}
+
+function done(row, targetRow) {
+    let tableSymptom = document.getElementById("symptom");
+    let rowSymptom = tableSymptom.getElementsByTagName("tr");
+
+    let apiSymptom = '/Doc/scheduler/detailadd'
+
+    for (let i = 2; i < rowSymptom.length; i++){        
+        if(rowSymptom[i].getElementsByTagName("td")[0].firstChild.value != "" 
+            && rowSymptom[i].getElementsByTagName("td")[1].firstChild.value != ""){
+            const HttpSymptom = new XMLHttpRequest();
+            HttpSymptom.open("GET", url+apiSymptom+`?auth=${getCookie('Auth')}&orderID=${targetRow}
+                            &name=${rowSymptom[i].getElementsByTagName("td")[0].firstChild.value}
+                            &value=${rowSymptom[i].getElementsByTagName("td")[1].firstChild.value}`,true);
+            HttpSymptom.onload = function(){
+                respSymptom = JSON.parse(HttpSymptom.responseText);
+                // do sthg here
+                        
+                console.log(respSymptom)
+            };
+            HttpSymptom.send();
+        }
+    }
+
+    let tablePrescription = document.getElementById("prescription");
+    let rowPrescription = tablePrescription.getElementsByTagName("tr");
+    let apiPrescription = '/Doc/scheduler/givep'
+
+    for (let i = 2; i < rowPrescription.length; i++){
+        if(rowPrescription[i].getElementsByTagName("td")[0].firstChild.value != "" 
+            && rowPrescription[i].getElementsByTagName("td")[1].firstChild.value != ""){
+        const HttpPrescription = new XMLHttpRequest();
+            HttpPrescription.open("GET", url+apiPrescription+`?auth=${getCookie('Auth')}
+                                &orderID=${targetRow}&name=${rowPrescription[i].getElementsByTagName("td")[0].firstChild.value}
+                                &amount=${rowPrescription[i].getElementsByTagName("td")[1].firstChild.value}`,true);
+            HttpPrescription.onload = function() {
+                respPrescription = JSON.parse(HttpPrescription.responseText);
+                if (respPrescription.code == "fail") {
+                    alert('fail')
+                }
+                console.log(respPrescription);
+            };
+            HttpPrescription.send();
         }
     }
 }
@@ -139,21 +216,15 @@ function cancelAdd(row){
     document.getElementById("waitlist").deleteRow(row);
 }
 
-
 function GivePrescriptions(table, targetRow, num) {
     let id = table.id.slice(4);
-    let editrow = table.cells.length;
-
-    for (let i = num; i < editrow - 1; i++){
+    
+    for (let i = num; i < 6; i++){
         if (document.getElementById( `edit${i}`).value == "") {
             alert('You must input something here');
             return;
         }
     }
-
-    var name = table.cells[1].lastChild.value;
-    var number = table.cells[2].lastChild.value;
-    console.log(name, number)
 
     // gui API , neu thanh cong thi lam cai nay
     let api = '/Doc/scheduler/givep'
@@ -167,6 +238,9 @@ function GivePrescriptions(table, targetRow, num) {
     };
     Http.send();
 }
+
+var savebutton = document.getElementById('saveInfo');
+//savebutton.addEventListener('click', GivePrescriptions);
 
 /* function GetSchedulerDetail(orderID=""){ // lấy ra thông tin chi tiết của buổi khám
     let api= '/Doc/scheduler/detailget'

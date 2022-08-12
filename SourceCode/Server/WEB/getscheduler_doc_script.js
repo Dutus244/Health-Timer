@@ -40,15 +40,15 @@ function getCookie(name) {
 })();*/
 
 function GetPrescriptions(){//lấy ra đơn thuốc
-  let api = '/Doc/scheduler/getp'
-  const Http = new XMLHttpRequest();
-  Http.open("GET", url+api +`?orderID=${"000000000014"}`,true);
+    let api = '/Doc/scheduler/getp'
+    const Http = new XMLHttpRequest();
+    Http.open("GET", url+api+`?orderID=${"000000000014"}`,true);
 
-  Http.onload = function(){
-      resp = JSON.parse(Http.responseText);
-      // do sthg here
-      
-      console.log(resp)
-  };
-  Http.send();
+    Http.onload = function(){
+        resp = JSON.parse(Http.responseText);
+        // do sthg here
+        
+        console.log(resp)
+    };
+    Http.send();
 }
