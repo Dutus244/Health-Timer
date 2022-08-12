@@ -20,7 +20,7 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 
 public class AccountActivity extends AppCompatActivity {
-    private Button buttonChangeInformation, buttonChangePassword, buttonLogout, buttonForApplication;
+    private Button buttonChangeInformation, buttonChangePassword, buttonLogout, buttonForApplication, buttonTerm;
     private TextView textphone, textfullname;
 
     @Override
@@ -72,6 +72,15 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AccountActivity.this, ForApplicationActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonTerm = findViewById(R.id.activity_account_rule);
+        buttonTerm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AccountActivity.this, TearmConditionActivity.class);
                 startActivity(intent);
             }
         });

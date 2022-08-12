@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/activity_term_condition_layout"
+        android:layout_width="match_parent"
+        android:layout_height="70sp"
+        android:background="@color/main_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal" />
+
+    <TextView
+        android:id="@+id/activity_account_return_home_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/transparent_black_ten_percent"
+        android:textSize="27dp"
+        android:text="Điều khoản và quy định"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"/>
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_term_condition_layout"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintBottom_toTopOf="@+id/space"
+        android:fillViewport="true">
+
+       <TextView
+           android:paddingTop="10dp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:paddingLeft="10dp"
+           android:paddingRight="10dp"
+           android:textSize="@dimen/dp20"
+           android:text="Điều khoản về ứng dụng\n\n\n\n\n\n\n\n\n\n\n\n\nQuy định về ứng dụng"
+           android:textStyle="bold"
+           android:textColor="@color/black"/>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

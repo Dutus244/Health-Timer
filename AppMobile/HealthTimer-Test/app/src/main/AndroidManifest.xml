@@ -96,6 +96,9 @@
             android:name=".activities.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
+            android:name=".activities.TearmConditionActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".activities.ForeplayActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:exported="true">
