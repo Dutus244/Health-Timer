@@ -28,7 +28,7 @@ import java.util.Locale;
 
 public class BookingSearchActivity extends AppCompatActivity implements TextWatcher {
     ListView list_hospital;
-    EditText search;
+    private EditText search;
     private BookingSearchListHospitalCustomAdapter customAdapter;
 
     private ArrayList<BookingSearchListHospitalData> results;

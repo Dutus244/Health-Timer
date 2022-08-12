@@ -155,6 +155,15 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
 
+        Button buttonsearch = findViewById(R.id.activity_home_page_button_search);
+        buttonsearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_schedule = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(intent_schedule);
+            }
+        });
+
         // Make a copy of the slides you'll be presenting.
         listItems = new ArrayList<>() ;
         listItems.add(new The_Slide_Items_Model_Class_HomePage(R.drawable.hospital_image_test_1,"Bệnh viện Hoàn Mỹ"));
