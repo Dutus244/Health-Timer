@@ -52,6 +52,11 @@ public class BookingConfirmActivity extends AppCompatActivity {
         UserData userData = UserData.getInstance();
         phone = userData.getPhone();
         name = userData.getUsername();
+        String fullname = userData.getFullname();
+        if (fullname != null || fullname != ""){
+            TextView textfullename = findViewById(R.id.activity_booking_confirm_name);
+            textfullename.setText(fullname);
+        }
 
         nameshow = findViewById(R.id.activity_booking_confirm_name);
         nameshow.setText(name);
