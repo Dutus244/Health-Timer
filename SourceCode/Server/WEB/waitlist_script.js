@@ -61,147 +61,6 @@ function getCookie(name) {
 
 var edit1row = true;
 
-function removeSymptom(e){
-    let api = '/Doc/scheduler/detailremove'
-    let Http = new XMLHttpRequest();
-    let name = e.parentElement.parentElement.parentElement.childNodes[0].childNodes[1].value
-    
-    orderID = document.getElementById("informationTab").className
-    
-    Http.open("GET", url+api+`?orderID=${orderID}&name=${name}&auth=${getCookie('Auth')}`,true);
-    Http.onload = function(){
-        if(resp.code == 'success'){
-            e.parentElement.parentElement.parentElement.remove();
-        }
-    };
-    Http.send();
-}
-
-function GetSymptom(orderID){
-    let api = '/Doc/scheduler/detailget'
-    const Http = new XMLHttpRequest();
-    Http.open("GET", url+api+`?orderID=${orderID}`,true);
-    Http.onload = function(){
-        resp = JSON.parse(Http.responseText);
-        if(resp.code == "success"){
-            var tableSymptom = document.getElementById("symptom");
-            n = resp.data.length
-            
-            buton = document.createElement('div')
-            buton.setAttribute("style","width:15%")
-
-            col1 = document.createElement("textarea")
-            col1.readOnly = true;
-            col2 = col1.cloneNode()
-            col1.setAttribute("style","width:85%")
-
-            icon = document.createElement('i')
-            icon.setAttribute("class","fa fa-times-circle")
-            icon.setAttribute("onclick",'removeSymptom(this)')
-            for(let i = 0 ; i < n ; i ++){
-                row = tableSymptom.insertRow(2);
-                a = col1.cloneNode()
-                a.innerHTML = resp.data[i].name
-
-                b = col2.cloneNode()
-                b.innerHTML = resp.data[i].value
-        
-                c1 = row.insertCell(0)
-                c2 = row.insertCell(1)
-
-                k = c1.appendChild(buton.cloneNode())
-                k.appendChild(icon.cloneNode())
-                c1.appendChild(a)
-                c2.appendChild(b)
-            }
-        }
-        getconclusion(orderID)
-    };
-    Http.send();
-}
-
-function getconclusion(orderID){
-    let api2 = '/Doc/scheduler/result'
-    let Http2 = new XMLHttpRequest();
-    Http2.open("GET", url+api2+`?orderID=${orderID}`,true);
-    Http2.onload = function(){
-        resp2 = JSON.parse(Http2.responseText);
-        if(resp2.code == 'success'){
-            document.getElementById("conclusion").value = resp2.data[0].result
-        }
-        GetPP(orderID)
-    };
-    Http2.send();
-}
-
-function removePP(e){
-    let api = '/Doc/scheduler/removep'
-    let Http = new XMLHttpRequest();
-    let name = e.parentElement.parentElement.parentElement.childNodes[0].childNodes[1].value
-    
-    orderID = document.getElementById("informationTab").className
-    
-    Http.open("GET", url+api+`?orderID=${orderID}&name=${name}&auth=${getCookie('Auth')}`,true);
-    Http.onload = function(){
-        console.log(resp);
-        if(resp.code == 'success'){
-            e.parentElement.parentElement.parentElement.remove();
-        }
-    };
-    Http.send();
-
-
-}
-
-function GetPP(orderID){
-    let api = '/Doc/scheduler/getp'
-    const Http = new XMLHttpRequest();
-    Http.open("GET", url+api+`?orderID=${orderID}`,true);
-    Http.onload = function(){
-        resp = JSON.parse(Http.responseText);
-        if(resp.code == "success"){
-            var tableSymptom = document.getElementById("prescription");
-            n = resp.data.length
-
-            buton = document.createElement('div')
-            buton.setAttribute("style","width:15%")
-
-            col1 = document.createElement("textarea")
-            col1.readOnly = true;
-            col1.setAttribute("style","width:85%")
-
-            icon = document.createElement('i')
-            icon.setAttribute("class","fa fa-times-circle")
-            icon.setAttribute("onclick",'removePP(this)')
-
-
-            col2 = document.createElement("input")
-            col2.setAttribute("maxlength",'1')
-            col2.setAttribute("style","border: 1px solid black; width: 11%;margin:0.5px")
-            col2.readOnly=true
-            for(let i = 0 ; i < n ; i ++){
-                row = tableSymptom.insertRow(2);
-                a = col1.cloneNode()
-                a.innerHTML = resp.data[i].name
-
-        
-                c1 = row.insertCell(0)
-                c2 = row.insertCell(1)
-                k = c1.appendChild(buton.cloneNode())
-                k.appendChild(icon.cloneNode())
-                c1.appendChild(a)
-                for (let j = 0 ; j < 8 ; j ++){
-                    b = col2.cloneNode()
-                    b.value = resp.data[i].amount[j]
-                    c2.appendChild(b)
-                }
-            }
-        }
-        document.getElementById("informationTab").parentNode.setAttribute("style","display:")
-    };
-    Http.send();
-}
-
 function more(event){
     if(edit1row == false){
       alert('Please finish editting the previous row')
@@ -289,6 +148,145 @@ function more(event){
             remove.addEventListener('click', function(){save()});
         }
     }
+}
+
+function GetSymptom(orderID){
+    let api = '/Doc/scheduler/detailget'
+    const Http = new XMLHttpRequest();
+    Http.open("GET", url+api+`?orderID=${orderID}`,true);
+    Http.onload = function(){
+        resp = JSON.parse(Http.responseText);
+        if(resp.code == "success"){
+            var tableSymptom = document.getElementById("symptom");
+            n = resp.data.length
+            
+            buton = document.createElement('div')
+            buton.setAttribute("style","width:15%")
+
+            col1 = document.createElement("textarea")
+            col1.readOnly = true;
+            col2 = col1.cloneNode()
+            col1.setAttribute("style","width:85%")
+
+            icon = document.createElement('i')
+            icon.setAttribute("class","fa fa-times-circle")
+            icon.setAttribute("onclick",'removeSymptom(this)')
+            for(let i = 0 ; i < n ; i ++){
+                row = tableSymptom.insertRow(2);
+                a = col1.cloneNode()
+                a.innerHTML = resp.data[i].name
+
+                b = col2.cloneNode()
+                b.innerHTML = resp.data[i].value
+        
+                c1 = row.insertCell(0)
+                c2 = row.insertCell(1)
+
+                k = c1.appendChild(buton.cloneNode())
+                k.appendChild(icon.cloneNode())
+                c1.appendChild(a)
+                c2.appendChild(b)
+            }
+        }
+        getconclusion(orderID)
+    };
+    Http.send();
+}
+
+function removeSymptom(e){
+    let api = '/Doc/scheduler/detailremove'
+    let Http = new XMLHttpRequest();
+    let name = e.parentElement.parentElement.parentElement.childNodes[0].childNodes[1].value
+    
+    orderID = document.getElementById("informationTab").className
+    
+    Http.open("GET", url+api+`?orderID=${orderID}&name=${name}&auth=${getCookie('Auth')}`,true);
+    Http.onload = function(){
+        if(resp.code == 'success'){
+            e.parentElement.parentElement.parentElement.remove();
+        }
+    };
+    Http.send();
+}
+
+function getconclusion(orderID){
+    let api2 = '/Doc/scheduler/result'
+    let Http2 = new XMLHttpRequest();
+    Http2.open("GET", url+api2+`?orderID=${orderID}`,true);
+    Http2.onload = function(){
+        resp2 = JSON.parse(Http2.responseText);
+        if(resp2.code == 'success'){
+            document.getElementById("conclusion").value = resp2.data[0].result
+        }
+        GetPP(orderID)
+    };
+    Http2.send();
+}
+
+function GetPP(orderID){
+    let api = '/Doc/scheduler/getp'
+    const Http = new XMLHttpRequest();
+    Http.open("GET", url+api+`?orderID=${orderID}`,true);
+    Http.onload = function(){
+        resp = JSON.parse(Http.responseText);
+        if(resp.code == "success"){
+            var tableSymptom = document.getElementById("prescription");
+            n = resp.data.length
+
+            buton = document.createElement('div')
+            buton.setAttribute("style","width:15%")
+
+            col1 = document.createElement("textarea")
+            col1.readOnly = true;
+            col1.setAttribute("style","width:85%")
+
+            icon = document.createElement('i')
+            icon.setAttribute("class","fa fa-times-circle")
+            icon.setAttribute("onclick",'removePP(this)')
+
+            col2 = document.createElement("input")
+            col2.setAttribute("maxlength",'1')
+            col2.setAttribute("style","border: 1px solid black; width: 11%;margin:0.5px")
+            col2.readOnly=true
+            for(let i = 0 ; i < n ; i ++){
+                row = tableSymptom.insertRow(2);
+                a = col1.cloneNode()
+                a.innerHTML = resp.data[i].name
+
+                c1 = row.insertCell(0)
+                c2 = row.insertCell(1)
+                k = c1.appendChild(buton.cloneNode())
+                k.appendChild(icon.cloneNode())
+                c1.appendChild(a)
+                for (let j = 0 ; j < 8 ; j ++){
+                    b = col2.cloneNode()
+                    b.value = resp.data[i].amount[j]
+                    c2.appendChild(b)
+                }
+            }
+        }
+        document.getElementById("informationTab").parentNode.setAttribute("style","display:")
+    };
+    Http.send();
+}
+
+function removePP(e){
+    let api = '/Doc/scheduler/removep'
+    let Http = new XMLHttpRequest();
+    let name = e.parentElement.parentElement.parentElement.childNodes[0].childNodes[1].value
+    
+    orderID = document.getElementById("informationTab").className
+    
+    Http.open("GET", url+api+`?orderID=${orderID}&name=${name}&auth=${getCookie('Auth')}`,true);
+    Http.onload = function(){
+        console.log(resp);
+        if(resp.code == 'success'){
+            e.parentElement.parentElement.parentElement.remove();
+        }
+    };
+    Http.send();
+
+
 }
 
 function checkFullTable(table){
@@ -426,43 +424,3 @@ function cancelAdd(row){
     edit1row = true;
     document.getElementById("editDIV").remove();
 }
-
-function GivePrescriptions(table, targetRow, num) {
-    let id = table.id.slice(4);
-    
-    for (let i = num; i < 6; i++){
-        if (document.getElementById( `edit${i}`).value == "") {
-            alert('You must input something here');
-            return;
-        }
-    }
-
-    // gui API , neu thanh cong thi lam cai nay
-    let api = '/Doc/scheduler/givep'
-    const Http = new XMLHttpRequest();
-    Http.open("GET", url+api+`?auth=${getCookie('Auth')}&orderID=${targetRow}&name=${name}&amount=${number}`,true);
-    Http.onload = function() {
-        resp = JSON.parse(Http.responseText);
-        if (resp.code == "fail") {
-            alert('fail')
-        }
-    };
-    Http.send();
-}
-
-var savebutton = document.getElementById('saveInfo');
-//savebutton.addEventListener('click', GivePrescriptions);
-
-/* function GetSchedulerDetail(orderID=""){ // lấy ra thông tin chi tiết của buổi khám
-    let api= '/Doc/scheduler/detailget'
-    const Http = new XMLHttpRequest();
-    Http.open("GET", url+api+`?orderID=${orderID}`,true);
-    Http.onload = function(){
-        resp = JSON.parse(Http.responseText);
-        // do sthg here
-        
-        console.log(resp)
-    };
-    Http.send();
-
-} */
