@@ -34,6 +34,7 @@ function getCookie(name) {
                 }
             }
           }
+          console.log(resp);
     };
     Http.send();
 })();
@@ -285,10 +286,8 @@ function checkFullTable(table){
 }
 
 function addNewRowSymptom(e){
-
     var tableSymptom = document.getElementById("symptom");
 
-    
     if(checkFullTable(tableSymptom) == 1){
         var row = document.createElement("tr");
         cell1 = row.insertCell(0)
@@ -315,8 +314,6 @@ function addNewRowSymptom(e){
 }
 
 function addNewRowPrescription(e){
-    
-    
     let tablePrescription = document.getElementById("prescription");
     
     if(checkFullTable(tablePrescription) == 1){
