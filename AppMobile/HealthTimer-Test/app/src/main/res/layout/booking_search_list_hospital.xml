@@ -48,7 +48,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/booking_search_list_hospital_address"
             android:text="Description"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp"/>
 
     </LinearLayout>
 </LinearLayout>
