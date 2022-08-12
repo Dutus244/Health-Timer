@@ -55,7 +55,7 @@ public class HomePageActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private String phone;
     private Button helloUsername;
-    private Button card_booking,card_schedule,card_record;
+    private Button card_booking,card_schedule,card_record,card_medicine;
 
     private String citizenID = "";
     private String fullname = "";
@@ -152,6 +152,14 @@ public class HomePageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent_schedule = new Intent(getApplicationContext(), RecordActivity.class);
                 startActivity(intent_schedule);
+            }
+        });
+
+        card_medicine = findViewById(R.id.activity_home_page_card_medicine);
+        card_medicine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(HomePageActivity.this, "Tính năng này đang được phát triển", Toast.LENGTH_SHORT).show();
             }
         });
 

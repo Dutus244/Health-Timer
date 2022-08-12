@@ -14,7 +14,6 @@ import com.android.unicorn.healthtimer.R;
 import java.time.Year;
 import java.util.Calendar;
 
-
 public class BookingBookDateActivity extends AppCompatActivity {
     private String HospitalName;
     private String preService = "";

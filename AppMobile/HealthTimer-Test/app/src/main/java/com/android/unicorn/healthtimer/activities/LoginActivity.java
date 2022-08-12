@@ -253,17 +253,17 @@ public class LoginActivity extends AppCompatActivity {
         NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
 
         if (networkInfo == null) {
-            Toast.makeText(this, "Không có mạng mặc định nào hiện đang hoạt động", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Không có mạng mặc định nào hiện đang hoạt động", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if (!networkInfo.isConnected()) {
-            Toast.makeText(this, "Mạng không được kết nối", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Mạng không được kết nối", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if (!networkInfo.isAvailable()) {
-            Toast.makeText(this, "Mạng không khả dụng", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Mạng không khả dụng", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

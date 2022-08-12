@@ -32,7 +32,6 @@ public class ChangeInformationActivity extends AppCompatActivity {
         UserData userData = UserData.getInstance();
         String auth = userData.getAuth();
 
-
         setContentView(R.layout.activity_change_information);
         EditText inputfullname = findViewById(R.id.activity_change_information_input_fullname);
         if (userData.getFullname() != null || userData.getFullname().equals("")){
