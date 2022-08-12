@@ -90,8 +90,8 @@ function more(event){
                         <td colspan="2" style = "font-size:medium">Symptom</td>
                     </tr>
                     <tr>
-                        <th style = "width: 50%"; height: 5%><p>Name</p></th>
-                        <th style = "width: 50%"; height: 5%><p>Description</p></th>
+                        <th style = "width: 50%;padding: 1px;"; height: 5%><p>Name</p></th>
+                        <th style = "width: 50%;padding: 1px;"; height: 5%><p>Description</p></th>
                     </tr>
                 </table>
             </div>
@@ -103,8 +103,8 @@ function more(event){
                         <td colspan="2" style = "font-size:medium">Prescription</td>
                     </tr>
                     <tr>
-                        <th style = "width: 50%; height: 5%"><p>Name</p></th>
-                        <th style = "width: 50%"; height: 5%><p>Amount</p></th>
+                        <th style = "width: 50%;padding: 1px;"><p>Name</p></th>
+                        <th style = "width: 50%;padding: 1px;"><p>Amount</p></th>
                     </tr>
                 </table>
             </div>
