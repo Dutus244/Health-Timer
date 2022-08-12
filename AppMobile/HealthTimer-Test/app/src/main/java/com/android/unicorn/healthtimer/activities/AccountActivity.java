@@ -32,6 +32,12 @@ public class AccountActivity extends AppCompatActivity {
         TextView textphone = findViewById(R.id.activity_account_phone);
         textphone.setText(phone);
 
+        String fullname = userData.getFullname();
+        if (fullname != null || fullname != ""){
+            TextView textfullname = findViewById(R.id.activity_account_name);
+            textfullname.setText(fullname);
+        }
+
         Button buttonChangeInformation = findViewById(R.id.activity_account_change_information);
         buttonChangeInformation.setOnClickListener(new View.OnClickListener() {
             @Override
