@@ -26,6 +26,7 @@ int main()
   APIs.AddGetAPI("Doc/scheduler/detailremove", API::RemoveSchedulerDetail); 
   APIs.AddGetAPI("Doc/scheduler/result", API::GetSchedulerResult); 
   APIs.AddGetAPI("Doc/scheduler/resultAdd", API::AddSchedulerResult); 
+  APIs.AddGetAPI("Doc/scheduler/done", API::IsDoneScheduler); 
 
   APIs.AddGetAPI("Paitent/scheduler", API::GetScheduler_pai);
   APIs.AddGetAPI("Paitent/account/log", API::LoginPai);

@@ -281,8 +281,8 @@ namespace API{
     }
     void GetScheduler_doc(HttpRequestHeader& hd,int client){
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
-        std::wstring query = L"Select * from DocScheduler ('";
-        query+= utf8_conv.from_bytes(DockeyAuth[hd.arg["auth"]]) + L"') order by isDone desc, a_Time desc";
+        std::wstring query = L"Select [name],doc.* from DocScheduler ('";
+        query+= utf8_conv.from_bytes(DockeyAuth[hd.arg["auth"]]) + L"') as doc join [dbo].[UserInfo] on doc.usID = UserInfo.usID  order by isDone desc, a_Time asc";
 
         SQLLEN result;
         std::string rs = dataServer->SelectQuery(query.c_str(),result).str();
@@ -468,13 +468,12 @@ namespace API{
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
         std::wstring query = L"exec AddSchedulerResult '";
         SQLLEN result = -1;
-        query += utf8_conv.from_bytes( DockeyAuth[hd.arg["auth"]]) + L"', '";
+        query += utf8_conv.from_bytes(DockeyAuth[hd.arg["auth"]]) + L"', '";
         query += utf8_conv.from_bytes(hd.arg["orderID"]) + L"' ,N'";
         query += utf8_conv.from_bytes(hd.arg["value"]) + L"'";
 
         result = -1;
-        if (hd.arg["name"]!="" && hd.arg["value"]!="")
-            result = dataServer->DataQuery(query.c_str());
+        result = dataServer->DataQuery(query.c_str());
         std::stringstream oss;
         oss << "HTTP/1.1 200 OK\r\n";
         oss<< "Access-Control-Allow-Origin: *\r\n";
@@ -978,6 +977,30 @@ namespace API{
         query += utf8_conv.from_bytes(hd.arg["addr"]) + L"', bthday = '";
         query += utf8_conv.from_bytes(hd.arg["bthday"]) + L"' where usID = '";
         query += utf8_conv.from_bytes(UskeyAuth[hd.arg["auth"]]) + L"'";
+        
+        SQLLEN result= dataServer->DataQuery(query.c_str());
+        std::stringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss<< "Access-Control-Allow-Origin: *\r\n";
+		oss << "content-type: " << contentType["json"]<<"; charset=UTF-8\r\n";
+        if (result>0){
+            std::string a = "{\"code\":\"success\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+        else{
+            std::string a = "{\"code\":\"none\"}";
+            oss << "content-length: "<<a.size()<<"\r\n\r\n";
+            oss<<a;
+            send(client,oss.str().c_str(),oss.str().size(),0);
+        }
+    }
+
+    void IsDoneScheduler(HttpRequestHeader& hd,int client){
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> utf8_conv;
+        std::wstring query = L"update [dbo].[Scheduler] set isDone = '1' where orderID = '";
+        query += utf8_conv.from_bytes(hd.arg["orderID"]) + L"'";
         
         SQLLEN result= dataServer->DataQuery(query.c_str());
         std::stringstream oss;

@@ -20,6 +20,7 @@ namespace API{
     void GetScheduler_doc(HttpRequestHeader&,int);
     void GetScheduler_pai(HttpRequestHeader&,int); 
     void GetScheduler_doc_pai(HttpRequestHeader&,int);
+    void IsDoneScheduler(HttpRequestHeader&,int);
 
     void GetPrescriptions(HttpRequestHeader&,int);
     void GivePrescriptions(HttpRequestHeader&,int);
